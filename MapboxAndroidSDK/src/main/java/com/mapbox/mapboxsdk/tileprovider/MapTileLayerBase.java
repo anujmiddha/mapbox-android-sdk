@@ -4,7 +4,6 @@ package com.mapbox.mapboxsdk.tileprovider;
 import java.util.HashMap;
 
 import com.mapbox.mapboxsdk.tileprovider.constants.TileLayerConstants;
-import com.mapbox.mapboxsdk.tileprovider.modules.MapTileModuleLayerBase;
 import com.mapbox.mapboxsdk.tileprovider.tilesource.ITileLayer;
 import com.mapbox.mapboxsdk.util.TileLooper;
 import com.mapbox.mapboxsdk.views.MapView;

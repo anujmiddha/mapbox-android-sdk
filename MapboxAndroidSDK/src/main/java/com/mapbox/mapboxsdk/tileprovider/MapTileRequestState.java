@@ -4,8 +4,6 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.Queue;
 
-import com.mapbox.mapboxsdk.tileprovider.modules.MapTileModuleLayerBase;
-
 /**
  * Track the status of a single map tile given a list of providers that could
  * change its state by loading, caching, or disposing it.
