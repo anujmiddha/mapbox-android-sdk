@@ -29,10 +29,6 @@ public class MapViewGestureDetectorListener implements GestureDetector.OnGesture
             this.mapView.mIsFlinging = false;
         }
 
-        if (this.mapView.getOverlayManager().onDown(e, this.mapView)) {
-            return true;
-        }
-
         return true;
     }
 
@@ -41,10 +37,6 @@ public class MapViewGestureDetectorListener implements GestureDetector.OnGesture
                            final MotionEvent e2,
                            final float velocityX,
                            final float velocityY) {
-        if (this.mapView.getOverlayManager()
-                .onFling(e1, e2, velocityX, velocityY, this.mapView)) {
-            return true;
-        }
 
         final int worldSize = TileSystem.MapSize(this.mapView.getZoomLevel(false));
         this.mapView.mIsFlinging = true;
@@ -67,21 +59,16 @@ public class MapViewGestureDetectorListener implements GestureDetector.OnGesture
     @Override
     public boolean onScroll(final MotionEvent e1, final MotionEvent e2, final float distanceX,
                             final float distanceY) {
-        if (this.mapView.isAnimating() || this.mapView.getOverlayManager().onScroll(e1, e2, distanceX, distanceY,
-                this.mapView)) {
-            return true;
-        }
         this.mapView.getController().panBy((int) distanceX, (int) distanceY);
         return true;
     }
 
     @Override
     public void onShowPress(final MotionEvent e) {
-        this.mapView.getOverlayManager().onShowPress(e, this.mapView);
     }
 
     @Override
     public boolean onSingleTapUp(final MotionEvent e) {
-        return this.mapView.getOverlayManager().onSingleTapUp(e, this.mapView);
+        return false;
     }
 }

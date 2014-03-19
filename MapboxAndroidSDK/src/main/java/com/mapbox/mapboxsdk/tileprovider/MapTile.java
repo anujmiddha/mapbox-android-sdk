@@ -1,7 +1,5 @@
 package com.mapbox.mapboxsdk.tileprovider;
 
-import com.mapbox.mapboxsdk.overlay.TilesOverlay;
-
 /**
  * A map tile is distributed using the observer pattern. The tile is delivered by a tile provider
  * (i.e. a descendant of {@link com.mapbox.mapboxsdk.tileprovider.modules.MapTileModuleLayerBase} or

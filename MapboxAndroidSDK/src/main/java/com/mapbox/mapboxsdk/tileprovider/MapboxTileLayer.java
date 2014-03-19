@@ -1,6 +1,7 @@
-package com.mapbox.mapboxsdk.tileprovider.tilesource;
+package com.mapbox.mapboxsdk.tileprovider;
 
 import com.mapbox.mapboxsdk.constants.MapboxConstants;
+import com.mapbox.mapboxsdk.tileprovider.TileLayer;
 import com.mapbox.mapboxsdk.views.util.constants.MapViewConstants;
 
 /**

@@ -3,7 +3,7 @@ package com.mapbox.mapboxsdk.tileprovider.modules;
 import java.io.InputStream;
 
 import com.mapbox.mapboxsdk.tileprovider.MapTile;
-import com.mapbox.mapboxsdk.tileprovider.tilesource.ITileLayer;
+import com.mapbox.mapboxsdk.tileprovider.ITileLayer;
 
 public interface IArchiveFile {
 

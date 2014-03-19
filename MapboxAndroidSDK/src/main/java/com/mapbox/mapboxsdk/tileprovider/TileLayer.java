@@ -1,12 +1,6 @@
-package com.mapbox.mapboxsdk.tileprovider.tilesource;
+package com.mapbox.mapboxsdk.tileprovider;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
-import android.util.Log;
-import com.mapbox.mapboxsdk.tileprovider.BitmapPool;
-import com.mapbox.mapboxsdk.tileprovider.MapTile;
-import com.mapbox.mapboxsdk.tileprovider.ReusableBitmapDrawable;
 import com.mapbox.mapboxsdk.tileprovider.constants.TileLayerConstants;
 import com.mapbox.mapboxsdk.tileprovider.util.LowMemoryException;
 import com.mapbox.mapboxsdk.views.util.constants.MapViewConstants;
@@ -54,20 +48,6 @@ public class TileLayer implements ITileLayer, TileLayerConstants, MapViewConstan
 
     @Override
     public Drawable getDrawable(final InputStream aFileInputStream) throws LowMemoryException {
-        try {
-            // default implementation will load the file as a bitmap and create
-            // a BitmapDrawable from it
-            BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
-            BitmapPool.getInstance().applyReusableOptions(bitmapOptions);
-            final Bitmap bitmap = BitmapFactory.decodeStream(aFileInputStream, null, bitmapOptions);
-            if (bitmap != null) {
-                return new ReusableBitmapDrawable(bitmap);
-            }
-        } catch (final OutOfMemoryError e) {
-            Log.e(TAG, "OutOfMemoryError loading bitmap");
-            System.gc();
-            throw new LowMemoryException(e);
-        }
         return null;
     }
 

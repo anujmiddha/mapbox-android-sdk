@@ -1,9 +1,9 @@
-package com.mapbox.mapboxsdk.tileprovider.tilesource;
+package com.mapbox.mapboxsdk.tileprovider;
 
 import java.io.InputStream;
 
-import com.mapbox.mapboxsdk.geometry.BoundingBox;
 import com.mapbox.mapboxsdk.tileprovider.MapTile;
+import com.mapbox.mapboxsdk.tileprovider.TileLayer;
 import com.mapbox.mapboxsdk.tileprovider.util.LowMemoryException;
 
 import android.graphics.drawable.Drawable;

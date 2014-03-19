@@ -18,15 +18,12 @@ import com.mapbox.mapboxsdk.constants.MapboxConstants;
 import com.mapbox.mapboxsdk.events.MapListener;
 import com.mapbox.mapboxsdk.events.ScrollEvent;
 import com.mapbox.mapboxsdk.events.ZoomEvent;
-import com.mapbox.mapboxsdk.format.GeoJSON;
 import com.mapbox.mapboxsdk.geometry.BoundingBox;
 import com.mapbox.mapboxsdk.geometry.LatLng;
-import com.mapbox.mapboxsdk.overlay.*;
 import com.mapbox.mapboxsdk.tile.TileSystem;
-import com.mapbox.mapboxsdk.tileprovider.MapTileLayerBase;
-import com.mapbox.mapboxsdk.tileprovider.MapTileLayerBasic;
-import com.mapbox.mapboxsdk.tileprovider.tilesource.ITileLayer;
-import com.mapbox.mapboxsdk.tileprovider.tilesource.MapboxTileLayer;
+import com.mapbox.mapboxsdk.tileprovider.ITileLayer;
+import com.mapbox.mapboxsdk.tileprovider.MapboxTileLayer;
+import com.mapbox.mapboxsdk.tileprovider.TileLayer;
 import com.mapbox.mapboxsdk.tileprovider.util.SimpleInvalidationHandler;
 import com.mapbox.mapboxsdk.util.GeometryMath;
 import com.mapbox.mapboxsdk.util.NetworkUtils;
@@ -49,19 +46,8 @@ import java.util.concurrent.atomic.AtomicInteger;
  * state of a single map, including layers, markers,
  * and interaction code.
  */
-public class MapView extends ViewGroup implements MapViewConstants, MapEventsReceiver, MapboxConstants {
-    /**
-     * The default marker Overlay, automatically added to the view to add markers directly.
-     */
-    private ItemizedIconOverlay<Marker> defaultMarkerOverlay;
-    /**
-     * List linked to the default marker overlay.
-     */
-    private ArrayList<Marker> defaultMarkerList = new ArrayList<Marker>();
-    /**
-     * Overlay for basic map touch events.
-     */
-    private MapEventsOverlay eventsOverlay;
+public class MapView extends ViewGroup implements MapViewConstants, MapboxConstants {
+
     /**
      * A copy of the app context.
      */
@@ -81,11 +67,7 @@ public class MapView extends ViewGroup implements MapViewConstants, MapEventsRec
 	protected float mMinimumZoomLevel = 0;
 	protected float mMaximumZoomLevel = 22;
 
-    private final OverlayManager mOverlayManager;
-
     private Projection mProjection;
-
-    private final TilesOverlay mMapOverlay;
 
     private final GestureDetector mGestureDetector;
 
@@ -117,7 +99,7 @@ public class MapView extends ViewGroup implements MapViewConstants, MapEventsRec
     protected RectF mScrollableAreaLimit;
 
     // for speed (avoiding allocations)
-    protected final MapTileLayerBase mTileProvider;
+    protected TileLayer tileLayer;
 
     private final Handler mTileRequestCompleteHandler;
 
@@ -126,7 +108,6 @@ public class MapView extends ViewGroup implements MapViewConstants, MapEventsRec
 
     private TilesLoadedListener tilesLoadedListener;
     TileLoadedListener tileLoadedListener;
-    private InfoWindow defaultTooltip;
 
     /**
      * Constructor for XML layout calls. Should not be used programmatically.
@@ -134,7 +115,7 @@ public class MapView extends ViewGroup implements MapViewConstants, MapEventsRec
      * @param attrs An AttributeSet object to get extra info from the XML, such as mapbox id or type of baselayer
      */
     protected MapView(final Context context, final int tileSizePixels,
-                             final ResourceProxy resourceProxy, MapTileLayerBase tileProvider,
+                             final ResourceProxy resourceProxy, TileLayer tileLayer,
                              final Handler tileRequestCompleteHandler, final AttributeSet attrs) {
         super(context, attrs);
         mResourceProxy = resourceProxy;
@@ -142,19 +123,14 @@ public class MapView extends ViewGroup implements MapViewConstants, MapEventsRec
         this.mScroller = new Scroller(context);
         TileSystem.setTileSize(tileSizePixels);
 
-        if (tileProvider == null) {
-            final ITileLayer tileSource = new MapboxTileLayer("examples.map-zgrqqx0w");
-            tileProvider = new MapTileLayerBasic(context, tileSource, this);
+        if (tileLayer == null) {
+            this.tileLayer = new MapboxTileLayer("examples.map-zgrqqx0w");
         }
 
         mTileRequestCompleteHandler = tileRequestCompleteHandler == null
                 ? new SimpleInvalidationHandler(this)
                 : tileRequestCompleteHandler;
-        mTileProvider = tileProvider;
-        mTileProvider.setTileRequestCompleteHandler(mTileRequestCompleteHandler);
-
-        this.mMapOverlay = new TilesOverlay(mTileProvider, mResourceProxy);
-        mOverlayManager = new OverlayManager(mMapOverlay);
+        this.tileLayer = tileLayer;
 
         this.mGestureDetector = new GestureDetector(context, new MapViewGestureDetectorListener(this));
         mGestureDetector.setOnDoubleTapListener(new MapViewDoubleClickListener(this));
@@ -162,8 +138,6 @@ public class MapView extends ViewGroup implements MapViewConstants, MapEventsRec
         mScaleGestureDetector = new ScaleGestureDetector(context, new MapViewScaleGestureDetectorListener(this));
 
         this.context = context;
-        eventsOverlay = new MapEventsOverlay(context, this);
-        this.getOverlays().add(eventsOverlay);
 
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.MapView);
         String mapid = a.getString(R.styleable.MapView_mapid);
@@ -182,119 +156,14 @@ public class MapView extends ViewGroup implements MapViewConstants, MapEventsRec
         this(context, 256, new DefaultResourceProxyImpl(context), null, null, attrs);
     }
 
-    protected MapView(Context context, int tileSizePixels, ResourceProxy resourceProxy, MapTileLayerBase aTileProvider) {
+    protected MapView(Context context, int tileSizePixels, ResourceProxy resourceProxy, TileLayer aTileProvider) {
         this(context, tileSizePixels, resourceProxy, aTileProvider, null, null);
-        init(context);
     }
 
     public void setTileSource(final ITileLayer aTileSource) {
-        mTileProvider.setTileSource(aTileSource);
         TileSystem.setTileSize(aTileSource.getTileSizePixels());
         this.setZoom(mZoomLevel);
         postInvalidate();
-    }
-
-    /**
-     * Method that constructs the view. used in lieu of a constructor.
-     * @param context a copy of the app context
-     */
-    private void init(Context context) {
-        this.context = context;
-        eventsOverlay = new MapEventsOverlay(context, this);
-        this.getOverlays().add(eventsOverlay);
-    }
-
-    /**
-     * Adds a marker to the default marker overlay
-     * @param marker the marker object to be added
-     * @return the marker object
-     */
-    public Marker addMarker(Marker marker) {
-        if (firstMarker) {
-            defaultMarkerList.add(marker);
-            setDefaultItemizedOverlay();
-        } else {
-            defaultMarkerOverlay.addItem(marker);
-        }
-        marker.addTo(this);
-        firstMarker = false;
-        return marker;
-    }
-
-    public void removeMarker(Marker marker){
-        defaultMarkerList.remove(marker);
-        defaultMarkerOverlay.removeItem(marker);
-        this.invalidate();
-    }
-
-    /**
-     * Adds a new ItemizedOverlay to the MapView
-     * @param itemizedOverlay the itemized overlay
-     */
-    public void addItemizedOverlay(ItemizedOverlay<Marker> itemizedOverlay) {
-        this.getOverlays().add(itemizedOverlay);
-
-    }
-
-    public ArrayList<ItemizedIconOverlay> getItemizedOverlays(){
-        ArrayList<ItemizedIconOverlay> list = new ArrayList<ItemizedIconOverlay>();
-        for(Overlay overlay: getOverlays()){
-            if(overlay instanceof ItemizedOverlay){
-                list.add((ItemizedIconOverlay) overlay);
-            }
-        }
-        return list;
-    }
-
-    /**
-     * Load and parse a GeoJSON file at a given URL
-     * @param URL the URL from which to load the GeoJSON file
-     */
-    public void loadFromGeoJSONURL(String URL) {
-        if (!NetworkUtils.isNetworkAvailable(getContext())) {
-            Toast.makeText(getContext(), R.string.networkNotAvailable, Toast.LENGTH_LONG).show();
-            return;
-        }
-        new GeoJSONLayer(this).loadURL(URL);
-    }
-
-    /**
-     * Load and parse a GeoJSON file at a given URL
-     * @param geoJSON the GeoJSON string to parse
-     */
-    public void loadFromGeoJSONString(String geoJSON) throws JSONException {
-        GeoJSON.parseString(geoJSON, MapView.this);
-    }
-
-    /**
-     * Sets the default itemized overlay.
-     */
-    private void setDefaultItemizedOverlay() {
-        defaultMarkerOverlay = new ItemizedIconOverlay<Marker>(
-                defaultMarkerList,
-                new ItemizedIconOverlay.OnItemGestureListener<Marker>() {
-                    public boolean onItemSingleTapUp(final int index,
-                                                     final Marker item) {
-                        if(defaultTooltip==null){
-                            defaultTooltip = new InfoWindow(R.layout.tootip, MapView.this);
-                        }
-
-                        // Hide tooltip if tapping on the same marker
-                        if(defaultTooltip.getBoundMarker() == item){
-                            defaultTooltip.close();
-                            defaultTooltip = null;
-                        }
-                        else{
-                            ((Marker)item).showBubble(defaultTooltip, MapView.this, true);
-                        }
-                        return true;
-                    }
-                    public boolean onItemLongPress(final int index,
-                                                   final Marker item) {
-                        return true;
-                    }
-                }, new DefaultResourceProxyImpl(context.getApplicationContext()));
-        this.getOverlays().add(defaultMarkerOverlay);
     }
 
     /**
@@ -302,9 +171,6 @@ public class MapView extends ViewGroup implements MapViewConstants, MapEventsRec
      * @return whether the event action is triggered or not
      */
     public boolean singleTapUpHelper(ILatLng p) {
-        if (defaultTooltip != null) {
-            defaultTooltip.close();
-        }
         onTap(p);
         return true;
     }
@@ -327,32 +193,8 @@ public class MapView extends ViewGroup implements MapViewConstants, MapEventsRec
         return this.mController;
     }
 
-    public TilesOverlay getMapOverlay() {
-        return mMapOverlay;
-    }
-
-    /**
-     * You can add/remove/reorder your Overlays using the List of {@link Overlay}. The first (index
-     * 0) Overlay gets drawn first, the one with the highest as the last one.
-     */
-    public List<Overlay> getOverlays() {
-        return this.getOverlayManager();
-    }
-
-    public OverlayManager getOverlayManager() {
-        return mOverlayManager;
-    }
-
-    public MapTileLayerBase getTileProvider() {
-        return mTileProvider;
-    }
-
     public Scroller getScroller() {
         return mScroller;
-    }
-
-    public Handler getTileRequestCompleteHandler() {
-        return mTileRequestCompleteHandler;
     }
 
     /**
@@ -500,11 +342,6 @@ public class MapView extends ViewGroup implements MapViewConstants, MapEventsRec
         // snap for all snappables
         final Point snapPoint = new Point();
         mProjection = new Projection(this);
-        if (this.getOverlayManager().onSnapToItem(getScrollX(), getScrollY(), snapPoint, this)) {
-            scrollTo(snapPoint.x, snapPoint.y);
-        }
-
-		mTileProvider.rescaleCache(newZoomLevel, curZoomLevel, mProjection.getScreenRect());
 
         // do callback on listener
         if (newZoomLevel != curZoomLevel && mListener != null) {
@@ -514,7 +351,6 @@ public class MapView extends ViewGroup implements MapViewConstants, MapEventsRec
 
         // Allows any views fixed to a Location in the MapView to adjust
         this.requestLayout();
-        cluster();
         return this;
     }
 
@@ -698,23 +534,6 @@ public class MapView extends ViewGroup implements MapViewConstants, MapEventsRec
 
     public float getMapOrientation() {
         return mapOrientation;
-    }
-
-    /**
-     * Whether to use the network connection if it's available.
-     */
-    public boolean useDataConnection() {
-        return mMapOverlay.useDataConnection();
-    }
-
-    /**
-     * Set whether to use the network connection if it's available.
-     *
-     * @param aMode if true use the network connection if it's available. if false don't use the
-     *              network connection even if it's available.
-     */
-    public void setUseDataConnection(final boolean aMode) {
-        mMapOverlay.setUseDataConnection(aMode);
     }
 
     public void updateScrollableAreaLimit()
@@ -961,36 +780,6 @@ public class MapView extends ViewGroup implements MapViewConstants, MapEventsRec
         }
     }
 
-    public void onDetach() {
-        this.getOverlayManager().onDetach(this);
-    }
-
-    @Override
-    public boolean onKeyDown(final int keyCode, final KeyEvent event) {
-        final boolean result = this.getOverlayManager().onKeyDown(keyCode, event, this);
-
-        return result || super.onKeyDown(keyCode, event);
-    }
-
-    @Override
-    public boolean onKeyUp(final int keyCode, final KeyEvent event) {
-        final boolean result = this.getOverlayManager().onKeyUp(keyCode, event, this);
-
-        return result || super.onKeyUp(keyCode, event);
-    }
-
-    @Override
-    public boolean onTrackballEvent(final MotionEvent event) {
-
-        if (this.getOverlayManager().onTrackballEvent(event, this)) {
-            return true;
-        }
-
-        scrollBy((int) (event.getX() * 25), (int) (event.getY() * 25));
-
-        return super.onTrackballEvent(event);
-    }
-
     @Override
     public boolean dispatchTouchEvent(final MotionEvent event) {
 
@@ -1002,11 +791,6 @@ public class MapView extends ViewGroup implements MapViewConstants, MapEventsRec
         try {
             if (super.dispatchTouchEvent(event)) {
                 Log.d(TAG, "super handled onTouchEvent");
-                return true;
-            }
-
-            if (this.getOverlayManager().onTouchEvent(rotatedEvent, this)) {
-                Log.d(TAG, "OverlayManager handled onTouchEvent");
                 return true;
             }
 
@@ -1151,12 +935,6 @@ public class MapView extends ViewGroup implements MapViewConstants, MapEventsRec
     }
 
     @Override
-    public void setBackgroundColor(final int pColor) {
-        mMapOverlay.setLoadingBackgroundColor(pColor);
-        invalidate();
-    }
-
-    @Override
     protected void dispatchDraw(final Canvas c) {
 
         mProjection = new Projection(this);
@@ -1173,35 +951,14 @@ public class MapView extends ViewGroup implements MapViewConstants, MapEventsRec
                 mProjection.getScreenRect().exactCenterX(),
                 mProjection.getScreenRect().exactCenterY());
 
-		// Draw all Overlays.
-        this.getOverlayManager().onDraw(c, this);
 
         c.restore();
 
         super.dispatchDraw(c);
     }
 
-    /**
-     * Returns true if the safe drawing canvas is being used.
-     *
-     * @see {@link com.mapbox.mapboxsdk.views.safecanvas.ISafeCanvas}
-     */
-    public boolean isUsingSafeCanvas() {
-        return this.getOverlayManager().isUsingSafeCanvas();
-    }
-
-    /**
-     * Sets whether the safe drawing canvas is being used.
-     *
-     * @see {@link com.mapbox.mapboxsdk.views.safecanvas.ISafeCanvas}
-     */
-    public void setUseSafeCanvas(boolean useSafeCanvas) {
-        this.getOverlayManager().setUseSafeCanvas(useSafeCanvas);
-    }
-
     @Override
     protected void onDetachedFromWindow() {
-        this.onDetach();
         super.onDetachedFromWindow();
     }
 
@@ -1217,14 +974,6 @@ public class MapView extends ViewGroup implements MapViewConstants, MapEventsRec
 
     public TileLoadedListener getTileLoadedListener() {
         return tileLoadedListener;
-    }
-
-    public void cluster() {
-        for (ItemizedIconOverlay overlay: getItemizedOverlays()) {
-            if (!overlay.isClusterOverlay()) {
-                overlay.cluster(this, context);
-            }
-        }
     }
 
     // ===========================================================
@@ -1294,22 +1043,5 @@ public class MapView extends ViewGroup implements MapViewConstants, MapEventsRec
         public LayoutParams(final ViewGroup.LayoutParams source) {
             super(source);
         }
-    }
-
-    public void setOnTileLoadedListener(TileLoadedListener tileLoadedListener) {
-        this.tileLoadedListener = tileLoadedListener;
-    }
-
-    public void setOnTilesLoadedListener(TilesLoadedListener tilesLoadedListener) {
-        this.tilesLoadedListener = tilesLoadedListener;
-    }
-
-    public TilesLoadedListener getTilesLoadedListener() {
-        return tilesLoadedListener;
-    }
-
-    @Override
-    public String toString() {
-        return "MapView {" + getTileProvider() + "}";
     }
 }

@@ -18,21 +18,18 @@ class MapViewDoubleClickListener implements GestureDetector.OnDoubleTapListener 
 
     @Override
     public boolean onDoubleTap(final MotionEvent e) {
-        if (this.mapView.getOverlayManager().onDoubleTap(e, this.mapView)) {
-            return true;
-        }
         final ILatLng center = this.mapView.getProjection().fromPixels(e.getX(), e.getY());
         return this.mapView.zoomInFixing(center);
     }
 
     @Override
     public boolean onDoubleTapEvent(final MotionEvent e) {
-        return this.mapView.getOverlayManager().onDoubleTapEvent(e, this.mapView);
+        return false;
     }
 
     @Override
     public boolean onSingleTapConfirmed(final MotionEvent e) {
-        return this.mapView.getOverlayManager().onSingleTapConfirmed(e, this.mapView);
+        return false;
     }
 
     private final String TAG = "MapViewDoubleClickListener";
