@@ -4,18 +4,25 @@ import android.graphics.drawable.Drawable;
 import com.mapbox.mapboxsdk.tileprovider.constants.TileLayerConstants;
 import com.mapbox.mapboxsdk.tileprovider.util.LowMemoryException;
 import com.mapbox.mapboxsdk.views.util.constants.MapViewConstants;
+import com.mapbox.mapboxsdk.views.MapView;
 
 import java.io.InputStream;
 
-public class TileLayer implements ITileLayer, TileLayerConstants, MapViewConstants {
+public class TileLayer implements ILayer, TileLayerConstants, MapViewConstants {
 
     private String mUrl;
+    private MapView mv;
     protected float mMinimumZoomLevel = 1;
     protected float mMaximumZoomLevel = 16;
     private final int mTileSizePixels = DEFAULT_TILE_SIZE;
 
     public TileLayer(final String aUrl) {
         mUrl = aUrl;
+    }
+
+    public TileLayer addTo(MapView mv) {
+        this.mv = mv;
+        return this;
     }
 
     public TileLayer setURL(final String aUrl) {
@@ -31,24 +38,8 @@ public class TileLayer implements ITileLayer, TileLayerConstants, MapViewConstan
                 .replace("{2x}", hdpi ? "@2x" : "");
     }
 
-    @Override
-    public float getMinimumZoomLevel() {
-        return mMinimumZoomLevel;
-    }
+    public void update() {
 
-    @Override
-    public float getMaximumZoomLevel() {
-        return mMaximumZoomLevel;
-    }
-
-    @Override
-    public int getTileSizePixels() {
-        return mTileSizePixels;
-    }
-
-    @Override
-    public Drawable getDrawable(final InputStream aFileInputStream) throws LowMemoryException {
-        return null;
     }
 
     final private String TAG = "OnlineTileSource";

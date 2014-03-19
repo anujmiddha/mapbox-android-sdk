@@ -9,7 +9,6 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.*;
 import android.widget.Scroller;
-import android.widget.Toast;
 import com.mapbox.mapboxsdk.DefaultResourceProxyImpl;
 import com.mapbox.mapboxsdk.R;
 import com.mapbox.mapboxsdk.ResourceProxy;
@@ -21,23 +20,20 @@ import com.mapbox.mapboxsdk.events.ZoomEvent;
 import com.mapbox.mapboxsdk.geometry.BoundingBox;
 import com.mapbox.mapboxsdk.geometry.LatLng;
 import com.mapbox.mapboxsdk.tile.TileSystem;
-import com.mapbox.mapboxsdk.tileprovider.ITileLayer;
-import com.mapbox.mapboxsdk.tileprovider.MapboxTileLayer;
+import com.mapbox.mapboxsdk.tileprovider.ILayer;
+import com.mapbox.mapboxsdk.tileprovider.MapboxLayer;
 import com.mapbox.mapboxsdk.tileprovider.TileLayer;
 import com.mapbox.mapboxsdk.tileprovider.util.SimpleInvalidationHandler;
 import com.mapbox.mapboxsdk.util.GeometryMath;
-import com.mapbox.mapboxsdk.util.NetworkUtils;
 import com.mapbox.mapboxsdk.views.util.Projection;
 import com.mapbox.mapboxsdk.views.util.TileLoadedListener;
 import com.mapbox.mapboxsdk.views.util.TilesLoadedListener;
 import com.mapbox.mapboxsdk.views.util.constants.MapViewConstants;
 import com.mapbox.mapboxsdk.views.util.constants.MapViewLayouts;
-import org.json.JSONException;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -52,10 +48,6 @@ public class MapView extends ViewGroup implements MapViewConstants, MapboxConsta
      * A copy of the app context.
      */
     private Context context;
-    /**
-     * Whether or not a marker has been placed already.
-     */
-    private boolean firstMarker = true;
 
     private static final String TAG = "MapBox MapView";
     private static Method sMotionEventTransformMethod;
@@ -63,9 +55,11 @@ public class MapView extends ViewGroup implements MapViewConstants, MapboxConsta
     /**
      * Current zoom level for map tiles.
      */
-	private float mZoomLevel = 11;
-	protected float mMinimumZoomLevel = 0;
-	protected float mMaximumZoomLevel = 22;
+    private float mZoomLevel = 11;
+    protected float mMinimumZoomLevel = 0;
+    protected float mMaximumZoomLevel = 22;
+
+    private ArrayList<ILayer> layers;
 
     private Projection mProjection;
 
@@ -84,7 +78,7 @@ public class MapView extends ViewGroup implements MapViewConstants, MapboxConsta
 
     private final ResourceProxy mResourceProxy;
 
-	protected ScaleGestureDetector mScaleGestureDetector;
+    protected ScaleGestureDetector mScaleGestureDetector;
     protected float mMultiTouchScale = 1.0f;
     protected PointF mMultiTouchScalePoint = new PointF();
 
@@ -111,26 +105,26 @@ public class MapView extends ViewGroup implements MapViewConstants, MapboxConsta
 
     /**
      * Constructor for XML layout calls. Should not be used programmatically.
+     *
      * @param context A copy of the app context
-     * @param attrs An AttributeSet object to get extra info from the XML, such as mapbox id or type of baselayer
+     * @param attrs   An AttributeSet object to get extra info from the XML, such as mapbox id or type of baselayer
      */
     protected MapView(final Context context, final int tileSizePixels,
-                             final ResourceProxy resourceProxy, TileLayer tileLayer,
-                             final Handler tileRequestCompleteHandler, final AttributeSet attrs) {
+                      final ResourceProxy resourceProxy, TileLayer tileLayer,
+                      final Handler tileRequestCompleteHandler, final AttributeSet attrs) {
         super(context, attrs);
+        this.layers = new ArrayList<ILayer>();
         mResourceProxy = resourceProxy;
         this.mController = new MapController(this);
         this.mScroller = new Scroller(context);
-        TileSystem.setTileSize(tileSizePixels);
-
-        if (tileLayer == null) {
-            this.tileLayer = new MapboxTileLayer("examples.map-zgrqqx0w");
-        }
+        TileSystem.setTileSize(256);
 
         mTileRequestCompleteHandler = tileRequestCompleteHandler == null
                 ? new SimpleInvalidationHandler(this)
                 : tileRequestCompleteHandler;
         this.tileLayer = tileLayer;
+
+        this.layers.add(tileLayer);
 
         this.mGestureDetector = new GestureDetector(context, new MapViewGestureDetectorListener(this));
         mGestureDetector.setOnDoubleTapListener(new MapViewDoubleClickListener(this));
@@ -142,28 +136,14 @@ public class MapView extends ViewGroup implements MapViewConstants, MapboxConsta
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.MapView);
         String mapid = a.getString(R.styleable.MapView_mapid);
         a.recycle();
-        if (mapid != null)
-        {
-            setTileSource(new MapboxTileLayer(mapid));
-        }
-        else
-        {
-			Log.w(MapView.class.getCanonicalName(), "mapid not set.");
-        }
     }
 
-    public MapView(final Context context, AttributeSet attrs){
+    public MapView(final Context context, AttributeSet attrs) {
         this(context, 256, new DefaultResourceProxyImpl(context), null, null, attrs);
     }
 
     protected MapView(Context context, int tileSizePixels, ResourceProxy resourceProxy, TileLayer aTileProvider) {
         this(context, tileSizePixels, resourceProxy, aTileProvider, null, null);
-    }
-
-    public void setTileSource(final ITileLayer aTileSource) {
-        TileSystem.setTileSize(aTileSource.getTileSizePixels());
-        this.setZoom(mZoomLevel);
-        postInvalidate();
     }
 
     /**
@@ -186,6 +166,7 @@ public class MapView extends ViewGroup implements MapViewConstants, MapboxConsta
 
     public void onLongPress(ILatLng p) {
     }
+
     public void onTap(ILatLng p) {
     }
 
@@ -199,6 +180,7 @@ public class MapView extends ViewGroup implements MapViewConstants, MapboxConsta
 
     /**
      * Compute the current geographical bounding box for this map.
+     *
      * @return the current bounds of the map
      */
     public BoundingBox getBoundingBox() {
@@ -222,6 +204,7 @@ public class MapView extends ViewGroup implements MapViewConstants, MapboxConsta
 
     /**
      * Get centerpoint of the phone as latitude and longitude.
+     *
      * @return centerpoint
      */
     public LatLng getCenter() {
@@ -257,7 +240,7 @@ public class MapView extends ViewGroup implements MapViewConstants, MapboxConsta
      * projection of the map could change.
      *
      * @return The Projection of the map in its current state. You should not hold on to this object
-     *         for more than one draw, since the projection of the map could change.
+     * for more than one draw, since the projection of the map could change.
      */
     public Projection getProjection() {
         if (mProjection == null) {
@@ -269,6 +252,7 @@ public class MapView extends ViewGroup implements MapViewConstants, MapboxConsta
     /**
      * Set the centerpoint of the map view, given a latitude and
      * longitude position.
+     *
      * @param aCenter
      * @return the map view, for chaining
      */
@@ -288,26 +272,21 @@ public class MapView extends ViewGroup implements MapViewConstants, MapboxConsta
         return this;
     }
 
-    public float getScale() {
-        return mMultiTouchScale;
-    }
-
     /**
      * @param aZoomLevel the zoom level bound by the tile source
      * @return the map view, for chaining
      */
-	public MapView setZoom(final float aZoomLevel) {
-		return this.mController.setZoom(aZoomLevel);
-	}
+    public MapView setZoom(final float aZoomLevel) {
+        return this.mController.setZoom(aZoomLevel);
+    }
 
-    
-	protected MapView setZoomInternal(final float aZoomLevel) {
-		final float minZoomLevel = getMinZoomLevel();
-		final float maxZoomLevel = getMaxZoomLevel();
+    protected MapView setZoomInternal(final float aZoomLevel) {
+        final float minZoomLevel = getMinZoomLevel();
+        final float maxZoomLevel = getMaxZoomLevel();
 
-		final float newZoomLevel = Math.max(minZoomLevel,
-				Math.min(maxZoomLevel, aZoomLevel));
-		final float curZoomLevel = this.mZoomLevel;
+        final float newZoomLevel = Math.max(minZoomLevel,
+                Math.min(maxZoomLevel, aZoomLevel));
+        final float curZoomLevel = this.mZoomLevel;
 
         if (newZoomLevel != curZoomLevel) {
             mScroller.forceFinished(true);
@@ -315,7 +294,7 @@ public class MapView extends ViewGroup implements MapViewConstants, MapboxConsta
         }
 
         this.mZoomLevel = newZoomLevel;
-	    updateScrollableAreaLimit();
+        updateScrollableAreaLimit();
 
         if (newZoomLevel > curZoomLevel) {
             // We are going from a lower-resolution plane to a higher-resolution plane, so we have
@@ -327,15 +306,15 @@ public class MapView extends ViewGroup implements MapViewConstants, MapboxConsta
             final PointF centerPoint = TileSystem.LatLongToPixelXY(
                     centerGeoPoint.getLatitude(), centerGeoPoint.getLongitude(),
                     newZoomLevel, null);
-            scrollTo((int)centerPoint.x - worldSize_new_2, (int)centerPoint.y - worldSize_new_2);
+            scrollTo((int) centerPoint.x - worldSize_new_2, (int) centerPoint.y - worldSize_new_2);
         } else if (newZoomLevel < curZoomLevel) {
             // We are going from a higher-resolution plane to a lower-resolution plane, so we can do
             // it the easy way.
-			scrollTo(
-					(int) (GeometryMath.rightShift(getScrollX(), curZoomLevel
-							- newZoomLevel)),
-					(int) (GeometryMath.rightShift(getScrollY(), curZoomLevel
-							- newZoomLevel)));
+            scrollTo(
+                    (int) (GeometryMath.rightShift(getScrollX(), curZoomLevel
+                            - newZoomLevel)),
+                    (int) (GeometryMath.rightShift(getScrollY(), curZoomLevel
+                            - newZoomLevel)));
         }
 //        scrollTo(getScrollX(), getScrollY());
 
@@ -378,16 +357,16 @@ public class MapView extends ViewGroup implements MapViewConstants, MapboxConsta
                 currentBox.getLongitudeSpan() :
                 currentBox.getLongitudeSpan() / Math.pow(2, getMaxZoomLevel() - mZoomLevel);
 
-		final double requiredLongitudeZoom = getMaxZoomLevel()
-				- (Math.log(boundingBox.getLongitudeSpan()
-						/ maxZoomLongitudeSpan) / Math.log(2));
+        final double requiredLongitudeZoom = getMaxZoomLevel()
+                - (Math.log(boundingBox.getLongitudeSpan()
+                / maxZoomLongitudeSpan) / Math.log(2));
 
 
         // Zoom to boundingBox center, at calculated maximum allowed zoom level
-		getController().setZoom(
-				(float) Math.max(
-						Math.max(requiredLatitudeZoom, requiredLongitudeZoom),
-						getMinZoomLevel()));
+        getController().setZoom(
+                (float) Math.max(
+                        Math.max(requiredLatitudeZoom, requiredLongitudeZoom),
+                        getMinZoomLevel()));
 
         getController().setCenter(
                 new LatLng(boundingBox.getCenter().getLatitude(), boundingBox.getCenter()
@@ -397,25 +376,25 @@ public class MapView extends ViewGroup implements MapViewConstants, MapboxConsta
     }
 
     public float getClampedZoomLevel(float zoom) {
-		final float minZoomLevel = getMinZoomLevel();
-		final float maxZoomLevel = getMaxZoomLevel();
+        final float minZoomLevel = getMinZoomLevel();
+        final float maxZoomLevel = getMaxZoomLevel();
 
-		return Math.max(minZoomLevel, Math.min(maxZoomLevel, zoom));
-	}
+        return Math.max(minZoomLevel, Math.min(maxZoomLevel, zoom));
+    }
 
     /**
      * Get the current ZoomLevel for the map tiles.
      *
      * @return the current ZoomLevel between 0 (equator) and 18/19(closest), depending on the tile
-     *         source chosen.
+     * source chosen.
      */
-	public float getZoomLevel() {
+    public float getZoomLevel() {
         return getZoomLevel(true);
     }
 
-	private float getAnimatedZoom(){
-		return Float.intBitsToFloat(mTargetZoomLevel.get());
-	}
+    private float getAnimatedZoom() {
+        return Float.intBitsToFloat(mTargetZoomLevel.get());
+    }
 
     /**
      * Get the current ZoomLevel for the map tiles.
@@ -424,48 +403,50 @@ public class MapView extends ViewGroup implements MapViewConstants, MapboxConsta
      *                 towards, otherwise return the current zoom level
      * @return the zoom level
      */
-	public float getZoomLevel(final boolean aPending) {
+    public float getZoomLevel(final boolean aPending) {
         if (aPending && isAnimating()) {
             return getAnimatedZoom();
         } else {
             return mZoomLevel;
         }
     }
-	
+
     /**
      * Get the minimum allowed zoom level for the maps.
      */
-	public float getMinZoomLevel() {
-		float newMinZoom = mMinimumZoomLevel;
+    public float getMinZoomLevel() {
+        float newMinZoom = mMinimumZoomLevel;
 
-			float boundingDimension = Math.max(getMeasuredWidth(),
-					getMeasuredHeight());
-			float tileSideLength = TileSystem.getTileSize();
-			if (boundingDimension > 0 && tileSideLength > 0) {
-				float clampedMinZoom = (float) (Math.log(boundingDimension
-						/ tileSideLength) / Math.log(2));
-				if (newMinZoom < clampedMinZoom)
-					newMinZoom = clampedMinZoom;
+        float boundingDimension = Math.max(getMeasuredWidth(),
+                getMeasuredHeight());
+        float tileSideLength = TileSystem.getTileSize();
+        if (boundingDimension > 0 && tileSideLength > 0) {
+            float clampedMinZoom = (float) (Math.log(boundingDimension
+                    / tileSideLength) / Math.log(2));
+            if (newMinZoom < clampedMinZoom) {
+                newMinZoom = clampedMinZoom;
+            }
 
+        }
+        if (newMinZoom < 0) {
+            newMinZoom = 0;
+        }
+
+        return newMinZoom;
     }
-			if (newMinZoom < 0)
-				newMinZoom = 0;
-
-		return newMinZoom;
-	}
 
     /**
      * Get the maximum allowed zoom level for the maps.
      */
-	public float getMaxZoomLevel() {
-		return mMaximumZoomLevel;
+    public float getMaxZoomLevel() {
+        return mMaximumZoomLevel;
     }
 
     /**
      * Set the minimum allowed zoom level, or pass null to use the minimum zoom level from the tile
      * provider.
      */
-	public void setMinZoomLevel(float zoomLevel) {
+    public void setMinZoomLevel(float zoomLevel) {
         mMinimumZoomLevel = zoomLevel;
     }
 
@@ -473,16 +454,17 @@ public class MapView extends ViewGroup implements MapViewConstants, MapboxConsta
      * Set the maximum allowed zoom level, or pass null to use the maximum zoom level from the tile
      * provider.
      */
-	public void setMaxZoomLevel(float zoomLevel) {
+    public void setMaxZoomLevel(float zoomLevel) {
         mMaximumZoomLevel = zoomLevel;
     }
 
     /**
      * Determine whether the map is at its maximum zoom
+     *
      * @return whether the map can zoom in
      */
     protected boolean canZoomIn() {
-		final float maxZoomLevel = getMaxZoomLevel();
+        final float maxZoomLevel = getMaxZoomLevel();
         if ((isAnimating() ? getAnimatedZoom() : mZoomLevel) >= maxZoomLevel) {
             return false;
         }
@@ -491,10 +473,11 @@ public class MapView extends ViewGroup implements MapViewConstants, MapboxConsta
 
     /**
      * Determine whether the map is at its minimum zoom
+     *
      * @return whether the map can zoom out
      */
     protected boolean canZoomOut() {
-		final float minZoomLevel = getMinZoomLevel();
+        final float minZoomLevel = getMinZoomLevel();
         if ((isAnimating() ? getAnimatedZoom() : mZoomLevel) <= minZoomLevel) {
             return false;
         }
@@ -536,27 +519,24 @@ public class MapView extends ViewGroup implements MapViewConstants, MapboxConsta
         return mapOrientation;
     }
 
-    public void updateScrollableAreaLimit()
-    {
-    	if (mScrollableAreaBoundingBox == null) return;
-    	float zoom = getZoomLevel();
-//    	if (isAnimating()) {
-//    		zoom = mZoomLevel + (zoom - mZoomLevel);
-//    	}
+    public void updateScrollableAreaLimit() {
+        if (mScrollableAreaBoundingBox == null) {
+            return;
+        }
+        float zoom = getZoomLevel();
         final int worldSize_2 = TileSystem.MapSize(zoom) / 2;
         // Get NW/upper-left
         final PointF upperLeft = TileSystem.LatLongToPixelXY(mScrollableAreaBoundingBox.getLatNorth(),
-        		mScrollableAreaBoundingBox.getLonWest(), zoom, null);
+                mScrollableAreaBoundingBox.getLonWest(), zoom, null);
         upperLeft.offset(-worldSize_2, -worldSize_2);
 
         // Get SE/lower-right
         final PointF lowerRight = TileSystem.LatLongToPixelXY(mScrollableAreaBoundingBox.getLatSouth(),
-        		mScrollableAreaBoundingBox.getLonEast(), zoom, null);
+                mScrollableAreaBoundingBox.getLonEast(), zoom, null);
         lowerRight.offset(-worldSize_2, -worldSize_2);
         if (mScrollableAreaLimit == null) {
             mScrollableAreaLimit = new RectF(upperLeft.x, upperLeft.y, lowerRight.x, lowerRight.y);
-        }
-        else {
+        } else {
             mScrollableAreaLimit.set(upperLeft.x, upperLeft.y, lowerRight.x, lowerRight.y);
         }
     }
@@ -596,9 +576,10 @@ public class MapView extends ViewGroup implements MapViewConstants, MapboxConsta
         int centerX = this.getScrollX();
         int centerY = this.getScrollY();
 
-        if (this.getMapOrientation() != 0)
+        if (this.getMapOrientation() != 0) {
             GeometryMath.getBoundingBoxForRotatedRectangle(mInvalidateRect, centerX, centerY,
                     this.getMapOrientation() + 180, mInvalidateRect);
+        }
         mInvalidateRect.offset(width_2, height_2);
 
         super.invalidate(mInvalidateRect);
@@ -651,8 +632,8 @@ public class MapView extends ViewGroup implements MapViewConstants, MapboxConsta
                 final int childHeight = child.getMeasuredHeight();
                 final int childWidth = child.getMeasuredWidth();
                 getProjection().toMapPixels(lp.geoPoint, mPoint);
-                final int x = (int)mPoint.x + getWidth() / 2;
-                final int y = (int)mPoint.y + getHeight() / 2;
+                final int x = (int) mPoint.x + getWidth() / 2;
+                final int y = (int) mPoint.y + getHeight() / 2;
                 int childRight = x;
                 int childBottom = y;
                 switch (lp.alignment) {
@@ -717,12 +698,12 @@ public class MapView extends ViewGroup implements MapViewConstants, MapboxConsta
     protected void onLayout(final boolean changed, final int l, final int t, final int r,
                             final int b) {
         final int count = getChildCount();
-		if (changed) {
-			float minZoom = getMinZoomLevel();
-			if (mZoomLevel < minZoom) {
-				setZoom(minZoom);
-			}
-		}
+        if (changed) {
+            float minZoom = getMinZoomLevel();
+            if (mZoomLevel < minZoom) {
+                setZoom(minZoom);
+            }
+        }
         for (int i = 0; i < count; i++) {
             final View child = getChildAt(i);
             if (child.getVisibility() != GONE) {
@@ -731,8 +712,8 @@ public class MapView extends ViewGroup implements MapViewConstants, MapboxConsta
                 final int childHeight = child.getMeasuredHeight();
                 final int childWidth = child.getMeasuredWidth();
                 getProjection().toMapPixels(lp.geoPoint, mPoint);
-                final int x = (int)mPoint.x + getWidth() / 2;
-                final int y = (int)mPoint.y + getHeight() / 2;
+                final int x = (int) mPoint.x + getWidth() / 2;
+                final int y = (int) mPoint.y + getHeight() / 2;
                 int childLeft = x;
                 int childTop = y;
                 switch (lp.alignment) {
@@ -824,8 +805,9 @@ public class MapView extends ViewGroup implements MapViewConstants, MapboxConsta
     }
 
     private MotionEvent rotateTouchEvent(MotionEvent ev) {
-        if (this.getMapOrientation() == 0)
+        if (this.getMapOrientation() == 0) {
             return ev;
+        }
 
         mRotateMatrix.setRotate(-getMapOrientation(), this.getWidth() / 2, this.getHeight() / 2);
 
@@ -875,10 +857,7 @@ public class MapView extends ViewGroup implements MapViewConstants, MapboxConsta
         }
     }
 
-    public void updateScrollDuringAnimation()
-    {
-//    	updateScrollableAreaLimit();
-//        scrollTo(getScrollX(), getScrollY());
+    public void updateScrollDuringAnimation() {
     }
 
     @Override
@@ -898,10 +877,10 @@ public class MapView extends ViewGroup implements MapViewConstants, MapboxConsta
         }
 
         if (mScrollableAreaLimit != null) {
-        	final float width_2 = this.getMeasuredWidth()/2;
-            final float height_2 = this.getMeasuredHeight()/2;
+            final float width_2 = this.getMeasuredWidth() / 2;
+            final float height_2 = this.getMeasuredHeight() / 2;
             // Adjust if we are outside the scrollable area
-            if (mScrollableAreaLimit.width() <= width_2*2) {
+            if (mScrollableAreaLimit.width() <= width_2 * 2) {
                 if (x - width_2 > mScrollableAreaLimit.left) {
                     x = (int) (mScrollableAreaLimit.left + width_2);
                 } else if (x + width_2 < mScrollableAreaLimit.right) {
@@ -913,7 +892,7 @@ public class MapView extends ViewGroup implements MapViewConstants, MapboxConsta
                 x = (int) (mScrollableAreaLimit.right - width_2);
             }
 
-            if (mScrollableAreaLimit.height() <= height_2*2) {
+            if (mScrollableAreaLimit.height() <= height_2 * 2) {
                 if (y - height_2 > mScrollableAreaLimit.top) {
                     y = (int) (mScrollableAreaLimit.top + height_2);
                 } else if (y + height_2 < mScrollableAreaLimit.bottom) {
@@ -944,9 +923,9 @@ public class MapView extends ViewGroup implements MapViewConstants, MapboxConsta
 
         c.translate(getWidth() / 2, getHeight() / 2);
         c.scale(mMultiTouchScale, mMultiTouchScale, mMultiTouchScalePoint.x,
-            mMultiTouchScalePoint.y);
+                mMultiTouchScalePoint.y);
 
-		// rotate Canvas
+        // rotate Canvas
         c.rotate(mapOrientation,
                 mProjection.getScreenRect().exactCenterX(),
                 mProjection.getScreenRect().exactCenterY());
@@ -983,7 +962,7 @@ public class MapView extends ViewGroup implements MapViewConstants, MapboxConsta
     /**
      * Per-child layout information associated with OpenStreetMapView.
      */
-    public static class LayoutParams extends ViewGroup.LayoutParams implements MapViewLayouts  {
+    public static class LayoutParams extends ViewGroup.LayoutParams implements MapViewLayouts {
         /**
          * The location of the child within the map view.
          */
