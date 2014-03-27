@@ -342,4 +342,8 @@ public class WebSourceTileLayer extends TileLayer {
         }
         return null;
     }
+
+    public JSONObject getInfoJSON() {
+        return infoJSON;
+    }
 }
