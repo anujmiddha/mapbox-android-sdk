@@ -48,4 +48,10 @@ public class MapEventsOverlay extends Overlay {
         return mReceiver.longPressHelper(p);
     }
 
+    @Override
+    public boolean onSingleTapConfirmed(MotionEvent e, MapView mapView) {
+        Projection proj = mapView.getProjection();
+        ILatLng p = proj.fromPixels(e.getX(), e.getY());
+        return mReceiver.singleTapConfirmedHelper(p);
+    }
 }

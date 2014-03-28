@@ -343,6 +343,15 @@ public class MapView extends ViewGroup implements MapViewConstants, MapEventsRec
         return true;
     }
 
+    @Override
+    public boolean singleTapConfirmedHelper(ILatLng p) {
+        if (defaultTooltip != null) {
+            defaultTooltip.close();
+        }
+        onSingleTapConfirmed(p);
+        return true;
+    }
+
     /**
      * @param p the position where the event occurred.
      * @return whether the event action is triggered or not
@@ -356,6 +365,9 @@ public class MapView extends ViewGroup implements MapViewConstants, MapEventsRec
     }
 
     public void onTap(final ILatLng p) {
+    }
+
+    public void onSingleTapConfirmed(final ILatLng p) {
     }
 
     public MapController getController() {

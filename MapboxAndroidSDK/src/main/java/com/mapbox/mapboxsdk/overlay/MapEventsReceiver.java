@@ -20,5 +20,11 @@ public interface MapEventsReceiver {
      * @param p the position where the event occurred.
      * @return true if the event has been "consumed" and should not be handled by other objects.
      */
+    boolean singleTapConfirmedHelper(ILatLng p);
+
+    /**
+     * @param p the position where the event occurred.
+     * @return true if the event has been "consumed" and should not be handled by other objects.
+     */
     boolean longPressHelper(ILatLng p);
 }
