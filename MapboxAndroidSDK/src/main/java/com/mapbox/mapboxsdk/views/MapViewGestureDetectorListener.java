@@ -69,6 +69,9 @@ public class MapViewGestureDetectorListener implements GestureDetector.OnGesture
             final ILatLng center = this.mapView.getProjection().fromPixels(e.getX(), e.getY());
             this.mapView.zoomOutFixing(center);
         }
+        else {
+            this.mapView.getOverlayManager().onLongPress(e, this.mapView);
+        }
     }
 
     @Override
