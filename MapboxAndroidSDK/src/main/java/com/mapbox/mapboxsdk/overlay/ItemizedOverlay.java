@@ -152,7 +152,7 @@ public abstract class ItemizedOverlay extends SafeDrawOverlay implements Overlay
      * @param item the item to be drawn
      */
     protected void onDrawItem(ISafeCanvas canvas, final Marker item, final Projection projection,
-            final float aMapOrientation, final RectF mapBounds, final float mapScale) {
+                              final float aMapOrientation, final RectF mapBounds, final float mapScale) {
 
         item.updateDrawingPosition();
         final PointF position = item.getPositionOnMap();
@@ -190,7 +190,7 @@ public abstract class ItemizedOverlay extends SafeDrawOverlay implements Overlay
     }
 
     protected boolean markerHitTest(final Marker pMarker, final Projection pProjection,
-            final float pX, final float pY) {
+                                    final float pX, final float pY) {
         RectF rect = pMarker.getDrawingBounds(pProjection, null);
         rect.bottom -=
                 rect.height() / 2; //a marker drawing bounds is twice the actual size of the marker
