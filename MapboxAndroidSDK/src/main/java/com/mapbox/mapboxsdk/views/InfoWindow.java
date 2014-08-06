@@ -102,6 +102,7 @@ public class InfoWindow {
             mIsVisible = false;
             ((ViewGroup) mView.getParent()).removeView(mView);
             this.boundMarker.blur();
+            this.boundMarker.setActive(false);
             setBoundMarker(null);
             onClose();
         }

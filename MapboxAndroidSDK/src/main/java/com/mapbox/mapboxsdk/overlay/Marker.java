@@ -1,6 +1,7 @@
 package com.mapbox.mapboxsdk.overlay;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.graphics.PointF;
 import android.graphics.RectF;
@@ -25,17 +26,20 @@ public class Marker {
     private boolean mClustered;
 
     private final RectF mMyLocationRect = new RectF(0, 0, 0, 0);
-    private final RectF mMyLocationPreviousRect = new RectF(0, 0, 0, 0);
+//    private final RectF mMyLocationPreviousRect = new RectF(0, 0, 0, 0);
     protected final PointF mCurMapCoords = new PointF();
 
     private Context context;
-    private MapView mapView;
+    protected MapView mapView;
     private Icon icon;
 
     protected String mUid;
     protected LatLng mLatLng;
     protected Drawable mMarker;
+    protected Bitmap mMarkerBitmap;
     protected PointF mAnchor = null;
+
+    protected int mWidth, mHeight;
 
     private String mTitle = "";
     private String mDescription = "";
@@ -46,6 +50,10 @@ public class Marker {
     private Object mRelatedObject; //reference to an object (of any kind) linked to this item.
     private boolean bubbleShowing;
     private ItemizedOverlay mParentHolder;
+
+    private float previousZoomLevel = -1;
+
+    private boolean isActive = false;
 
     /**
      * Construct a new Marker, given title, description, and place
@@ -68,6 +76,7 @@ public class Marker {
         this.mLatLng = aLatLng;
         Log.d(getClass().getCanonicalName(), "markerconst" + mv + aTitle + aDescription + aLatLng);
         if (mv != null) {
+            mapView = mv;
             mAnchor = mv.getDefaultPinAnchor();
         }
         mParentHolder = null;
@@ -188,16 +197,28 @@ public class Marker {
         }
 
         // set marker state appropriately
-        setState(mMarker, stateBitset);
+        //setState(mMarker, stateBitset);
         return mMarker;
+    }
+
+    public void setMarkerBitmap(Bitmap mMarkerBitmap) {
+        this.mMarkerBitmap = mMarkerBitmap;
+        mWidth = mMarkerBitmap.getWidth();
+        mHeight = mMarkerBitmap.getHeight();
+    }
+
+    public Bitmap getMarkerBitmap() {
+        return mMarkerBitmap;
     }
 
     public void setMarker(final Drawable marker) {
         this.mMarker = marker;
         if (marker != null) {
             marker.setBounds(0, 0, marker.getIntrinsicWidth(), marker.getIntrinsicHeight());
+            mWidth = marker.getIntrinsicWidth();
+            mHeight = marker.getIntrinsicHeight();
         }
-        invalidate();
+//        invalidate();
     }
 
     public void setHotspot(HotspotPlace place) {
@@ -234,25 +255,28 @@ public class Marker {
                 mAnchor.set(1, 0);
                 break;
         }
-        invalidate();
+//        invalidate();
     }
+
+    private final Point reusablePoint = new Point();
 
     public Point getAnchor() {
         if (mAnchor != null) {
-            int markerWidth = getWidth(), markerHeight = getHeight();
-            return new Point((int) (-mAnchor.x * markerWidth), (int) (-mAnchor.y * markerHeight));
+            reusablePoint.set((int) (-mAnchor.x * mWidth), (int) (-mAnchor.y * mHeight));
         }
-        return new Point(0, 0);
+        else
+            reusablePoint.set(0, 0);
+
+        return reusablePoint;
     }
 
     public Point getAnchor(HotspotPlace place) {
-        int markerWidth = getWidth(), markerHeight = getHeight();
-        return getHotspot(place, markerWidth, markerHeight);
+        return getHotspot(place, mWidth, mHeight);
     }
 
     public void setAnchor(final PointF anchor) {
         this.mAnchor = anchor;
-        invalidate();
+//        invalidate();
     }
 
     public static void setState(final Drawable drawable, final int stateBitset) {
@@ -265,7 +289,7 @@ public class Marker {
             states[index++] = android.R.attr.state_selected;
         }
         if ((stateBitset & ITEM_STATE_FOCUSED_MASK) > 0) {
-            states[index++] = android.R.attr.state_focused;
+            states[index] = android.R.attr.state_focused;
         }
 
         drawable.setState(states);
@@ -279,11 +303,11 @@ public class Marker {
      * Get the width of the marker, based on the width of the image backing it.
      */
     public int getWidth() {
-        return this.mMarker.getIntrinsicWidth();
+        return mWidth;
     }
 
     public int getHeight() {
-        return this.mMarker.getIntrinsicHeight() / 2;
+        return mHeight;
     }
 
     /**
@@ -300,16 +324,15 @@ public class Marker {
         return reuse;
     }
 
+    static final PointF reusePoint = new PointF();
     protected RectF getDrawingBounds(final Projection projection, RectF reuse) {
         if (reuse == null) {
             reuse = new RectF();
         }
-        final PointF position = getPositionOnScreen(projection, null);
-        final int w = getWidth();
-        final int h = getHeight();
-        final float x = position.x - mAnchor.x * w;
-        final float y = position.y - mAnchor.y * h;
-        reuse.set(x, y, x + w, y + h * 2);
+        getPositionOnScreen(projection, reusePoint);
+        final float x = reusePoint.x - mAnchor.x * mWidth;
+        final float y = reusePoint.y - mAnchor.y * mHeight;
+        reuse.set(x, y, x + mWidth, y + mHeight * 2);
         return reuse;
     }
 
@@ -317,12 +340,14 @@ public class Marker {
         if (reuse == null) {
             reuse = new RectF();
         }
-        projection.toMapPixels(mLatLng, mCurMapCoords);
-        final int w = getWidth();
-        final int h = getHeight();
-        final float x = mCurMapCoords.x - mAnchor.x * w;
-        final float y = mCurMapCoords.y - mAnchor.y * h;
-        reuse.set(x, y, x + w, y + h * 2);
+
+        if(previousZoomLevel != projection.getZoomLevel()) {
+            projection.toMapPixels(mLatLng, mCurMapCoords);
+            final float x = mCurMapCoords.x - mAnchor.x * mWidth;
+            final float y = mCurMapCoords.y - mAnchor.y * mHeight;
+            reuse.set(x, y, x + mWidth, y + mHeight * 2);
+            previousZoomLevel = projection.getZoomLevel();
+        }
         return reuse;
     }
 
@@ -412,25 +437,33 @@ public class Marker {
         getMapDrawingBounds(mapView.getProjection(), mMyLocationRect);
     }
 
+    public void setActive(boolean isActive) {
+        this.isActive = isActive;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
     /**
      * Sets the marker to be redrawn.
      */
-    public void invalidate() {
-        if (mapView == null) {
-            return; //not on map yet
-        }
-        // Get new drawing bounds
-        mMyLocationPreviousRect.set(mMyLocationRect);
-        updateDrawingPosition();
-        final RectF newRect = new RectF(mMyLocationRect);
-        // If we had a previous location, merge in those bounds too
-        newRect.union(mMyLocationPreviousRect);
-        // Invalidate the bounds
-        mapView.post(new Runnable() {
-            @Override
-            public void run() {
-                mapView.invalidateMapCoordinates(newRect);
-            }
-        });
-    }
+//    public void invalidate() {
+//        if (mapView == null) {
+//            return; //not on map yet
+//        }
+//        // Get new drawing bounds
+//        mMyLocationPreviousRect.set(mMyLocationRect);
+//        updateDrawingPosition();
+//        final RectF newRect = new RectF(mMyLocationRect);
+//        // If we had a previous location, merge in those bounds too
+//        newRect.union(mMyLocationPreviousRect);
+//        // Invalidate the bounds
+//        mapView.post(new Runnable() {
+//            @Override
+//            public void run() {
+//                mapView.invalidateMapCoordinates(newRect);
+//            }
+//        });
+//    }
 }

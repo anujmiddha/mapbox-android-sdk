@@ -1,17 +1,15 @@
 // Created by plusminus on 23:18:23 - 02.10.2008
 package com.mapbox.mapboxsdk.overlay;
 
-import android.graphics.Canvas;
+import android.graphics.Bitmap;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.PointF;
 import android.graphics.RectF;
-import android.graphics.drawable.Drawable;
 import android.view.MotionEvent;
 
 import com.mapbox.mapboxsdk.views.MapView;
 import com.mapbox.mapboxsdk.views.safecanvas.ISafeCanvas;
-import com.mapbox.mapboxsdk.views.safecanvas.ISafeCanvas.UnsafeCanvasHandler;
 import com.mapbox.mapboxsdk.views.safecanvas.SafePaint;
 import com.mapbox.mapboxsdk.views.util.Projection;
 
@@ -32,10 +30,13 @@ public abstract class ItemizedOverlay extends SafeDrawOverlay implements Overlay
     private final ArrayList<Marker> mInternalItemList;
     protected boolean mDrawFocusedItem = true;
     private Marker mFocusedItem;
+    private Marker mSelectedItem;
     private boolean mPendingFocusChangedEvent = false;
     private OnFocusChangeListener mOnFocusChangeListener;
 
     private static SafePaint mClusterTextPaint;
+
+    final RectF bounds = new RectF();
 
     /**
      * Method by which subclasses create the actual Items. This will only be called from populate()
@@ -101,23 +102,30 @@ public abstract class ItemizedOverlay extends SafeDrawOverlay implements Overlay
         final Projection pj = mapView.getProjection();
         final int size = this.mInternalItemList.size() - 1;
 
-        final RectF bounds =
-                new RectF(0, 0, mapView.getMeasuredWidth(), mapView.getMeasuredHeight());
+        bounds.set(0, 0, mapView.getMeasuredWidth(), mapView.getMeasuredHeight());
         pj.rotateRect(bounds);
         final float mapScale = 1 / mapView.getScale();
 
     /* Draw in backward cycle, so the items with the least index are on the front. */
         for (int i = size; i >= 0; i--) {
             final Marker item = getItem(i);
-            if (item == mFocusedItem) {
+            if (item.isActive()) {
+                mSelectedItem = item;
                 continue;
             }
             onDrawItem(canvas, item, pj, mapView.getMapOrientation(), bounds, mapScale);
         }
-        if (mFocusedItem != null) {
-            onDrawItem(canvas, mFocusedItem, pj, mapView.getMapOrientation(), bounds, mapScale);
+
+        if (mSelectedItem != null) {
+            onDrawItem(canvas, mSelectedItem, pj, mapView.getMapOrientation(), bounds, mapScale);
+            mSelectedItem = null;
         }
     }
+
+//    protected void onDrawFocusedItem(ISafeCanvas canvas, final Marker item, final Projection projection,
+//                                     final float aMapOrientation, final RectF mapBounds, final float mapScale) {
+//        onDrawItem(canvas, item, projection, aMapOrientation, mapBounds, mapScale);
+//    }
 
     /**
      * Utility method to perform all processing on a new ItemizedOverlay. Subclasses provide Items
@@ -145,6 +153,8 @@ public abstract class ItemizedOverlay extends SafeDrawOverlay implements Overlay
         return mInternalItemList.get(position);
     }
 
+    private final Point roundedCoords = new Point();
+
     /**
      * Draws an item located at the provided screen coordinates to the canvas.
      *
@@ -156,8 +166,8 @@ public abstract class ItemizedOverlay extends SafeDrawOverlay implements Overlay
 
         item.updateDrawingPosition();
         final PointF position = item.getPositionOnMap();
-        final Point roundedCoords = new Point((int) position.x, (int) position.y);
-        if (!RectF.intersects(mapBounds, item.getDrawingBounds(projection, null))) {
+        roundedCoords.set((int) position.x, (int) position.y);
+        if (!RectF.intersects(mapBounds, item.getDrawingBounds(projection, reuseRect))) {
             //dont draw item if offscreen
             return;
         }
@@ -165,33 +175,25 @@ public abstract class ItemizedOverlay extends SafeDrawOverlay implements Overlay
         canvas.save();
 
         canvas.scale(mapScale, mapScale, position.x, position.y);
-        final int state =
-                (mDrawFocusedItem && (mFocusedItem == item) ? Marker.ITEM_STATE_FOCUSED_MASK : 0);
-        final Drawable marker = item.getMarker(state);
-        if (marker == null) {
+
+        final Bitmap bitmap = item.getMarkerBitmap();
+        if (bitmap == null) {
             return;
         }
         final Point point = item.getAnchor();
 
         // draw it
         if (this.isUsingSafeCanvas()) {
-            Overlay.drawAt(canvas.getSafeCanvas(), marker, roundedCoords, point, false,
-                    aMapOrientation);
-        } else {
-            canvas.getUnsafeCanvas(new UnsafeCanvasHandler() {
-                @Override
-                public void onUnsafeCanvas(Canvas canvas) {
-                    Overlay.drawAt(canvas, marker, roundedCoords, point, false, aMapOrientation);
-                }
-            });
+            Overlay.drawAt(canvas, bitmap, roundedCoords, point);
         }
 
         canvas.restore();
     }
 
+    final RectF reuseRect = new RectF();
     protected boolean markerHitTest(final Marker pMarker, final Projection pProjection,
                                     final float pX, final float pY) {
-        RectF rect = pMarker.getDrawingBounds(pProjection, null);
+        RectF rect = pMarker.getDrawingBounds(pProjection, reuseRect);
         rect.bottom -=
                 rect.height() / 2; //a marker drawing bounds is twice the actual size of the marker
         return rect.contains(pX, pY);

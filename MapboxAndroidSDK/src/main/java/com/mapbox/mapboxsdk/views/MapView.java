@@ -103,7 +103,7 @@ public class MapView extends ViewGroup
     /**
      * The MapView listener
      */
-    private MapViewListener mMapViewListener;
+    protected MapViewListener mMapViewListener;
 
     private final OverlayManager mOverlayManager;
 
@@ -360,6 +360,7 @@ public class MapView extends ViewGroup
             }
             currentTooltip = toolTip;
             marker.showBubble(currentTooltip, MapView.this, true);
+            marker.setActive(true);
         }
     }
 

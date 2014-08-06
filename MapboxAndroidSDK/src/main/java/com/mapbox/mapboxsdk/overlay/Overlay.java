@@ -2,6 +2,7 @@
 package com.mapbox.mapboxsdk.overlay;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -11,6 +12,9 @@ import android.graphics.drawable.Drawable;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import com.mapbox.mapboxsdk.views.MapView;
+import com.mapbox.mapboxsdk.views.safecanvas.ISafeCanvas;
+import com.mapbox.mapboxsdk.views.safecanvas.SafePaint;
+
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -29,6 +33,7 @@ public abstract class Overlay {
 
     private static AtomicInteger sOrdinal = new AtomicInteger();
 
+    protected static final SafePaint paint = new SafePaint();
     protected float mScale;
     private static final Rect mRect = new Rect();
     private boolean mEnabled = true;
@@ -190,7 +195,7 @@ public abstract class Overlay {
      * this event.
      */
     public boolean onFling(final MotionEvent pEvent1, final MotionEvent pEvent2,
-            final float pVelocityX, final float pVelocityY, final MapView pMapView) {
+                           final float pVelocityX, final float pVelocityY, final MapView pMapView) {
         return false;
     }
 
@@ -211,7 +216,7 @@ public abstract class Overlay {
      * this event.
      */
     public boolean onScroll(final MotionEvent pEvent1, final MotionEvent pEvent2,
-            final float pDistanceX, final float pDistanceY, final MapView pMapView) {
+                            final float pDistanceX, final float pDistanceY, final MapView pMapView) {
         return false;
     }
 
@@ -237,8 +242,8 @@ public abstract class Overlay {
      * @param shadow If true, draw only the drawable's shadow. Otherwise, draw the drawable itself.
      */
     protected static synchronized void drawAt(final Canvas canvas, final Drawable drawable,
-            final Point origin, final Point offset, final boolean shadow,
-            final float aMapOrientation) {
+                                              final Point origin, final Point offset, final boolean shadow,
+                                              final float aMapOrientation) {
         canvas.save();
         canvas.rotate(-aMapOrientation, origin.x, origin.y);
         canvas.translate(origin.x + offset.x, origin.y + offset.y);
@@ -250,6 +255,17 @@ public abstract class Overlay {
         canvas.drawLine(-9, 0, 9, 0, paint);
         canvas.drawRect(drawable.getBounds(), paint);
         canvas.restore();
+    }
+
+    /**
+     * Convenience method to draw a Drawable at an offset. x and y are pixel coordinates. You can
+     * find appropriate coordinates from latitude/longitude using the MapView.getProjection()
+     * method
+     * on the MapView passed to you in draw(Canvas, MapView, boolean).
+     */
+    protected static synchronized void drawAt(final ISafeCanvas canvas, final Bitmap bitmap,
+                                              final Point origin, final Point offset) {
+        canvas.drawBitmap(bitmap, origin.x + offset.x, origin.y + offset.y, paint);
     }
 
     /**

@@ -146,6 +146,8 @@ public class TilesOverlay extends SafeDrawOverlay {
         canvas.restore();
     }
 
+    private final Point centerPoint = new Point();
+
     /**
      * This is meant to be a "pure" tile drawing function that doesn't take into account
      * osmdroid-specific characteristics (like osmdroid's canvas's having 0,0 as the center rather
@@ -161,8 +163,7 @@ public class TilesOverlay extends SafeDrawOverlay {
         // draw a cross at center in debug mode
         if (UtilConstants.DEBUGMODE) {
             ISafeCanvas canvas = (ISafeCanvas) c;
-            final Point centerPoint =
-                    new Point(viewPort.centerX() - mWorldSize_2, viewPort.centerY() - mWorldSize_2);
+            centerPoint.set(viewPort.centerX() - mWorldSize_2, viewPort.centerY() - mWorldSize_2);
             canvas.drawLine(centerPoint.x, centerPoint.y - 9, centerPoint.x, centerPoint.y + 9,
                     mDebugPaint);
             canvas.drawLine(centerPoint.x - 9, centerPoint.y, centerPoint.x + 9, centerPoint.y,
