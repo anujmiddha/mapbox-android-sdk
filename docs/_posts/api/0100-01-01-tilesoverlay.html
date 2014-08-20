@@ -1,0 +1,491 @@
+---
+layout: api
+title: TilesOverlay
+category: api
+tags: overlay
+---
+<div class="contentcontainer">
+<ul class="inheritance">
+<li>java.lang.object</li>
+<li>
+<ul class="inheritance">
+<li><a href="{{site.baseurl}}/api/overlay" title="class in com.mapbox.mapboxsdk.overlay">com.mapbox.mapboxsdk.overlay.overlay</a></li>
+<li>
+<ul class="inheritance">
+<li><a href="{{site.baseurl}}/api/safedrawoverlay" title="class in com.mapbox.mapboxsdk.overlay">com.mapbox.mapboxsdk.overlay.safedrawoverlay</a></li>
+<li>
+<ul class="inheritance">
+<li>com.mapbox.mapboxsdk.overlay.tilesoverlay</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<div class="description">
+
+
+
+
+<pre>public class <span class="strong">tilesoverlay</span>
+extends <a href="{{site.baseurl}}/api/safedrawoverlay" title="class in com.mapbox.mapboxsdk.overlay">safedrawoverlay</a></pre>
+<div class="block">these objects are the principle consumer of map tiles.
+ <p/>
+ see <a href="{{site.baseurl}}/api/maptile" title="class in com.mapbox.mapboxsdk.tileprovider"><code>maptile</code></a> for an overview of how tiles are acquired by this overlay.</div>
+
+
+</div>
+<div class="summary">
+
+
+<!-- ======== nested class summary ======== -->
+
+<a name="nested_class_summary">
+<!--   -->
+</a>
+<h3>nested class summary</h3>
+
+<a name="nested_classes_inherited_from_class_com.mapbox.mapboxsdk.overlay.overlay">
+<!--   -->
+</a>
+<h3>nested classes/interfaces inherited from class&nbsp;com.mapbox.mapboxsdk.overlay.<a href="{{site.baseurl}}/api/overlay" title="class in com.mapbox.mapboxsdk.overlay">overlay</a></h3>
+<code><a href="{{site.baseurl}}/api/overlay.snappable" title="interface in com.mapbox.mapboxsdk.overlay">overlay.snappable</a></code>
+
+
+
+<!-- =========== field summary =========== -->
+
+<a name="field_summary">
+<!--   -->
+</a>
+<h3>field summary</h3>
+<table class="overviewsummary" border="0" cellpadding="3" cellspacing="0" summary="field summary table, listing fields, and an explanation">
+<caption class="small dark strong round-top pad1 fill-darken3"><span>fields</span><span class="tabend">&nbsp;</span></caption>
+<tr>
+<th class="colfirst" scope="col">modifier and type</th>
+<th class="collast" scope="col">field and description</th>
+</tr>
+<tr class="altcolor">
+<td class="colfirst"><code>protected static <a href="{{site.baseurl}}/api/safepaint" title="class in com.mapbox.mapboxsdk.views.safecanvas">safepaint</a></code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/tilesoverlay#mdebugpaint">mdebugpaint</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowcolor">
+<td class="colfirst"><code>static int</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/tilesoverlay#menu_offline">menu_offline</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altcolor">
+<td class="colfirst"><code>protected android.graphics.paint</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/tilesoverlay#mloadingpaint">mloadingpaint</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowcolor">
+<td class="colfirst"><code>protected static android.graphics.bitmap</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/tilesoverlay#mloadingtilebitmap">mloadingtilebitmap</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altcolor">
+<td class="colfirst"><code>protected static <a href="{{site.baseurl}}/api/safepaint" title="class in com.mapbox.mapboxsdk.views.safecanvas">safepaint</a></code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/tilesoverlay#mloadingtilepaint">mloadingtilepaint</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowcolor">
+<td class="colfirst"><code>protected <a href="{{site.baseurl}}/api/maptilelayerbase" title="class in com.mapbox.mapboxsdk.tileprovider">maptilelayerbase</a></code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/tilesoverlay#mtileprovider">mtileprovider</a></strong></code>
+<div class="block">current tile source</div>
+</td>
+</tr>
+</table>
+
+<a name="fields_inherited_from_class_com.mapbox.mapboxsdk.overlay.overlay">
+<!--   -->
+</a>
+<h3>fields inherited from class&nbsp;com.mapbox.mapboxsdk.overlay.<a href="{{site.baseurl}}/api/overlay" title="class in com.mapbox.mapboxsdk.overlay">overlay</a></h3>
+<code><a href="{{site.baseurl}}/api/overlay#mscale">mscale</a></code>
+
+
+
+<!-- ======== constructor summary ======== -->
+
+<a name="constructor_summary">
+<!--   -->
+</a>
+<h3>constructor summary</h3>
+<table class="overviewsummary" border="0" cellpadding="3" cellspacing="0" summary="constructor summary table, listing constructors, and an explanation">
+<caption class="small dark strong round-top pad1 fill-darken3"><span>constructors</span><span class="tabend">&nbsp;</span></caption>
+<tr>
+<th class="colone" scope="col">constructor and description</th>
+</tr>
+<tr class="altcolor">
+<td class="colone"><code><strong><a href="{{site.baseurl}}/api/maptilelayerbase" title="class in com.mapbox.mapboxsdk.tileprovider">maptilelayerbase</a>&nbsp;atileprovider)</code>&nbsp;</td>
+</tr>
+</table>
+
+
+<!-- ========== method summary =========== -->
+
+<a name="method_summary">
+<!--   -->
+</a>
+<h3>method summary</h3>
+<table class="overviewsummary" border="0" cellpadding="3" cellspacing="0" summary="method summary table, listing methods, and an explanation">
+<caption class="small dark strong round-top pad1 fill-darken3"><span>methods</span><span class="tabend">&nbsp;</span></caption>
+<tr>
+<th class="colfirst" scope="col">modifier and type</th>
+<th class="collast" scope="col">method and description</th>
+</tr>
+<tr class="altcolor">
+<td class="colfirst"><code>void</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/tilesoverlay#drawloadingtile(android.graphics.canvas, com.mapbox.mapboxsdk.views.mapview, float, android.graphics.rect)">drawloadingtile</a></strong>(android.graphics.canvas&nbsp;c,
+               <a href="{{site.baseurl}}/api/mapview" title="class in com.mapbox.mapboxsdk.views">mapview</a>&nbsp;mapview,
+               float&nbsp;zoomlevel,
+               android.graphics.rect&nbsp;viewport)</code>
+<div class="block">draw a loading tile image to make in-progress tiles easier to deal with.</div>
+</td>
+</tr>
+<tr class="rowcolor">
+<td class="colfirst"><code>protected void</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/isafecanvas" title="interface in com.mapbox.mapboxsdk.views.safecanvas">isafecanvas</a>&nbsp;c,
+        <a href="{{site.baseurl}}/api/mapview" title="class in com.mapbox.mapboxsdk.views">mapview</a>&nbsp;mapview,
+        boolean&nbsp;shadow)</code>&nbsp;</td>
+</tr>
+<tr class="altcolor">
+<td class="colfirst"><code>void</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/tilesoverlay#drawtiles(android.graphics.canvas, float, int, android.graphics.rect, android.graphics.rect)">drawtiles</a></strong>(android.graphics.canvas&nbsp;c,
+         float&nbsp;zoomlevel,
+         int&nbsp;tilesizepx,
+         android.graphics.rect&nbsp;viewport,
+         android.graphics.rect&nbsp;pcliprect)</code>
+<div class="block">this is meant to be a "pure" tile drawing function that doesn't take into account
+ osmdroid-specific characteristics (like osmdroid's canvas's having 0,0 as the center rather
+ than the upper-left corner).</div>
+</td>
+</tr>
+<tr class="rowcolor">
+<td class="colfirst"><code>int</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/tilesoverlay#getloadingbackgroundcolor()">getloadingbackgroundcolor</a></strong>()</code>&nbsp;</td>
+</tr>
+<tr class="altcolor">
+<td class="colfirst"><code>int</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/tilesoverlay#getloadinglinecolor()">getloadinglinecolor</a></strong>()</code>&nbsp;</td>
+</tr>
+<tr class="rowcolor">
+<td class="colfirst"><code>float</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/tilesoverlay#getmaximumzoomlevel()">getmaximumzoomlevel</a></strong>()</code>&nbsp;</td>
+</tr>
+<tr class="altcolor">
+<td class="colfirst"><code>float</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/tilesoverlay#getminimumzoomlevel()">getminimumzoomlevel</a></strong>()</code>&nbsp;</td>
+</tr>
+<tr class="rowcolor">
+<td class="colfirst"><code>void</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/mapview" title="class in com.mapbox.mapboxsdk.views">mapview</a>&nbsp;pmapview)</code>
+<div class="block">override to perform clean up of resources before shutdown.</div>
+</td>
+</tr>
+<tr class="altcolor">
+<td class="colfirst"><code>void</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/tilesoverlay#rescalecache(float, float, com.mapbox.mapboxsdk.views.util.projection)">rescalecache</a></strong>(float&nbsp;pnewzoomlevel,
+            float&nbsp;poldzoomlevel,
+            <a href="{{site.baseurl}}/api/projection" title="class in com.mapbox.mapboxsdk.views.util">projection</a>&nbsp;projection)</code>
+<div class="block">recreate the cache using scaled versions of the tiles currently in it</div>
+</td>
+</tr>
+<tr class="rowcolor">
+<td class="colfirst"><code>void</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/tilesoverlay#setloadingbackgroundcolor(int)">setloadingbackgroundcolor</a></strong>(int&nbsp;ploadingbackgroundcolor)</code>
+<div class="block">set the color to use to draw the background while we're waiting for the tile to load.</div>
+</td>
+</tr>
+<tr class="altcolor">
+<td class="colfirst"><code>void</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/tilesoverlay#setloadinglinecolor(int)">setloadinglinecolor</a></strong>(int&nbsp;ploadinglinecolor)</code>&nbsp;</td>
+</tr>
+<tr class="rowcolor">
+<td class="colfirst"><code>void</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/tilesoverlay#setusedataconnection(boolean)">setusedataconnection</a></strong>(boolean&nbsp;amode)</code>
+<div class="block">set whether to use the network connection if it's available.</div>
+</td>
+</tr>
+<tr class="altcolor">
+<td class="colfirst"><code>boolean</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/tilesoverlay#usedataconnection()">usedataconnection</a></strong>()</code>
+<div class="block">whether to use the network connection if it's available.</div>
+</td>
+</tr>
+</table>
+
+<a name="methods_inherited_from_class_com.mapbox.mapboxsdk.overlay.safedrawoverlay">
+<!--   -->
+</a>
+<h3>methods inherited from class&nbsp;com.mapbox.mapboxsdk.overlay.<a href="{{site.baseurl}}/api/safedrawoverlay" title="class in com.mapbox.mapboxsdk.overlay">safedrawoverlay</a></h3>
+<code><a href="{{site.baseurl}}/api/safedrawoverlay#setusesafecanvas(boolean)">setusesafecanvas</a></code>
+
+
+<a name="methods_inherited_from_class_com.mapbox.mapboxsdk.overlay.overlay">
+<!--   -->
+</a>
+<h3>methods inherited from class&nbsp;com.mapbox.mapboxsdk.overlay.<a href="{{site.baseurl}}/api/overlay" title="class in com.mapbox.mapboxsdk.overlay">overlay</a></h3>
+<code><a href="{{site.baseurl}}/api/overlay#setenabled(boolean)">setenabled</a></code>
+
+
+<a name="methods_inherited_from_class_java.lang.object">
+<!--   -->
+</a>
+<h3>methods inherited from class&nbsp;java.lang.object</h3>
+<code>clone, equals, finalize, getclass, hashcode, notify, notifyall, tostring, wait, wait, wait</code>
+
+
+
+
+
+</div>
+<div class="details">
+
+
+<!-- ============ field detail =========== -->
+
+<a name="field_detail">
+<!--   -->
+</a>
+<h3>field detail</h3>
+<a name="menu_offline">
+<!--   -->
+</a>
+
+
+<h4>menu_offline</h4>
+<pre>public static final&nbsp;int menu_offline</pre>
+
+
+<a name="mtileprovider">
+<!--   -->
+</a>
+
+
+<h4>mtileprovider</h4>
+<pre>protected final&nbsp;<a href="{{site.baseurl}}/api/maptilelayerbase" title="class in com.mapbox.mapboxsdk.tileprovider">maptilelayerbase</a> mtileprovider</pre>
+<div class="block">current tile source</div>
+
+
+<a name="mdebugpaint">
+<!--   -->
+</a>
+
+
+<h4>mdebugpaint</h4>
+<pre>protected static&nbsp;<a href="{{site.baseurl}}/api/safepaint" title="class in com.mapbox.mapboxsdk.views.safecanvas">safepaint</a> mdebugpaint</pre>
+
+
+<a name="mloadingtilepaint">
+<!--   -->
+</a>
+
+
+<h4>mloadingtilepaint</h4>
+<pre>protected static&nbsp;<a href="{{site.baseurl}}/api/safepaint" title="class in com.mapbox.mapboxsdk.views.safecanvas">safepaint</a> mloadingtilepaint</pre>
+
+
+<a name="mloadingtilebitmap">
+<!--   -->
+</a>
+
+
+<h4>mloadingtilebitmap</h4>
+<pre>protected static&nbsp;android.graphics.bitmap mloadingtilebitmap</pre>
+
+
+<a name="mloadingpaint">
+<!--   -->
+</a>
+
+
+<h4>mloadingpaint</h4>
+<pre>protected&nbsp;android.graphics.paint mloadingpaint</pre>
+
+
+
+
+<!-- ========= constructor detail ======== -->
+
+<a name="constructor_detail">
+<!--   -->
+</a>
+<h3>constructor detail</h3>
+<a name="tilesoverlay(com.mapbox.mapboxsdk.tileprovider.maptilelayerbase)">
+<!--   -->
+</a>
+
+
+<h4>tilesoverlay</h4>
+<pre>public&nbsp;tilesoverlay(<a href="{{site.baseurl}}/api/maptilelayerbase" title="class in com.mapbox.mapboxsdk.tileprovider">maptilelayerbase</a>&nbsp;atileprovider)</pre>
+
+
+
+
+<!-- ============ method detail ========== -->
+
+<a name="method_detail">
+<!--   -->
+</a>
+<h3>method detail</h3>
+<a name="ondetach(com.mapbox.mapboxsdk.views.mapview)">
+<!--   -->
+</a>
+
+
+<h4>ondetach</h4>
+<pre>public&nbsp;void&nbsp;ondetach(<a href="{{site.baseurl}}/api/mapview" title="class in com.mapbox.mapboxsdk.views">mapview</a>&nbsp;pmapview)</pre>
+<div class="block"><strong>description copied from class:&nbsp;<code><a href="{{site.baseurl}}/api/overlay#ondetach(com.mapbox.mapboxsdk.views.mapview)">overlay</a></code></strong></div>
+<div class="block">override to perform clean up of resources before shutdown. by default does nothing.</div>
+<dl>
+<dt><strong>overrides:</strong></dt>
+<dd><code><a href="{{site.baseurl}}/api/overlay" title="class in com.mapbox.mapboxsdk.overlay">overlay</a></code></dd>
+</dl>
+
+
+<a name="getminimumzoomlevel()">
+<!--   -->
+</a>
+
+
+<h4>getminimumzoomlevel</h4>
+<pre>public&nbsp;float&nbsp;getminimumzoomlevel()</pre>
+
+
+<a name="getmaximumzoomlevel()">
+<!--   -->
+</a>
+
+
+<h4>getmaximumzoomlevel</h4>
+<pre>public&nbsp;float&nbsp;getmaximumzoomlevel()</pre>
+
+
+<a name="usedataconnection()">
+<!--   -->
+</a>
+
+
+<h4>usedataconnection</h4>
+<pre>public&nbsp;boolean&nbsp;usedataconnection()</pre>
+<div class="block">whether to use the network connection if it's available.</div>
+<dl><dt><span class="strong">returns:</span></dt><dd>true if this uses a data connection</dd></dl>
+
+
+<a name="setusedataconnection(boolean)">
+<!--   -->
+</a>
+
+
+<h4>setusedataconnection</h4>
+<pre>public&nbsp;void&nbsp;setusedataconnection(boolean&nbsp;amode)</pre>
+<div class="block">set whether to use the network connection if it's available.</div>
+<dl><dt><span class="strong">parameters:</span></dt><dd><code>amode</code> - if true use the network connection if it's available. if false don't use the
+              network connection even if it's available.</dd></dl>
+
+
+<a name="drawsafe(com.mapbox.mapboxsdk.views.safecanvas.isafecanvas, com.mapbox.mapboxsdk.views.mapview, boolean)">
+<!--   -->
+</a>
+
+
+<h4>drawsafe</h4>
+<pre>protected&nbsp;void&nbsp;drawsafe(<a href="{{site.baseurl}}/api/isafecanvas" title="interface in com.mapbox.mapboxsdk.views.safecanvas">isafecanvas</a>&nbsp;c,
+            <a href="{{site.baseurl}}/api/mapview" title="class in com.mapbox.mapboxsdk.views">mapview</a>&nbsp;mapview,
+            boolean&nbsp;shadow)</pre>
+<dl>
+<dt><strong>specified by:</strong></dt>
+<dd><code><a href="{{site.baseurl}}/api/safedrawoverlay" title="class in com.mapbox.mapboxsdk.overlay">safedrawoverlay</a></code></dd>
+</dl>
+
+
+<a name="drawloadingtile(android.graphics.canvas, com.mapbox.mapboxsdk.views.mapview, float, android.graphics.rect)">
+<!--   -->
+</a>
+
+
+<h4>drawloadingtile</h4>
+<pre>public&nbsp;void&nbsp;drawloadingtile(android.graphics.canvas&nbsp;c,
+                   <a href="{{site.baseurl}}/api/mapview" title="class in com.mapbox.mapboxsdk.views">mapview</a>&nbsp;mapview,
+                   float&nbsp;zoomlevel,
+                   android.graphics.rect&nbsp;viewport)</pre>
+<div class="block">draw a loading tile image to make in-progress tiles easier to deal with.</div>
+<dl><dt><span class="strong">parameters:</span></dt><dd><code>c</code> - </dd><dd><code>mapview</code> - </dd><dd><code>zoomlevel</code> - </dd><dd><code>viewport</code> - </dd></dl>
+
+
+<a name="drawtiles(android.graphics.canvas, float, int, android.graphics.rect, android.graphics.rect)">
+<!--   -->
+</a>
+
+
+<h4>drawtiles</h4>
+<pre>public&nbsp;void&nbsp;drawtiles(android.graphics.canvas&nbsp;c,
+             float&nbsp;zoomlevel,
+             int&nbsp;tilesizepx,
+             android.graphics.rect&nbsp;viewport,
+             android.graphics.rect&nbsp;pcliprect)</pre>
+<div class="block">this is meant to be a "pure" tile drawing function that doesn't take into account
+ osmdroid-specific characteristics (like osmdroid's canvas's having 0,0 as the center rather
+ than the upper-left corner). once the tile is ready to be drawn, it is passed to
+ ontilereadytodraw where custom manipulations can be made before drawing the tile.</div>
+
+
+<a name="getloadingbackgroundcolor()">
+<!--   -->
+</a>
+
+
+<h4>getloadingbackgroundcolor</h4>
+<pre>public&nbsp;int&nbsp;getloadingbackgroundcolor()</pre>
+
+
+<a name="setloadingbackgroundcolor(int)">
+<!--   -->
+</a>
+
+
+<h4>setloadingbackgroundcolor</h4>
+<pre>public&nbsp;void&nbsp;setloadingbackgroundcolor(int&nbsp;ploadingbackgroundcolor)</pre>
+<div class="block">set the color to use to draw the background while we're waiting for the tile to load.</div>
+<dl><dt><span class="strong">parameters:</span></dt><dd><code>ploadingbackgroundcolor</code> - the color to use. if the value is <code>color.transparent</code>
+                                then there will be no
+                                loading tile.</dd></dl>
+
+
+<a name="getloadinglinecolor()">
+<!--   -->
+</a>
+
+
+<h4>getloadinglinecolor</h4>
+<pre>public&nbsp;int&nbsp;getloadinglinecolor()</pre>
+
+
+<a name="setloadinglinecolor(int)">
+<!--   -->
+</a>
+
+
+<h4>setloadinglinecolor</h4>
+<pre>public&nbsp;void&nbsp;setloadinglinecolor(int&nbsp;ploadinglinecolor)</pre>
+
+
+<a name="rescalecache(float, float, com.mapbox.mapboxsdk.views.util.projection)">
+<!--   -->
+</a>
+
+
+<h4>rescalecache</h4>
+<pre>public&nbsp;void&nbsp;rescalecache(float&nbsp;pnewzoomlevel,
+                float&nbsp;poldzoomlevel,
+                <a href="{{site.baseurl}}/api/projection" title="class in com.mapbox.mapboxsdk.views.util">projection</a>&nbsp;projection)</pre>
+<div class="block">recreate the cache using scaled versions of the tiles currently in it</div>
+<dl><dt><span class="strong">parameters:</span></dt><dd><code>pnewzoomlevel</code> - the zoom level that we need now</dd><dd><code>poldzoomlevel</code> - the previous zoom level that we should get the tiles to rescale</dd><dd><code>projection</code> - the projection to compute view port</dd></dl>
+
+
+
+
+
+
+</div>
+</div>
+<!-- ========= end of class data ========= -->
+<!-- ======= start of bottom navbar ====== -->

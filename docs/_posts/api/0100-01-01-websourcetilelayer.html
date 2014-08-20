@@ -1,0 +1,345 @@
+---
+layout: api
+title: WebSourceTileLayer
+category: api
+tags: tileprovider
+---
+<div class="contentcontainer">
+<ul class="inheritance">
+<li>java.lang.object</li>
+<li>
+<ul class="inheritance">
+<li><a href="{{site.baseurl}}/api/tilelayer" title="class in com.mapbox.mapboxsdk.tileprovider.tilesource">com.mapbox.mapboxsdk.tileprovider.tilesource.tilelayer</a></li>
+<li>
+<ul class="inheritance">
+<li>com.mapbox.mapboxsdk.tileprovider.tilesource.websourcetilelayer</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<div class="description">
+
+
+<dl>
+<dt>all implemented interfaces:</dt>
+<dd><a href="{{site.baseurl}}/api/mapviewconstants" title="interface in com.mapbox.mapboxsdk.views.util.constants">mapviewconstants</a></dd>
+</dl>
+<dl>
+<dt>direct known subclasses:</dt>
+<dd><a href="{{site.baseurl}}/api/tilemilllayer" title="class in com.mapbox.mapboxsdk.tileprovider.tilesource">tilemilllayer</a></dd>
+</dl>
+
+
+<pre>public class <span class="strong">websourcetilelayer</span>
+extends <a href="{{site.baseurl}}/api/tilelayer" title="class in com.mapbox.mapboxsdk.tileprovider.tilesource">tilelayer</a></pre>
+<div class="block">an implementation of <a href="{{site.baseurl}}/api/tilelayer" title="class in com.mapbox.mapboxsdk.tileprovider.tilesource"><code>tilelayer</code></a> that pulls tiles from the internet.</div>
+
+
+</div>
+<div class="summary">
+
+
+<!-- =========== field summary =========== -->
+
+<a name="field_summary">
+<!--   -->
+</a>
+<h3>field summary</h3>
+<table class="overviewsummary" border="0" cellpadding="3" cellspacing="0" summary="field summary table, listing fields, and an explanation">
+<caption class="small dark strong round-top pad1 fill-darken3"><span>fields</span><span class="tabend">&nbsp;</span></caption>
+<tr>
+<th class="colfirst" scope="col">modifier and type</th>
+<th class="collast" scope="col">field and description</th>
+</tr>
+<tr class="altcolor">
+<td class="colfirst"><code>protected boolean</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/websourcetilelayer#menablessl">menablessl</a></strong></code>&nbsp;</td>
+</tr>
+</table>
+
+<a name="fields_inherited_from_class_com.mapbox.mapboxsdk.tileprovider.tilesource.tilelayer">
+<!--   -->
+</a>
+<h3>fields inherited from class&nbsp;com.mapbox.mapboxsdk.tileprovider.tilesource.<a href="{{site.baseurl}}/api/tilelayer" title="class in com.mapbox.mapboxsdk.tileprovider.tilesource">tilelayer</a></h3>
+<code><a href="{{site.baseurl}}/api/tilelayer#murl">murl</a></code>
+
+
+<a name="fields_inherited_from_class_com.mapbox.mapboxsdk.tileprovider.constants.tilelayerconstants">
+<!--   -->
+</a>
+<h3>fields inherited from interface&nbsp;com.mapbox.mapboxsdk.tileprovider.constants.<a href="{{site.baseurl}}/api/tilelayerconstants" title="interface in com.mapbox.mapboxsdk.tileprovider.constants">tilelayerconstants</a></h3>
+<code><a href="{{site.baseurl}}/api/tilelayerconstants#world_bounding_box">world_bounding_box</a></code>
+
+
+<a name="fields_inherited_from_class_com.mapbox.mapboxsdk.views.util.constants.mapviewconstants">
+<!--   -->
+</a>
+<h3>fields inherited from interface&nbsp;com.mapbox.mapboxsdk.views.util.constants.<a href="{{site.baseurl}}/api/mapviewconstants" title="interface in com.mapbox.mapboxsdk.views.util.constants">mapviewconstants</a></h3>
+<code><a href="{{site.baseurl}}/api/mapviewconstants#default_pin_anchor">default_pin_anchor</a></code>
+
+
+
+<!-- ======== constructor summary ======== -->
+
+<a name="constructor_summary">
+<!--   -->
+</a>
+<h3>constructor summary</h3>
+<table class="overviewsummary" border="0" cellpadding="3" cellspacing="0" summary="constructor summary table, listing constructors, and an explanation">
+<caption class="small dark strong round-top pad1 fill-darken3"><span>constructors</span><span class="tabend">&nbsp;</span></caption>
+<tr>
+<th class="colone" scope="col">constructor and description</th>
+</tr>
+<tr class="altcolor">
+<td class="colone"><code><strong><a href="{{site.baseurl}}/api/websourcetilelayer#websourcetilelayer(java.lang.string, java.lang.string)">websourcetilelayer</a></strong>(java.lang.string&nbsp;pid,
+                  java.lang.string&nbsp;url)</code>&nbsp;</td>
+</tr>
+<tr class="rowcolor">
+<td class="colone"><code><strong><a href="{{site.baseurl}}/api/websourcetilelayer#websourcetilelayer(java.lang.string, java.lang.string, boolean)">websourcetilelayer</a></strong>(java.lang.string&nbsp;pid,
+                  java.lang.string&nbsp;url,
+                  boolean&nbsp;enablessl)</code>&nbsp;</td>
+</tr>
+</table>
+
+
+<!-- ========== method summary =========== -->
+
+<a name="method_summary">
+<!--   -->
+</a>
+<h3>method summary</h3>
+<table class="overviewsummary" border="0" cellpadding="3" cellspacing="0" summary="method summary table, listing methods, and an explanation">
+<caption class="small dark strong round-top pad1 fill-darken3"><span>methods</span><span class="tabend">&nbsp;</span></caption>
+<tr>
+<th class="colfirst" scope="col">modifier and type</th>
+<th class="collast" scope="col">method and description</th>
+</tr>
+<tr class="altcolor">
+<td class="colfirst"><code>android.graphics.bitmap</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/websourcetilelayer#getbitmapfromurl(java.lang.string, com.mapbox.mapboxsdk.tileprovider.maptilecache)">getbitmapfromurl</a></strong>(java.lang.string&nbsp;url,
+                <a href="{{site.baseurl}}/api/maptilecache" title="class in com.mapbox.mapboxsdk.tileprovider">maptilecache</a>&nbsp;acache)</code>
+<div class="block">requests and returns a bitmap object from a given url, using acache to decode it.</div>
+</td>
+</tr>
+<tr class="rowcolor">
+<td class="colfirst"><code><a href="../../../../../uk/co/senab/bitmapcache/cacheablebitmapdrawable.html" title="class in uk.co.senab.bitmapcache">cacheablebitmapdrawable</a></code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/maptiledownloader" title="class in com.mapbox.mapboxsdk.tileprovider.modules">maptiledownloader</a>&nbsp;downloader,
+                   <a href="{{site.baseurl}}/api/maptile" title="class in com.mapbox.mapboxsdk.tileprovider">maptile</a>&nbsp;atile,
+                   boolean&nbsp;hdpi)</code>
+<div class="block">get a rendered drawable from the specified tile.</div>
+</td>
+</tr>
+<tr class="altcolor">
+<td class="colfirst"><code>java.lang.string</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/maptile" title="class in com.mapbox.mapboxsdk.tileprovider">maptile</a>&nbsp;atile,
+          boolean&nbsp;hdpi)</code>
+<div class="block">get a single tile url for a single tile.</div>
+</td>
+</tr>
+<tr class="rowcolor">
+<td class="colfirst"><code>java.lang.string[]</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/maptile" title="class in com.mapbox.mapboxsdk.tileprovider">maptile</a>&nbsp;atile,
+           boolean&nbsp;hdpi)</code>
+<div class="block">gets a list of tile urls used by this layer for a specific tile.</div>
+</td>
+</tr>
+<tr class="altcolor">
+<td class="colfirst"><code>protected void</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/websourcetilelayer#initialize(java.lang.string, java.lang.string, boolean)">initialize</a></strong>(java.lang.string&nbsp;pid,
+          java.lang.string&nbsp;aurl,
+          boolean&nbsp;enablessl)</code>&nbsp;</td>
+</tr>
+<tr class="rowcolor">
+<td class="colfirst"><code>protected java.lang.string</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/websourcetilelayer#parseurlfortile(java.lang.string, com.mapbox.mapboxsdk.tileprovider.maptile, boolean)">parseurlfortile</a></strong>(java.lang.string&nbsp;url,
+               <a href="{{site.baseurl}}/api/maptile" title="class in com.mapbox.mapboxsdk.tileprovider">maptile</a>&nbsp;atile,
+               boolean&nbsp;hdpi)</code>&nbsp;</td>
+</tr>
+<tr class="altcolor">
+<td class="colfirst"><code><a href="{{site.baseurl}}/api/tilelayer" title="class in com.mapbox.mapboxsdk.tileprovider.tilesource">tilelayer</a></code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/websourcetilelayer#seturl(java.lang.string)">seturl</a></strong>(java.lang.string&nbsp;aurl)</code>
+<div class="block">sets the layer's tile url template string.</div>
+</td>
+</tr>
+</table>
+
+<a name="methods_inherited_from_class_com.mapbox.mapboxsdk.tileprovider.tilesource.tilelayer">
+<!--   -->
+</a>
+<h3>methods inherited from class&nbsp;com.mapbox.mapboxsdk.tileprovider.tilesource.<a href="{{site.baseurl}}/api/tilelayer" title="class in com.mapbox.mapboxsdk.tileprovider.tilesource">tilelayer</a></h3>
+<code><a href="{{site.baseurl}}/api/tilelayer#setname(java.lang.string)">setname</a></code>
+
+
+<a name="methods_inherited_from_class_java.lang.object">
+<!--   -->
+</a>
+<h3>methods inherited from class&nbsp;java.lang.object</h3>
+<code>clone, equals, finalize, getclass, hashcode, notify, notifyall, tostring, wait, wait, wait</code>
+
+
+
+
+
+</div>
+<div class="details">
+
+
+<!-- ============ field detail =========== -->
+
+<a name="field_detail">
+<!--   -->
+</a>
+<h3>field detail</h3>
+<a name="menablessl">
+<!--   -->
+</a>
+
+
+<h4>menablessl</h4>
+<pre>protected&nbsp;boolean menablessl</pre>
+
+
+
+
+<!-- ========= constructor detail ======== -->
+
+<a name="constructor_detail">
+<!--   -->
+</a>
+<h3>constructor detail</h3>
+<a name="websourcetilelayer(java.lang.string, java.lang.string)">
+<!--   -->
+</a>
+
+
+<h4>websourcetilelayer</h4>
+<pre>public&nbsp;websourcetilelayer(java.lang.string&nbsp;pid,
+                  java.lang.string&nbsp;url)</pre>
+
+
+<a name="websourcetilelayer(java.lang.string, java.lang.string, boolean)">
+<!--   -->
+</a>
+
+
+<h4>websourcetilelayer</h4>
+<pre>public&nbsp;websourcetilelayer(java.lang.string&nbsp;pid,
+                  java.lang.string&nbsp;url,
+                  boolean&nbsp;enablessl)</pre>
+
+
+
+
+<!-- ============ method detail ========== -->
+
+<a name="method_detail">
+<!--   -->
+</a>
+<h3>method detail</h3>
+<a name="seturl(java.lang.string)">
+<!--   -->
+</a>
+
+
+<h4>seturl</h4>
+<pre>public&nbsp;<a href="{{site.baseurl}}/api/tilelayer" title="class in com.mapbox.mapboxsdk.tileprovider.tilesource">tilelayer</a>&nbsp;seturl(java.lang.string&nbsp;aurl)</pre>
+<div class="block"><strong>description copied from class:&nbsp;<code><a href="{{site.baseurl}}/api/tilelayer#seturl(java.lang.string)">tilelayer</a></code></strong></div>
+<div class="block">sets the layer's tile url template string.</div>
+<dl>
+<dt><strong>specified by:</strong></dt>
+<dd><code><a href="{{site.baseurl}}/api/itilelayer" title="interface in com.mapbox.mapboxsdk.tileprovider.tilesource">itilelayer</a></code></dd>
+<dt><strong>overrides:</strong></dt>
+<dd><code><a href="{{site.baseurl}}/api/tilelayer" title="class in com.mapbox.mapboxsdk.tileprovider.tilesource">tilelayer</a></code></dd>
+<dt><span class="strong">returns:</span></dt><dd>the tile layer</dd></dl>
+
+
+<a name="initialize(java.lang.string, java.lang.string, boolean)">
+<!--   -->
+</a>
+
+
+<h4>initialize</h4>
+<pre>protected&nbsp;void&nbsp;initialize(java.lang.string&nbsp;pid,
+              java.lang.string&nbsp;aurl,
+              boolean&nbsp;enablessl)</pre>
+
+
+<a name="gettileurls(com.mapbox.mapboxsdk.tileprovider.maptile, boolean)">
+<!--   -->
+</a>
+
+
+<h4>gettileurls</h4>
+<pre>public&nbsp;java.lang.string[]&nbsp;gettileurls(<a href="{{site.baseurl}}/api/maptile" title="class in com.mapbox.mapboxsdk.tileprovider">maptile</a>&nbsp;atile,
+                             boolean&nbsp;hdpi)</pre>
+<div class="block">gets a list of tile urls used by this layer for a specific tile.</div>
+<dl><dt><span class="strong">parameters:</span></dt><dd><code>atile</code> - a map tile</dd><dd><code>hdpi</code> - a boolean that indicates whether the tile should be at 2x or retina size</dd>
+<dt><span class="strong">returns:</span></dt><dd>a list of tile urls</dd></dl>
+
+
+<a name="gettileurl(com.mapbox.mapboxsdk.tileprovider.maptile, boolean)">
+<!--   -->
+</a>
+
+
+<h4>gettileurl</h4>
+<pre>public&nbsp;java.lang.string&nbsp;gettileurl(<a href="{{site.baseurl}}/api/maptile" title="class in com.mapbox.mapboxsdk.tileprovider">maptile</a>&nbsp;atile,
+                          boolean&nbsp;hdpi)</pre>
+<div class="block">get a single tile url for a single tile.</div>
+<dl><dt><span class="strong">parameters:</span></dt><dd><code>atile</code> - a map tile</dd><dd><code>hdpi</code> - a boolean that indicates whether the tile should be at 2x or retina size</dd>
+<dt><span class="strong">returns:</span></dt><dd>a list of tile urls</dd></dl>
+
+
+<a name="parseurlfortile(java.lang.string, com.mapbox.mapboxsdk.tileprovider.maptile, boolean)">
+<!--   -->
+</a>
+
+
+<h4>parseurlfortile</h4>
+<pre>protected&nbsp;java.lang.string&nbsp;parseurlfortile(java.lang.string&nbsp;url,
+                               <a href="{{site.baseurl}}/api/maptile" title="class in com.mapbox.mapboxsdk.tileprovider">maptile</a>&nbsp;atile,
+                               boolean&nbsp;hdpi)</pre>
+
+
+<a name="getdrawablefromtile(com.mapbox.mapboxsdk.tileprovider.modules.maptiledownloader, com.mapbox.mapboxsdk.tileprovider.maptile, boolean)">
+<!--   -->
+</a>
+
+
+<h4>getdrawablefromtile</h4>
+<pre>public&nbsp;<a href="../../../../../uk/co/senab/bitmapcache/cacheablebitmapdrawable.html" title="class in uk.co.senab.bitmapcache">cacheablebitmapdrawable</a>&nbsp;getdrawablefromtile(<a href="{{site.baseurl}}/api/maptiledownloader" title="class in com.mapbox.mapboxsdk.tileprovider.modules">maptiledownloader</a>&nbsp;downloader,
+                                          <a href="{{site.baseurl}}/api/maptile" title="class in com.mapbox.mapboxsdk.tileprovider">maptile</a>&nbsp;atile,
+                                          boolean&nbsp;hdpi)</pre>
+<div class="block"><strong>description copied from interface:&nbsp;<code><a href="{{site.baseurl}}/api/itilelayer#getdrawablefromtile(com.mapbox.mapboxsdk.tileprovider.modules.maptiledownloader, com.mapbox.mapboxsdk.tileprovider.maptile, boolean)">itilelayer</a></code></strong></div>
+<div class="block">get a rendered drawable from the specified tile.</div>
+<dl>
+<dt><strong>specified by:</strong></dt>
+<dd><code><a href="{{site.baseurl}}/api/itilelayer" title="interface in com.mapbox.mapboxsdk.tileprovider.tilesource">itilelayer</a></code></dd>
+<dt><strong>overrides:</strong></dt>
+<dd><code><a href="{{site.baseurl}}/api/tilelayer" title="class in com.mapbox.mapboxsdk.tileprovider.tilesource">tilelayer</a></code></dd>
+<dt><span class="strong">parameters:</span></dt><dd><code>downloader</code> - reference to the downloader asking for the tile</dd><dd><code>atile</code> - the tile requested</dd><dd><code>hdpi</code> - is hdpi requested?</dd>
+<dt><span class="strong">returns:</span></dt><dd>the rendered drawable</dd></dl>
+
+
+<a name="getbitmapfromurl(java.lang.string, com.mapbox.mapboxsdk.tileprovider.maptilecache)">
+<!--   -->
+</a>
+
+
+<h4>getbitmapfromurl</h4>
+<pre>public&nbsp;android.graphics.bitmap&nbsp;getbitmapfromurl(java.lang.string&nbsp;url,
+                                       <a href="{{site.baseurl}}/api/maptilecache" title="class in com.mapbox.mapboxsdk.tileprovider">maptilecache</a>&nbsp;acache)</pre>
+<div class="block">requests and returns a bitmap object from a given url, using acache to decode it.</div>
+<dl><dt><span class="strong">parameters:</span></dt><dd><code>url</code> - the map tile url. should refer to a valid bitmap resource.</dd><dd><code>acache</code> - a cache, an instance of maptilecache</dd>
+<dt><span class="strong">returns:</span></dt><dd>the tile if valid, otherwise null</dd></dl>
+
+
+
+
+
+
+</div>
+</div>
+<!-- ========= end of class data ========= -->
+<!-- ======= start of bottom navbar ====== -->

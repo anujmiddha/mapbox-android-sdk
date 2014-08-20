@@ -1,0 +1,652 @@
+---
+layout: api
+title: OverlayManager
+category: api
+tags: overlay
+---
+<div class="contentcontainer">
+<ul class="inheritance">
+<li>java.lang.object</li>
+<li>
+<ul class="inheritance">
+<li>java.util.abstractcollection&lt;e&gt;</li>
+<li>
+<ul class="inheritance">
+<li>java.util.abstractlist&lt;<a href="{{site.baseurl}}/api/overlay" title="class in com.mapbox.mapboxsdk.overlay">overlay</a>&gt;</li>
+<li>
+<ul class="inheritance">
+<li>com.mapbox.mapboxsdk.overlay.overlaymanager</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<div class="description">
+
+
+<dl>
+<dt>all implemented interfaces:</dt>
+<dd>java.lang.iterable&lt;<a href="{{site.baseurl}}/api/overlay" title="class in com.mapbox.mapboxsdk.overlay">overlay</a>&gt;</dd>
+</dl>
+
+
+<pre>public class <span class="strong">overlaymanager</span>
+extends java.util.abstractlist&lt;<a href="{{site.baseurl}}/api/overlay" title="class in com.mapbox.mapboxsdk.overlay">overlay</a>&gt;</pre>
+
+
+</div>
+<div class="summary">
+
+
+<!-- =========== field summary =========== -->
+
+<a name="field_summary">
+<!--   -->
+</a>
+<h3>field summary</h3>
+
+<a name="fields_inherited_from_class_java.util.abstractlist">
+<!--   -->
+</a>
+<h3>fields inherited from class&nbsp;java.util.abstractlist</h3>
+<code>modcount</code>
+
+
+
+<!-- ======== constructor summary ======== -->
+
+<a name="constructor_summary">
+<!--   -->
+</a>
+<h3>constructor summary</h3>
+<table class="overviewsummary" border="0" cellpadding="3" cellspacing="0" summary="constructor summary table, listing constructors, and an explanation">
+<caption class="small dark strong round-top pad1 fill-darken3"><span>constructors</span><span class="tabend">&nbsp;</span></caption>
+<tr>
+<th class="colone" scope="col">constructor and description</th>
+</tr>
+<tr class="altcolor">
+<td class="colone"><code><strong><a href="{{site.baseurl}}/api/tilesoverlay" title="class in com.mapbox.mapboxsdk.overlay">tilesoverlay</a>&nbsp;tilesoverlay)</code>&nbsp;</td>
+</tr>
+</table>
+
+
+<!-- ========== method summary =========== -->
+
+<a name="method_summary">
+<!--   -->
+</a>
+<h3>method summary</h3>
+<table class="overviewsummary" border="0" cellpadding="3" cellspacing="0" summary="method summary table, listing methods, and an explanation">
+<caption class="small dark strong round-top pad1 fill-darken3"><span>methods</span><span class="tabend">&nbsp;</span></caption>
+<tr>
+<th class="colfirst" scope="col">modifier and type</th>
+<th class="collast" scope="col">method and description</th>
+</tr>
+<tr class="altcolor">
+<td class="colfirst"><code>void</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/overlaymanager#add(int, com.mapbox.mapboxsdk.overlay.overlay)">add</a></strong>(int&nbsp;pindex,
+   <a href="{{site.baseurl}}/api/overlay" title="class in com.mapbox.mapboxsdk.overlay">overlay</a>&nbsp;pelement)</code>&nbsp;</td>
+</tr>
+<tr class="rowcolor">
+<td class="colfirst"><code>void</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/overlaymanager#draw(android.graphics.canvas, com.mapbox.mapboxsdk.views.mapview)">draw</a></strong>(android.graphics.canvas&nbsp;c,
+    <a href="{{site.baseurl}}/api/mapview" title="class in com.mapbox.mapboxsdk.views">mapview</a>&nbsp;pmapview)</code>&nbsp;</td>
+</tr>
+<tr class="altcolor">
+<td class="colfirst"><code><a href="{{site.baseurl}}/api/overlay" title="class in com.mapbox.mapboxsdk.overlay">overlay</a></code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/overlaymanager#get(int)">get</a></strong>(int&nbsp;pindex)</code>&nbsp;</td>
+</tr>
+<tr class="rowcolor">
+<td class="colfirst"><code><a href="{{site.baseurl}}/api/tilesoverlay" title="class in com.mapbox.mapboxsdk.overlay">tilesoverlay</a></code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/overlaymanager#gettilesoverlay()">gettilesoverlay</a></strong>()</code>
+<div class="block">gets the optional tilesoverlay class.</div>
+</td>
+</tr>
+<tr class="altcolor">
+<td class="colfirst"><code>boolean</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/overlaymanager#isusingsafecanvas()">isusingsafecanvas</a></strong>()</code>&nbsp;</td>
+</tr>
+<tr class="rowcolor">
+<td class="colfirst"><code>boolean</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/overlaymanager#oncreateoptionsmenu(android.view.menu, int, com.mapbox.mapboxsdk.views.mapview)">oncreateoptionsmenu</a></strong>(android.view.menu&nbsp;pmenu,
+                   int&nbsp;menuidoffset,
+                   <a href="{{site.baseurl}}/api/mapview" title="class in com.mapbox.mapboxsdk.views">mapview</a>&nbsp;mapview)</code>&nbsp;</td>
+</tr>
+<tr class="altcolor">
+<td class="colfirst"><code>void</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/mapview" title="class in com.mapbox.mapboxsdk.views">mapview</a>&nbsp;pmapview)</code>&nbsp;</td>
+</tr>
+<tr class="rowcolor">
+<td class="colfirst"><code>boolean</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/overlaymanager#ondoubletap(android.view.motionevent, com.mapbox.mapboxsdk.views.mapview)">ondoubletap</a></strong>(android.view.motionevent&nbsp;e,
+           <a href="{{site.baseurl}}/api/mapview" title="class in com.mapbox.mapboxsdk.views">mapview</a>&nbsp;pmapview)</code>&nbsp;</td>
+</tr>
+<tr class="altcolor">
+<td class="colfirst"><code>boolean</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/overlaymanager#ondoubletapevent(android.view.motionevent, com.mapbox.mapboxsdk.views.mapview)">ondoubletapevent</a></strong>(android.view.motionevent&nbsp;e,
+                <a href="{{site.baseurl}}/api/mapview" title="class in com.mapbox.mapboxsdk.views">mapview</a>&nbsp;pmapview)</code>&nbsp;</td>
+</tr>
+<tr class="rowcolor">
+<td class="colfirst"><code>boolean</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/overlaymanager#ondown(android.view.motionevent, com.mapbox.mapboxsdk.views.mapview)">ondown</a></strong>(android.view.motionevent&nbsp;pevent,
+      <a href="{{site.baseurl}}/api/mapview" title="class in com.mapbox.mapboxsdk.views">mapview</a>&nbsp;pmapview)</code>&nbsp;</td>
+</tr>
+<tr class="altcolor">
+<td class="colfirst"><code>boolean</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/overlaymanager#onfling(android.view.motionevent, android.view.motionevent, float, float, com.mapbox.mapboxsdk.views.mapview)">onfling</a></strong>(android.view.motionevent&nbsp;pevent1,
+       android.view.motionevent&nbsp;pevent2,
+       float&nbsp;pvelocityx,
+       float&nbsp;pvelocityy,
+       <a href="{{site.baseurl}}/api/mapview" title="class in com.mapbox.mapboxsdk.views">mapview</a>&nbsp;pmapview)</code>&nbsp;</td>
+</tr>
+<tr class="rowcolor">
+<td class="colfirst"><code>boolean</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/overlaymanager#onkeydown(int, android.view.keyevent, com.mapbox.mapboxsdk.views.mapview)">onkeydown</a></strong>(int&nbsp;keycode,
+         android.view.keyevent&nbsp;event,
+         <a href="{{site.baseurl}}/api/mapview" title="class in com.mapbox.mapboxsdk.views">mapview</a>&nbsp;pmapview)</code>&nbsp;</td>
+</tr>
+<tr class="altcolor">
+<td class="colfirst"><code>boolean</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/overlaymanager#onkeyup(int, android.view.keyevent, com.mapbox.mapboxsdk.views.mapview)">onkeyup</a></strong>(int&nbsp;keycode,
+       android.view.keyevent&nbsp;event,
+       <a href="{{site.baseurl}}/api/mapview" title="class in com.mapbox.mapboxsdk.views">mapview</a>&nbsp;pmapview)</code>&nbsp;</td>
+</tr>
+<tr class="rowcolor">
+<td class="colfirst"><code>boolean</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/overlaymanager#onlongpress(android.view.motionevent, com.mapbox.mapboxsdk.views.mapview)">onlongpress</a></strong>(android.view.motionevent&nbsp;pevent,
+           <a href="{{site.baseurl}}/api/mapview" title="class in com.mapbox.mapboxsdk.views">mapview</a>&nbsp;pmapview)</code>&nbsp;</td>
+</tr>
+<tr class="altcolor">
+<td class="colfirst"><code>boolean</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/overlaymanager#onoptionsitemselected(android.view.menuitem, int, com.mapbox.mapboxsdk.views.mapview)">onoptionsitemselected</a></strong>(android.view.menuitem&nbsp;item,
+                     int&nbsp;menuidoffset,
+                     <a href="{{site.baseurl}}/api/mapview" title="class in com.mapbox.mapboxsdk.views">mapview</a>&nbsp;mapview)</code>&nbsp;</td>
+</tr>
+<tr class="rowcolor">
+<td class="colfirst"><code>boolean</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/overlaymanager#onprepareoptionsmenu(android.view.menu, int, com.mapbox.mapboxsdk.views.mapview)">onprepareoptionsmenu</a></strong>(android.view.menu&nbsp;pmenu,
+                    int&nbsp;menuidoffset,
+                    <a href="{{site.baseurl}}/api/mapview" title="class in com.mapbox.mapboxsdk.views">mapview</a>&nbsp;mapview)</code>&nbsp;</td>
+</tr>
+<tr class="altcolor">
+<td class="colfirst"><code>boolean</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/overlaymanager#onscroll(android.view.motionevent, android.view.motionevent, float, float, com.mapbox.mapboxsdk.views.mapview)">onscroll</a></strong>(android.view.motionevent&nbsp;pevent1,
+        android.view.motionevent&nbsp;pevent2,
+        float&nbsp;pdistancex,
+        float&nbsp;pdistancey,
+        <a href="{{site.baseurl}}/api/mapview" title="class in com.mapbox.mapboxsdk.views">mapview</a>&nbsp;pmapview)</code>&nbsp;</td>
+</tr>
+<tr class="rowcolor">
+<td class="colfirst"><code>void</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/overlaymanager#onshowpress(android.view.motionevent, com.mapbox.mapboxsdk.views.mapview)">onshowpress</a></strong>(android.view.motionevent&nbsp;pevent,
+           <a href="{{site.baseurl}}/api/mapview" title="class in com.mapbox.mapboxsdk.views">mapview</a>&nbsp;pmapview)</code>&nbsp;</td>
+</tr>
+<tr class="altcolor">
+<td class="colfirst"><code>boolean</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/overlaymanager#onsingletapconfirmed(android.view.motionevent, com.mapbox.mapboxsdk.views.mapview)">onsingletapconfirmed</a></strong>(android.view.motionevent&nbsp;e,
+                    <a href="{{site.baseurl}}/api/mapview" title="class in com.mapbox.mapboxsdk.views">mapview</a>&nbsp;pmapview)</code>&nbsp;</td>
+</tr>
+<tr class="rowcolor">
+<td class="colfirst"><code>boolean</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/overlaymanager#onsingletapup(android.view.motionevent, com.mapbox.mapboxsdk.views.mapview)">onsingletapup</a></strong>(android.view.motionevent&nbsp;pevent,
+             <a href="{{site.baseurl}}/api/mapview" title="class in com.mapbox.mapboxsdk.views">mapview</a>&nbsp;pmapview)</code>&nbsp;</td>
+</tr>
+<tr class="altcolor">
+<td class="colfirst"><code>boolean</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/overlaymanager#onsnaptoitem(int, int, android.graphics.point, com.mapbox.mapboxsdk.views.mapview)">onsnaptoitem</a></strong>(int&nbsp;x,
+            int&nbsp;y,
+            android.graphics.point&nbsp;snappoint,
+            <a href="{{site.baseurl}}/api/mapview" title="class in com.mapbox.mapboxsdk.views">mapview</a>&nbsp;pmapview)</code>&nbsp;</td>
+</tr>
+<tr class="rowcolor">
+<td class="colfirst"><code>boolean</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/overlaymanager#ontouchevent(android.view.motionevent, com.mapbox.mapboxsdk.views.mapview)">ontouchevent</a></strong>(android.view.motionevent&nbsp;event,
+            <a href="{{site.baseurl}}/api/mapview" title="class in com.mapbox.mapboxsdk.views">mapview</a>&nbsp;pmapview)</code>&nbsp;</td>
+</tr>
+<tr class="altcolor">
+<td class="colfirst"><code>boolean</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/overlaymanager#ontrackballevent(android.view.motionevent, com.mapbox.mapboxsdk.views.mapview)">ontrackballevent</a></strong>(android.view.motionevent&nbsp;event,
+                <a href="{{site.baseurl}}/api/mapview" title="class in com.mapbox.mapboxsdk.views">mapview</a>&nbsp;pmapview)</code>&nbsp;</td>
+</tr>
+<tr class="rowcolor">
+<td class="colfirst"><code>java.lang.iterable&lt;<a href="{{site.baseurl}}/api/overlay" title="class in com.mapbox.mapboxsdk.overlay">overlay</a>&gt;</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/overlaymanager#overlaysreversed()">overlaysreversed</a></strong>()</code>&nbsp;</td>
+</tr>
+<tr class="altcolor">
+<td class="colfirst"><code><a href="{{site.baseurl}}/api/overlay" title="class in com.mapbox.mapboxsdk.overlay">overlay</a></code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/overlaymanager#remove(int)">remove</a></strong>(int&nbsp;pindex)</code>&nbsp;</td>
+</tr>
+<tr class="rowcolor">
+<td class="colfirst"><code><a href="{{site.baseurl}}/api/overlay" title="class in com.mapbox.mapboxsdk.overlay">overlay</a></code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/overlaymanager#set(int, com.mapbox.mapboxsdk.overlay.overlay)">set</a></strong>(int&nbsp;pindex,
+   <a href="{{site.baseurl}}/api/overlay" title="class in com.mapbox.mapboxsdk.overlay">overlay</a>&nbsp;pelement)</code>&nbsp;</td>
+</tr>
+<tr class="altcolor">
+<td class="colfirst"><code>void</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/overlaymanager#setoptionsmenusenabled(boolean)">setoptionsmenusenabled</a></strong>(boolean&nbsp;penabled)</code>&nbsp;</td>
+</tr>
+<tr class="rowcolor">
+<td class="colfirst"><code>void</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/tilesoverlay" title="class in com.mapbox.mapboxsdk.overlay">tilesoverlay</a>&nbsp;tilesoverlay)</code>
+<div class="block">sets the optional tilesoverlay class.</div>
+</td>
+</tr>
+<tr class="altcolor">
+<td class="colfirst"><code>void</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/overlaymanager#setusesafecanvas(boolean)">setusesafecanvas</a></strong>(boolean&nbsp;usesafecanvas)</code>&nbsp;</td>
+</tr>
+<tr class="rowcolor">
+<td class="colfirst"><code>int</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/overlaymanager#size()">size</a></strong>()</code>&nbsp;</td>
+</tr>
+</table>
+
+<a name="methods_inherited_from_class_java.util.abstractlist">
+<!--   -->
+</a>
+<h3>methods inherited from class&nbsp;java.util.abstractlist</h3>
+<code>add, addall, clear, equals, hashcode, indexof, iterator, lastindexof, listiterator, listiterator, removerange, sublist</code>
+
+
+<a name="methods_inherited_from_class_java.util.abstractcollection">
+<!--   -->
+</a>
+<h3>methods inherited from class&nbsp;java.util.abstractcollection</h3>
+<code>addall, contains, containsall, isempty, remove, removeall, retainall, toarray, toarray, tostring</code>
+
+
+<a name="methods_inherited_from_class_java.lang.object">
+<!--   -->
+</a>
+<h3>methods inherited from class&nbsp;java.lang.object</h3>
+<code>clone, finalize, getclass, notify, notifyall, wait, wait, wait</code>
+
+
+<a name="methods_inherited_from_class_java.util.list">
+<!--   -->
+</a>
+<h3>methods inherited from interface&nbsp;java.util.list</h3>
+<code>addall, contains, containsall, isempty, remove, removeall, retainall, toarray, toarray</code>
+
+
+
+
+
+</div>
+<div class="details">
+
+
+<!-- ========= constructor detail ======== -->
+
+<a name="constructor_detail">
+<!--   -->
+</a>
+<h3>constructor detail</h3>
+<a name="overlaymanager(com.mapbox.mapboxsdk.overlay.tilesoverlay)">
+<!--   -->
+</a>
+
+
+<h4>overlaymanager</h4>
+<pre>public&nbsp;overlaymanager(<a href="{{site.baseurl}}/api/tilesoverlay" title="class in com.mapbox.mapboxsdk.overlay">tilesoverlay</a>&nbsp;tilesoverlay)</pre>
+
+
+
+
+<!-- ============ method detail ========== -->
+
+<a name="method_detail">
+<!--   -->
+</a>
+<h3>method detail</h3>
+<a name="get(int)">
+<!--   -->
+</a>
+
+
+<h4>get</h4>
+<pre>public&nbsp;<a href="{{site.baseurl}}/api/overlay" title="class in com.mapbox.mapboxsdk.overlay">overlay</a>&nbsp;get(int&nbsp;pindex)</pre>
+<dl>
+<dt><strong>specified by:</strong></dt>
+<dd><code>get</code>&nbsp;in interface&nbsp;<code>java.util.list&lt;<a href="{{site.baseurl}}/api/overlay" title="class in com.mapbox.mapboxsdk.overlay">overlay</a>&gt;</code></dd>
+<dt><strong>specified by:</strong></dt>
+<dd><code>get</code>&nbsp;in class&nbsp;<code>java.util.abstractlist&lt;<a href="{{site.baseurl}}/api/overlay" title="class in com.mapbox.mapboxsdk.overlay">overlay</a>&gt;</code></dd>
+</dl>
+
+
+<a name="size()">
+<!--   -->
+</a>
+
+
+<h4>size</h4>
+<pre>public&nbsp;int&nbsp;size()</pre>
+<dl>
+<dt><strong>specified by:</strong></dt>
+<dd><code>size</code>&nbsp;in interface&nbsp;<code>java.util.collection&lt;<a href="{{site.baseurl}}/api/overlay" title="class in com.mapbox.mapboxsdk.overlay">overlay</a>&gt;</code></dd>
+<dt><strong>specified by:</strong></dt>
+<dd><code>size</code>&nbsp;in interface&nbsp;<code>java.util.list&lt;<a href="{{site.baseurl}}/api/overlay" title="class in com.mapbox.mapboxsdk.overlay">overlay</a>&gt;</code></dd>
+<dt><strong>specified by:</strong></dt>
+<dd><code>size</code>&nbsp;in class&nbsp;<code>java.util.abstractcollection&lt;<a href="{{site.baseurl}}/api/overlay" title="class in com.mapbox.mapboxsdk.overlay">overlay</a>&gt;</code></dd>
+</dl>
+
+
+<a name="add(int, com.mapbox.mapboxsdk.overlay.overlay)">
+<!--   -->
+</a>
+
+
+<h4>add</h4>
+<pre>public&nbsp;void&nbsp;add(int&nbsp;pindex,
+       <a href="{{site.baseurl}}/api/overlay" title="class in com.mapbox.mapboxsdk.overlay">overlay</a>&nbsp;pelement)</pre>
+<dl>
+<dt><strong>specified by:</strong></dt>
+<dd><code>add</code>&nbsp;in interface&nbsp;<code>java.util.list&lt;<a href="{{site.baseurl}}/api/overlay" title="class in com.mapbox.mapboxsdk.overlay">overlay</a>&gt;</code></dd>
+<dt><strong>overrides:</strong></dt>
+<dd><code>add</code>&nbsp;in class&nbsp;<code>java.util.abstractlist&lt;<a href="{{site.baseurl}}/api/overlay" title="class in com.mapbox.mapboxsdk.overlay">overlay</a>&gt;</code></dd>
+</dl>
+
+
+<a name="remove(int)">
+<!--   -->
+</a>
+
+
+<h4>remove</h4>
+<pre>public&nbsp;<a href="{{site.baseurl}}/api/overlay" title="class in com.mapbox.mapboxsdk.overlay">overlay</a>&nbsp;remove(int&nbsp;pindex)</pre>
+<dl>
+<dt><strong>specified by:</strong></dt>
+<dd><code>remove</code>&nbsp;in interface&nbsp;<code>java.util.list&lt;<a href="{{site.baseurl}}/api/overlay" title="class in com.mapbox.mapboxsdk.overlay">overlay</a>&gt;</code></dd>
+<dt><strong>overrides:</strong></dt>
+<dd><code>remove</code>&nbsp;in class&nbsp;<code>java.util.abstractlist&lt;<a href="{{site.baseurl}}/api/overlay" title="class in com.mapbox.mapboxsdk.overlay">overlay</a>&gt;</code></dd>
+</dl>
+
+
+<a name="set(int, com.mapbox.mapboxsdk.overlay.overlay)">
+<!--   -->
+</a>
+
+
+<h4>set</h4>
+<pre>public&nbsp;<a href="{{site.baseurl}}/api/overlay" title="class in com.mapbox.mapboxsdk.overlay">overlay</a>&nbsp;set(int&nbsp;pindex,
+          <a href="{{site.baseurl}}/api/overlay" title="class in com.mapbox.mapboxsdk.overlay">overlay</a>&nbsp;pelement)</pre>
+<dl>
+<dt><strong>specified by:</strong></dt>
+<dd><code>set</code>&nbsp;in interface&nbsp;<code>java.util.list&lt;<a href="{{site.baseurl}}/api/overlay" title="class in com.mapbox.mapboxsdk.overlay">overlay</a>&gt;</code></dd>
+<dt><strong>overrides:</strong></dt>
+<dd><code>set</code>&nbsp;in class&nbsp;<code>java.util.abstractlist&lt;<a href="{{site.baseurl}}/api/overlay" title="class in com.mapbox.mapboxsdk.overlay">overlay</a>&gt;</code></dd>
+</dl>
+
+
+<a name="isusingsafecanvas()">
+<!--   -->
+</a>
+
+
+<h4>isusingsafecanvas</h4>
+<pre>public&nbsp;boolean&nbsp;isusingsafecanvas()</pre>
+
+
+<a name="setusesafecanvas(boolean)">
+<!--   -->
+</a>
+
+
+<h4>setusesafecanvas</h4>
+<pre>public&nbsp;void&nbsp;setusesafecanvas(boolean&nbsp;usesafecanvas)</pre>
+
+
+<a name="gettilesoverlay()">
+<!--   -->
+</a>
+
+
+<h4>gettilesoverlay</h4>
+<pre>public&nbsp;<a href="{{site.baseurl}}/api/tilesoverlay" title="class in com.mapbox.mapboxsdk.overlay">tilesoverlay</a>&nbsp;gettilesoverlay()</pre>
+<div class="block">gets the optional tilesoverlay class.</div>
+<dl><dt><span class="strong">returns:</span></dt><dd>the tilesoverlay</dd></dl>
+
+
+<a name="settilesoverlay(com.mapbox.mapboxsdk.overlay.tilesoverlay)">
+<!--   -->
+</a>
+
+
+<h4>settilesoverlay</h4>
+<pre>public&nbsp;void&nbsp;settilesoverlay(<a href="{{site.baseurl}}/api/tilesoverlay" title="class in com.mapbox.mapboxsdk.overlay">tilesoverlay</a>&nbsp;tilesoverlay)</pre>
+<div class="block">sets the optional tilesoverlay class. if set, this overlay will be drawn before all other
+ overlays and will not be included in the editable list of overlays and can't be cleared
+ except by a subsequent call to settilesoverlay().</div>
+<dl><dt><span class="strong">parameters:</span></dt><dd><code>tilesoverlay</code> - the tilesoverlay to set</dd></dl>
+
+
+<a name="overlaysreversed()">
+<!--   -->
+</a>
+
+
+<h4>overlaysreversed</h4>
+<pre>public&nbsp;java.lang.iterable&lt;<a href="{{site.baseurl}}/api/overlay" title="class in com.mapbox.mapboxsdk.overlay">overlay</a>&gt;&nbsp;overlaysreversed()</pre>
+
+
+<a name="draw(android.graphics.canvas, com.mapbox.mapboxsdk.views.mapview)">
+<!--   -->
+</a>
+
+
+<h4>draw</h4>
+<pre>public&nbsp;void&nbsp;draw(android.graphics.canvas&nbsp;c,
+        <a href="{{site.baseurl}}/api/mapview" title="class in com.mapbox.mapboxsdk.views">mapview</a>&nbsp;pmapview)</pre>
+
+
+<a name="ondetach(com.mapbox.mapboxsdk.views.mapview)">
+<!--   -->
+</a>
+
+
+<h4>ondetach</h4>
+<pre>public&nbsp;void&nbsp;ondetach(<a href="{{site.baseurl}}/api/mapview" title="class in com.mapbox.mapboxsdk.views">mapview</a>&nbsp;pmapview)</pre>
+
+
+<a name="onkeydown(int, android.view.keyevent, com.mapbox.mapboxsdk.views.mapview)">
+<!--   -->
+</a>
+
+
+<h4>onkeydown</h4>
+<pre>public&nbsp;boolean&nbsp;onkeydown(int&nbsp;keycode,
+                android.view.keyevent&nbsp;event,
+                <a href="{{site.baseurl}}/api/mapview" title="class in com.mapbox.mapboxsdk.views">mapview</a>&nbsp;pmapview)</pre>
+
+
+<a name="onkeyup(int, android.view.keyevent, com.mapbox.mapboxsdk.views.mapview)">
+<!--   -->
+</a>
+
+
+<h4>onkeyup</h4>
+<pre>public&nbsp;boolean&nbsp;onkeyup(int&nbsp;keycode,
+              android.view.keyevent&nbsp;event,
+              <a href="{{site.baseurl}}/api/mapview" title="class in com.mapbox.mapboxsdk.views">mapview</a>&nbsp;pmapview)</pre>
+
+
+<a name="ontouchevent(android.view.motionevent, com.mapbox.mapboxsdk.views.mapview)">
+<!--   -->
+</a>
+
+
+<h4>ontouchevent</h4>
+<pre>public&nbsp;boolean&nbsp;ontouchevent(android.view.motionevent&nbsp;event,
+                   <a href="{{site.baseurl}}/api/mapview" title="class in com.mapbox.mapboxsdk.views">mapview</a>&nbsp;pmapview)</pre>
+
+
+<a name="ontrackballevent(android.view.motionevent, com.mapbox.mapboxsdk.views.mapview)">
+<!--   -->
+</a>
+
+
+<h4>ontrackballevent</h4>
+<pre>public&nbsp;boolean&nbsp;ontrackballevent(android.view.motionevent&nbsp;event,
+                       <a href="{{site.baseurl}}/api/mapview" title="class in com.mapbox.mapboxsdk.views">mapview</a>&nbsp;pmapview)</pre>
+
+
+<a name="onsnaptoitem(int, int, android.graphics.point, com.mapbox.mapboxsdk.views.mapview)">
+<!--   -->
+</a>
+
+
+<h4>onsnaptoitem</h4>
+<pre>public&nbsp;boolean&nbsp;onsnaptoitem(int&nbsp;x,
+                   int&nbsp;y,
+                   android.graphics.point&nbsp;snappoint,
+                   <a href="{{site.baseurl}}/api/mapview" title="class in com.mapbox.mapboxsdk.views">mapview</a>&nbsp;pmapview)</pre>
+
+
+<a name="ondoubletap(android.view.motionevent, com.mapbox.mapboxsdk.views.mapview)">
+<!--   -->
+</a>
+
+
+<h4>ondoubletap</h4>
+<pre>public&nbsp;boolean&nbsp;ondoubletap(android.view.motionevent&nbsp;e,
+                  <a href="{{site.baseurl}}/api/mapview" title="class in com.mapbox.mapboxsdk.views">mapview</a>&nbsp;pmapview)</pre>
+
+
+<a name="ondoubletapevent(android.view.motionevent, com.mapbox.mapboxsdk.views.mapview)">
+<!--   -->
+</a>
+
+
+<h4>ondoubletapevent</h4>
+<pre>public&nbsp;boolean&nbsp;ondoubletapevent(android.view.motionevent&nbsp;e,
+                       <a href="{{site.baseurl}}/api/mapview" title="class in com.mapbox.mapboxsdk.views">mapview</a>&nbsp;pmapview)</pre>
+
+
+<a name="onsingletapconfirmed(android.view.motionevent, com.mapbox.mapboxsdk.views.mapview)">
+<!--   -->
+</a>
+
+
+<h4>onsingletapconfirmed</h4>
+<pre>public&nbsp;boolean&nbsp;onsingletapconfirmed(android.view.motionevent&nbsp;e,
+                           <a href="{{site.baseurl}}/api/mapview" title="class in com.mapbox.mapboxsdk.views">mapview</a>&nbsp;pmapview)</pre>
+
+
+<a name="ondown(android.view.motionevent, com.mapbox.mapboxsdk.views.mapview)">
+<!--   -->
+</a>
+
+
+<h4>ondown</h4>
+<pre>public&nbsp;boolean&nbsp;ondown(android.view.motionevent&nbsp;pevent,
+             <a href="{{site.baseurl}}/api/mapview" title="class in com.mapbox.mapboxsdk.views">mapview</a>&nbsp;pmapview)</pre>
+
+
+<a name="onfling(android.view.motionevent, android.view.motionevent, float, float, com.mapbox.mapboxsdk.views.mapview)">
+<!--   -->
+</a>
+
+
+<h4>onfling</h4>
+<pre>public&nbsp;boolean&nbsp;onfling(android.view.motionevent&nbsp;pevent1,
+              android.view.motionevent&nbsp;pevent2,
+              float&nbsp;pvelocityx,
+              float&nbsp;pvelocityy,
+              <a href="{{site.baseurl}}/api/mapview" title="class in com.mapbox.mapboxsdk.views">mapview</a>&nbsp;pmapview)</pre>
+
+
+<a name="onlongpress(android.view.motionevent, com.mapbox.mapboxsdk.views.mapview)">
+<!--   -->
+</a>
+
+
+<h4>onlongpress</h4>
+<pre>public&nbsp;boolean&nbsp;onlongpress(android.view.motionevent&nbsp;pevent,
+                  <a href="{{site.baseurl}}/api/mapview" title="class in com.mapbox.mapboxsdk.views">mapview</a>&nbsp;pmapview)</pre>
+
+
+<a name="onscroll(android.view.motionevent, android.view.motionevent, float, float, com.mapbox.mapboxsdk.views.mapview)">
+<!--   -->
+</a>
+
+
+<h4>onscroll</h4>
+<pre>public&nbsp;boolean&nbsp;onscroll(android.view.motionevent&nbsp;pevent1,
+               android.view.motionevent&nbsp;pevent2,
+               float&nbsp;pdistancex,
+               float&nbsp;pdistancey,
+               <a href="{{site.baseurl}}/api/mapview" title="class in com.mapbox.mapboxsdk.views">mapview</a>&nbsp;pmapview)</pre>
+
+
+<a name="onshowpress(android.view.motionevent, com.mapbox.mapboxsdk.views.mapview)">
+<!--   -->
+</a>
+
+
+<h4>onshowpress</h4>
+<pre>public&nbsp;void&nbsp;onshowpress(android.view.motionevent&nbsp;pevent,
+               <a href="{{site.baseurl}}/api/mapview" title="class in com.mapbox.mapboxsdk.views">mapview</a>&nbsp;pmapview)</pre>
+
+
+<a name="onsingletapup(android.view.motionevent, com.mapbox.mapboxsdk.views.mapview)">
+<!--   -->
+</a>
+
+
+<h4>onsingletapup</h4>
+<pre>public&nbsp;boolean&nbsp;onsingletapup(android.view.motionevent&nbsp;pevent,
+                    <a href="{{site.baseurl}}/api/mapview" title="class in com.mapbox.mapboxsdk.views">mapview</a>&nbsp;pmapview)</pre>
+
+
+<a name="setoptionsmenusenabled(boolean)">
+<!--   -->
+</a>
+
+
+<h4>setoptionsmenusenabled</h4>
+<pre>public&nbsp;void&nbsp;setoptionsmenusenabled(boolean&nbsp;penabled)</pre>
+
+
+<a name="oncreateoptionsmenu(android.view.menu, int, com.mapbox.mapboxsdk.views.mapview)">
+<!--   -->
+</a>
+
+
+<h4>oncreateoptionsmenu</h4>
+<pre>public&nbsp;boolean&nbsp;oncreateoptionsmenu(android.view.menu&nbsp;pmenu,
+                          int&nbsp;menuidoffset,
+                          <a href="{{site.baseurl}}/api/mapview" title="class in com.mapbox.mapboxsdk.views">mapview</a>&nbsp;mapview)</pre>
+
+
+<a name="onprepareoptionsmenu(android.view.menu, int, com.mapbox.mapboxsdk.views.mapview)">
+<!--   -->
+</a>
+
+
+<h4>onprepareoptionsmenu</h4>
+<pre>public&nbsp;boolean&nbsp;onprepareoptionsmenu(android.view.menu&nbsp;pmenu,
+                           int&nbsp;menuidoffset,
+                           <a href="{{site.baseurl}}/api/mapview" title="class in com.mapbox.mapboxsdk.views">mapview</a>&nbsp;mapview)</pre>
+
+
+<a name="onoptionsitemselected(android.view.menuitem, int, com.mapbox.mapboxsdk.views.mapview)">
+<!--   -->
+</a>
+
+
+<h4>onoptionsitemselected</h4>
+<pre>public&nbsp;boolean&nbsp;onoptionsitemselected(android.view.menuitem&nbsp;item,
+                            int&nbsp;menuidoffset,
+                            <a href="{{site.baseurl}}/api/mapview" title="class in com.mapbox.mapboxsdk.views">mapview</a>&nbsp;mapview)</pre>
+
+
+
+
+
+
+</div>
+</div>
+<!-- ========= end of class data ========= -->
+<!-- ======= start of bottom navbar ====== -->

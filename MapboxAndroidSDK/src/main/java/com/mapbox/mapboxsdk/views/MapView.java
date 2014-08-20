@@ -11,8 +11,10 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.location.Location;
 import android.os.Build;
 import android.os.Handler;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.GestureDetector;
@@ -22,16 +24,17 @@ import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Scroller;
+import com.cocoahero.android.geojson.FeatureCollection;
 import com.mapbox.mapboxsdk.R;
 import com.mapbox.mapboxsdk.api.ILatLng;
 import com.mapbox.mapboxsdk.constants.MapboxConstants;
 import com.mapbox.mapboxsdk.events.MapListener;
 import com.mapbox.mapboxsdk.events.ScrollEvent;
 import com.mapbox.mapboxsdk.events.ZoomEvent;
-import com.mapbox.mapboxsdk.format.GeoJSON;
 import com.mapbox.mapboxsdk.geometry.BoundingBox;
 import com.mapbox.mapboxsdk.geometry.LatLng;
-import com.mapbox.mapboxsdk.overlay.GeoJSONLayer;
+import com.mapbox.mapboxsdk.overlay.GeoJSONPainter;
+import com.mapbox.mapboxsdk.overlay.GpsLocationProvider;
 import com.mapbox.mapboxsdk.overlay.ItemizedIconOverlay;
 import com.mapbox.mapboxsdk.overlay.ItemizedOverlay;
 import com.mapbox.mapboxsdk.overlay.MapEventsOverlay;
@@ -40,6 +43,7 @@ import com.mapbox.mapboxsdk.overlay.Marker;
 import com.mapbox.mapboxsdk.overlay.Overlay;
 import com.mapbox.mapboxsdk.overlay.OverlayManager;
 import com.mapbox.mapboxsdk.overlay.TilesOverlay;
+import com.mapbox.mapboxsdk.overlay.UserLocationOverlay;
 import com.mapbox.mapboxsdk.tileprovider.MapTileLayerBase;
 import com.mapbox.mapboxsdk.tileprovider.MapTileLayerBasic;
 import com.mapbox.mapboxsdk.tileprovider.constants.TileLayerConstants;
@@ -47,14 +51,17 @@ import com.mapbox.mapboxsdk.tileprovider.tilesource.ITileLayer;
 import com.mapbox.mapboxsdk.tileprovider.tilesource.MapboxTileLayer;
 import com.mapbox.mapboxsdk.tileprovider.util.SimpleInvalidationHandler;
 import com.mapbox.mapboxsdk.util.BitmapUtils;
+import com.mapbox.mapboxsdk.util.DataLoadingUtils;
 import com.mapbox.mapboxsdk.util.GeometryMath;
 import com.mapbox.mapboxsdk.util.NetworkUtils;
+import com.mapbox.mapboxsdk.util.constants.UtilConstants;
 import com.mapbox.mapboxsdk.views.util.Projection;
 import com.mapbox.mapboxsdk.views.util.TileLoadedListener;
 import com.mapbox.mapboxsdk.views.util.TilesLoadedListener;
 import com.mapbox.mapboxsdk.views.util.constants.MapViewConstants;
 import com.mapbox.mapboxsdk.views.util.constants.MapViewLayouts;
 import org.json.JSONException;
+import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
@@ -110,7 +117,7 @@ public class MapView extends ViewGroup
     private Projection mProjection;
     private boolean mLayedOut;
 
-    private final TilesOverlay mMapOverlay;
+    private final TilesOverlay mTilesOverlay;
 
     private final GestureDetector mGestureDetector;
 
@@ -137,9 +144,11 @@ public class MapView extends ViewGroup
 
     protected BoundingBox mScrollableAreaBoundingBox = null;
     protected RectF mScrollableAreaLimit = null;
+    private boolean mConstraintRegionFit;
     protected RectF mTempRect = new RectF();
 
     private BoundingBox mBoundingBoxToZoomOn = null;
+    private boolean mBoundingBoxToZoomOnRegionFit = false;
 
     // for speed (avoiding allocations)
     protected final MapTileLayerBase mTileProvider;
@@ -157,6 +166,8 @@ public class MapView extends ViewGroup
     private Drawable mDefaultPinDrawable;
     private PointF mDefaultPinAnchor = DEFAULT_PIN_ANCHOR;
 
+    private UserLocationOverlay mLocationOverlay;
+
     /**
      * Constructor for XML layout calls. Should not be used programmatically.
      *
@@ -171,6 +182,7 @@ public class MapView extends ViewGroup
         super(aContext, attrs);
         setWillNotDraw(false);
         mLayedOut = false;
+        mConstraintRegionFit = false;
         this.mController = new MapController(this);
         this.mScroller = new Scroller(aContext);
         Projection.setTileSize(tileSizePixels);
@@ -185,8 +197,8 @@ public class MapView extends ViewGroup
         mTileProvider = tileProvider;
         mTileProvider.setTileRequestCompleteHandler(mTileRequestCompleteHandler);
 
-        this.mMapOverlay = new TilesOverlay(mTileProvider);
-        mOverlayManager = new OverlayManager(mMapOverlay);
+        mTilesOverlay = new TilesOverlay(mTileProvider);
+        mOverlayManager = new OverlayManager(mTilesOverlay);
 
         this.mGestureDetector =
                 new GestureDetector(aContext, new MapViewGestureDetectorListener(this));
@@ -200,7 +212,7 @@ public class MapView extends ViewGroup
 
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.MapView);
         String mapid = a.getString(R.styleable.MapView_mapid);
-        if (mapid != null) {
+        if (!TextUtils.isEmpty(mapid)) {
             setTileSource(new MapboxTileLayer(mapid));
         } else {
             Log.w(TAG, "mapid not set.");
@@ -237,30 +249,53 @@ public class MapView extends ViewGroup
         this(aContext, tileSizePixels, aTileProvider, null, null);
     }
 
+    /**
+     * Add a new MapListener that observes changes in this map.
+     * @param listener
+     */
     public void addListener(final MapListener listener) {
         if (!mListeners.contains(listener)) {
             mListeners.add(listener);
         }
     }
 
+    /**
+     * Remove a listener object that observed changes in this map.
+     * @param listener
+     */
     public void removeListener(MapListener listener) {
-        if (!mListeners.contains(listener)) {
+        if (mListeners.contains(listener)) {
             mListeners.remove(listener);
         }
     }
 
+    /**
+     * Add an overlay to this map. If the overlay is already included,
+     * does nothing. After adding the overlay, invalidates the map to
+     * redraw it.
+     * @param overlay
+     */
     public void addOverlay(final Overlay overlay) {
-        mOverlayManager.add(overlay);
-        if (overlay instanceof MapListener) {
-            addListener((MapListener) overlay);
+        if (!mOverlayManager.contains(overlay)) {
+            mOverlayManager.add(overlay);
+            if (overlay instanceof MapListener) {
+                addListener((MapListener) overlay);
+            }
         }
         invalidate();
     }
 
+    /**
+     * Remove an overlay from displaying in this map and invalidates
+     * the map to trigger a redraw.
+     * @param overlay
+     */
     public void removeOverlay(final Overlay overlay) {
-        mOverlayManager.remove(overlay);
-        if (overlay instanceof MapListener) {
-            removeListener((MapListener) overlay);
+        if (mOverlayManager.contains(overlay)) {
+            mOverlayManager.remove(overlay);
+            if (overlay instanceof MapListener) {
+                removeListener((MapListener) overlay);
+            }
         }
         invalidate();
     }
@@ -271,10 +306,18 @@ public class MapView extends ViewGroup
         this.setMinZoomLevel(mTileProvider.getMinimumZoomLevel());
         this.setMaxZoomLevel(mTileProvider.getMaximumZoomLevel());
         this.setZoom(mZoomLevel);
+        if (!isLayedOut()) {
+            return;
+        }
         this.scrollTo(mDScroll.x, mDScroll.y);
         postInvalidate();
     }
 
+    /**
+     * Set the tile source of this map as an array of tile layers,
+     * which will be presented on top of each other.
+     * @param value
+     */
     public void setTileSource(final ITileLayer[] value) {
         if (value != null && mTileProvider != null && mTileProvider instanceof MapTileLayerBasic) {
             ((MapTileLayerBasic) mTileProvider).setTileSources(value);
@@ -282,6 +325,11 @@ public class MapView extends ViewGroup
         }
     }
 
+    /**
+     * Set the tile source of this map as a single source, and trigger
+     * an update.
+     * @param aTileSource
+     */
     public void setTileSource(final ITileLayer aTileSource) {
         if (aTileSource != null && mTileProvider != null && mTileProvider instanceof MapTileLayerBasic) {
             mTileProvider.setTileSource(aTileSource);
@@ -369,10 +417,22 @@ public class MapView extends ViewGroup
      *
      * @param itemizedOverlay the itemized overlay
      */
-    public void addItemizedOverlay(ItemizedOverlay itemizedOverlay) {
+    public void addItemizedOverlay(final ItemizedOverlay itemizedOverlay) {
+        if (itemizedOverlay instanceof ItemizedIconOverlay) {
+            // Make sure Markers are added to MapView
+            ItemizedIconOverlay overlay = (ItemizedIconOverlay) itemizedOverlay;
+            for (int lc = 0; lc < overlay.size(); lc++) {
+                overlay.getItem(lc).addTo(this);
+            }
+        }
+
         this.getOverlays().add(itemizedOverlay);
     }
 
+    /**
+     * Get all itemized overlays on the map as an ArrayList.
+     * @return
+     */
     public ArrayList<ItemizedIconOverlay> getItemizedOverlays() {
         ArrayList<ItemizedIconOverlay> list = new ArrayList<ItemizedIconOverlay>();
         for (Overlay overlay : getOverlays()) {
@@ -390,23 +450,23 @@ public class MapView extends ViewGroup
      */
     public void loadFromGeoJSONURL(String URL) {
         if (NetworkUtils.isNetworkAvailable(getContext())) {
-            new GeoJSONLayer(this).loadURL(URL);
+            new GeoJSONPainter(this, null).loadFromURL(URL);
         }
     }
 
     /**
-     * Load and parse a GeoJSON file at a given URL
-     *
-     * @param geoJSON the GeoJSON string to parse
+     * Parse a GeoJSON file at a given URL
+     * @param url The URL of GeoJSON string to parse
+     * @return FeatureCollection Parsed GeoJSON
      */
-    public void loadFromGeoJSONString(String geoJSON) throws JSONException {
-        GeoJSON.parseString(geoJSON, MapView.this);
+    public FeatureCollection parseFromGeoJSONURL(final String url) throws IOException, JSONException {
+        return DataLoadingUtils.loadGeoJSONFromUrl(url);
     }
 
     /**
      * Close the currently-displayed tooltip, if any.
      */
-    private void closeCurrentTooltip() {
+    public void closeCurrentTooltip() {
         if (currentTooltip != null) {
             if (mMapViewListener != null) {
                 mMapViewListener.onHidemarker(this, currentTooltip.getBoundMarker());
@@ -414,6 +474,14 @@ public class MapView extends ViewGroup
             currentTooltip.close();
             currentTooltip = null;
         }
+    }
+
+    /**
+     * Get the current tooltip of this map if there is one being displayed.
+     * @return
+     */
+    public InfoWindow getCurrentTooltip() {
+        return currentTooltip;
     }
 
     /**
@@ -435,7 +503,7 @@ public class MapView extends ViewGroup
                     }
                 }
         );
-        this.getOverlays().add(defaultMarkerOverlay);
+        addItemizedOverlay(defaultMarkerOverlay);
     }
 
     /**
@@ -480,7 +548,7 @@ public class MapView extends ViewGroup
      * Returns the map's overlay
      */
     public TilesOverlay getMapOverlay() {
-        return mMapOverlay;
+        return mTilesOverlay;
     }
 
     /**
@@ -649,7 +717,11 @@ public class MapView extends ViewGroup
         return setZoomInternal(aZoomLevel, null, null);
     }
 
-    protected MapView setZoomInternal(final float aZoomLevel, final ILatLng center, final PointF decale) {
+    protected MapView setZoomInternal(final float aZoomLevel, ILatLng center, final PointF decale) {
+
+        if (center == null) {
+            center = getCenter();
+        }
 
         final float newZoomLevel = getClampedZoomLevel(aZoomLevel);
         final float curZoomLevel = this.mZoomLevel;
@@ -697,7 +769,9 @@ public class MapView extends ViewGroup
         // snap for all snappables
         snapItems();
 
-        getMapOverlay().rescaleCache(newZoomLevel, curZoomLevel, mProjection);
+        if (isLayedOut()) {
+            getMapOverlay().rescaleCache(newZoomLevel, curZoomLevel, getProjection());
+        }
 
         // do callback on listener
         if (newZoomLevel != curZoomLevel && mListeners.size() > 0) {
@@ -762,6 +836,7 @@ public class MapView extends ViewGroup
         }
         if (!mLayedOut) {
             mBoundingBoxToZoomOn = inter;
+            mBoundingBoxToZoomOnRegionFit = regionFit;
             return this;
         }
 
@@ -771,12 +846,9 @@ public class MapView extends ViewGroup
                 roundedZoom);
 
         if (animated) {
-            getController().setZoomAnimated(center, zoom, true, userAction);
+            getController().setZoomAnimated(zoom, center, true, userAction);
         } else {
-            getController().setCurrentlyInUserAction(userAction);
-            getController().setZoom(zoom);
-            getController().setCenter(center);
-            getController().setCurrentlyInUserAction(false);
+            getController().setZoom(zoom, center, userAction);
         }
         return this;
     }
@@ -892,7 +964,7 @@ public class MapView extends ViewGroup
      * provider.
      */
     public void setMinZoomLevel(float zoomLevel) {
-        mRequestedMinimumZoomLevel = mMinimumZoomLevel = Math.max(zoomLevel, mTileProvider.getMinimumZoomLevel());
+        mRequestedMinimumZoomLevel = mMinimumZoomLevel = zoomLevel;
         updateMinZoomLevel();
     }
 
@@ -901,7 +973,7 @@ public class MapView extends ViewGroup
      * provider.
      */
     public void setMaxZoomLevel(float zoomLevel) {
-        mMaximumZoomLevel = Math.min(zoomLevel, mTileProvider.getMaximumZoomLevel());
+        mMaximumZoomLevel = zoomLevel;
     }
 
     /**
@@ -985,7 +1057,7 @@ public class MapView extends ViewGroup
      * Whether to use the network connection if it's available.
      */
     public boolean useDataConnection() {
-        return mMapOverlay.useDataConnection();
+        return mTilesOverlay.useDataConnection();
     }
 
     /**
@@ -995,7 +1067,7 @@ public class MapView extends ViewGroup
      *              network connection even if it's available.
      */
     public void setUseDataConnection(final boolean aMode) {
-        mMapOverlay.setUseDataConnection(aMode);
+        mTilesOverlay.setUseDataConnection(aMode);
     }
 
     private void updateMinZoomLevel() {
@@ -1004,7 +1076,7 @@ public class MapView extends ViewGroup
         }
         mMinimumZoomLevel = (float) Math.max(
                 mRequestedMinimumZoomLevel,
-                minimumZoomForBoundingBox(mScrollableAreaBoundingBox, false,
+                minimumZoomForBoundingBox(mScrollableAreaBoundingBox, mConstraintRegionFit,
                         false)
         );
         if (mZoomLevel < mMinimumZoomLevel) {
@@ -1017,7 +1089,7 @@ public class MapView extends ViewGroup
      * limit in pixels
      */
     public void updateScrollableAreaLimit() {
-        if (mScrollableAreaBoundingBox == null) {
+        if (mScrollableAreaBoundingBox == null || !isLayedOut()) {
             return;
         }
         if (mScrollableAreaLimit == null) {
@@ -1025,6 +1097,27 @@ public class MapView extends ViewGroup
         }
         Projection.toMapPixels(mScrollableAreaBoundingBox, getZoomLevel(false),
                 mScrollableAreaLimit);
+//        if (mConstraintRegionFit) {
+//            int width = getMeasuredWidth();
+//            int height = getMeasuredHeight();
+//            float ratioX = mScrollableAreaLimit.width() / (float) width;
+//            float ratioY = mScrollableAreaLimit.height() / (float) height;
+//
+//            if (ratioX != ratioY) {
+//                if (ratioX < ratioY)
+//                {
+//                    float newWidth_2 = mScrollableAreaLimit.height() * width / (float) height / 2;
+//                    float centerX = mScrollableAreaLimit.centerX();
+//                    mScrollableAreaLimit.set(centerX - newWidth_2, mScrollableAreaLimit.top, centerX + newWidth_2, mScrollableAreaLimit.bottom);
+//                } else {
+//                    float newHeight_2 = width * ratioX / 2;
+//                    float centerY = mScrollableAreaLimit.centerY();
+//                    mScrollableAreaLimit.set(mScrollableAreaLimit.left, centerY - newHeight_2, mScrollableAreaLimit.right, centerY + newHeight_2);
+//                }
+//            }
+//
+//        }
+
     }
 
     /**
@@ -1070,6 +1163,14 @@ public class MapView extends ViewGroup
     public BoundingBox getScrollableAreaBoundingBox() {
         return mScrollableAreaBoundingBox;
     }
+
+    /**
+     * Returns the map current scrollable bounding limit int map PX
+     */
+    public RectF getScrollableAreaLimit() {
+        return mScrollableAreaLimit;
+    }
+
 
     /**
      * Returns true if the view has been layed out
@@ -1238,10 +1339,11 @@ public class MapView extends ViewGroup
                 //let's trigger them again!
                 mController.mapViewLayedOut();
             }
+            updateScrollableAreaLimit();
             updateMinZoomLevel();
 
             if (mBoundingBoxToZoomOn != null) {
-                zoomToBoundingBox(mBoundingBoxToZoomOn);
+                zoomToBoundingBox(mBoundingBoxToZoomOn, mBoundingBoxToZoomOnRegionFit);
                 mBoundingBoxToZoomOn = null;
             }
         }
@@ -1501,12 +1603,7 @@ public class MapView extends ViewGroup
             final float height_2 = this.getMeasuredHeight() / 2;
             // Adjust if we are outside the scrollable area
             if (currentLimit.width() <= width_2 * 2) {
-
-                if (xToTestWith - width_2 > currentLimit.left) {
-                    x = (currentLimit.left + width_2);
-                } else if (xToTestWith + width_2 < currentLimit.right) {
-                    x = (currentLimit.right - width_2);
-                }
+                x = currentLimit.centerX();
             } else if (xToTestWith - width_2 < currentLimit.left) {
                 x = (currentLimit.left + width_2);
             } else if (xToTestWith + width_2 > currentLimit.right) {
@@ -1514,11 +1611,7 @@ public class MapView extends ViewGroup
             }
 
             if (currentLimit.height() <= height_2 * 2) {
-                if (yToTestWith - height_2 > currentLimit.top) {
-                    y = (currentLimit.top + height_2);
-                } else if (yToTestWith + height_2 < currentLimit.bottom) {
-                    y = (currentLimit.bottom - height_2);
-                }
+                y = currentLimit.centerY();
             } else if (yToTestWith - height_2 < currentLimit.top) {
                 y = (currentLimit.top + height_2);
             } else if (yToTestWith + height_2 > currentLimit.bottom) {
@@ -1526,7 +1619,7 @@ public class MapView extends ViewGroup
             }
         }
 
-        if (isAnimating()) {
+        if (!isAnimating()) {
             float deltaX = (float) (x - mDScroll.x);
             float deltaY = (float) (y - mDScroll.y);
             mController.offsetDeltaScroll(deltaX, deltaY);
@@ -1553,7 +1646,7 @@ public class MapView extends ViewGroup
 
     @Override
     public void setBackgroundColor(final int pColor) {
-        mMapOverlay.setLoadingBackgroundColor(pColor);
+        mTilesOverlay.setLoadingBackgroundColor(pColor);
         invalidate();
     }
 
@@ -1607,6 +1700,131 @@ public class MapView extends ViewGroup
         this.getOverlayManager().setUseSafeCanvas(useSafeCanvas);
     }
 
+    /**
+     * Sets whether the scrollable area limit should take the view
+     * ratio into account (keeping the same ratio as the screen)
+     * If yes you will be able to zoom out to see the whole area
+     * whatever the screen ratio.
+     */
+    public MapView setConstraintRegionFit(boolean value) {
+        this.mConstraintRegionFit = value;
+        if (isLayedOut()) {
+            updateScrollableAreaLimit();
+            updateMinZoomLevel();
+        }
+        return this;
+    }
+
+    private UserLocationOverlay getOrCreateLocationOverlay() {
+        if (mLocationOverlay == null) {
+            mLocationOverlay = new UserLocationOverlay(new GpsLocationProvider(getContext()), this);
+            addOverlay(mLocationOverlay);
+        }
+        return mLocationOverlay;
+    }
+
+    /**
+     * Show or hide the user location overlay
+     */
+    public MapView setUserLocationEnabled(final boolean value) {
+        if (value) {
+            getOrCreateLocationOverlay().enableMyLocation();
+        } else if (mLocationOverlay != null) {
+            mLocationOverlay.disableMyLocation();
+            removeOverlay(mLocationOverlay);
+            mLocationOverlay = null;
+        }
+        return this;
+    }
+
+    /**
+     * Show or hide the user location overlay
+     */
+    public final boolean getUserLocationEnabled() {
+        if (mLocationOverlay != null) {
+            return mLocationOverlay.isMyLocationEnabled();
+        }
+        return false;
+    }
+
+    /**
+     * Set the user location tracking mode
+     */
+    public MapView setUserLocationTrackingMode(final UserLocationOverlay.TrackingMode mode) {
+        getOrCreateLocationOverlay().setTrackingMode(mode);
+        return this;
+    }
+
+    /**
+     * Set the user location tracking mode
+     */
+    public MapView setUserLocationRequiredZoom(final float zoomLevel) {
+        getOrCreateLocationOverlay().setRequiredZoom(zoomLevel);
+        return this;
+    }
+
+    /**
+     * get the user location tracking mode
+     */
+    public UserLocationOverlay.TrackingMode getUserLocationTrackingMode() {
+        if (mLocationOverlay != null) {
+            return mLocationOverlay.getTrackingMode();
+        }
+        return UserLocationOverlay.TrackingMode.NONE;
+    }
+
+    /**
+     * Go to user location
+     */
+    public void goToUserLocation(final boolean animated) {
+        if (mLocationOverlay != null) {
+            mLocationOverlay.goToMyPosition(animated);
+        }
+    }
+
+    /**
+     * Get the user location overlay if created
+     */
+    public UserLocationOverlay getUserLocationOverlay() {
+        return mLocationOverlay;
+    }
+
+    /**
+     * Get the user location overlay if created
+     */
+    public LatLng getUserLocation() {
+        if (mLocationOverlay != null) {
+            return mLocationOverlay.getMyLocation();
+        }
+        return null;
+    }
+
+    public boolean isUserLocationVisible() {
+        if (mLocationOverlay != null) {
+            final Location pos = mLocationOverlay.getLastFix();
+            if (pos != null && isLayedOut()) {
+                final Projection projection = getProjection();
+                final float accuracyInPixels = pos.getAccuracy() / (float) projection.groundResolution(
+                        pos.getLatitude());
+                final PointF point = projection.toMapPixels(pos.getLatitude(), pos.getLongitude(), null);
+                return projection.getScreenRect().intersects((int) (point.x - accuracyInPixels),
+                        (int) (point.y - accuracyInPixels),
+                        (int) (point.x + accuracyInPixels),
+                        (int) (point.y + accuracyInPixels));
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Enable or disable the diskCache
+     */
+    public void setDiskCacheEnabled(final boolean enabled) {
+        if (mTileProvider != null) {
+            mTileProvider.setDiskCacheEnabled(enabled);
+        }
+    }
+
     @Override
     protected void onDetachedFromWindow() {
         this.onDetach();
@@ -1626,6 +1844,10 @@ public class MapView extends ViewGroup
 
     public TileLoadedListener getTileLoadedListener() {
         return tileLoadedListener;
+    }
+
+    public static void setDebugMode(boolean value) {
+        UtilConstants.setDebugMode(value);
     }
 
     /**

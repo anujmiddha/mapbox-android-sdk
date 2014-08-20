@@ -82,9 +82,6 @@ public abstract class Overlay {
         return sOrdinal.getAndIncrement();
     }
 
-    // ===========================================================
-    // Methods for SuperClass/Interfaces
-    // ===========================================================
 
     /**
      * Draw the overlay over the map. This will be called on all active overlays with shadow=true,
@@ -92,10 +89,6 @@ public abstract class Overlay {
      * should check isEnabled() before calling draw(). By default, draws nothing.
      */
     protected abstract void draw(final Canvas c, final MapView osmv, final boolean shadow);
-
-    // ===========================================================
-    // Methods
-    // ===========================================================
 
     /**
      * Override to perform clean up of resources before shutdown. By default does nothing.

@@ -3,8 +3,8 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:0.12.0'
-        classpath 'com.jakewharton.sdkmanager:gradle-plugin:0.10.+'
+        classpath 'com.android.tools.build:gradle:0.12.+'
+        classpath 'com.jakewharton.sdkmanager:gradle-plugin:0.10.1'
     }
 }
 
@@ -37,7 +37,9 @@ dependencies {
     compile 'com.squareup.okhttp:okhttp-urlconnection:1.6.0'
     compile 'com.nineoldandroids:library:2.4.0'
     compile 'com.jakewharton:disklrucache:2.0.2'
-    compile 'com.google.guava:guava:16.0.1'
+    compile ('com.cocoahero.android:geojson:1.0.0@aar'){
+        transitive=true
+    }
 }
 
 android {
@@ -76,7 +78,8 @@ android.libraryVariants.all { variant ->
         failOnError = false
         destinationDir = new File(destinationDir, variant.baseName)
         source = files(variant.javaCompile.source)
-
+        ext.androidJar = "${android.sdkDirectory}/platforms/${android.compileSdkVersion}/android.jar"
+        classpath = files(variant.javaCompile.classpath.files) + files(ext.androidJar)
         options.links("http://docs.oracle.com/javase/7/docs/api/")
         options.links("http://d.android.com/reference/")
         exclude '**/R.html', '**/R.*.html'
@@ -220,8 +223,8 @@ afterEvaluate { project ->
 
     task androidJavadocs(type: Javadoc) {
         failOnError false
-//        source = android.sourceSets.main.allJava
-//        classpath += project.files(android.plugin.getRuntimeJarList().join(File.pathSeparator))
+        source = android.sourceSets.main.java.sourceFiles
+        classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
     }
 
     task androidJavadocsJar(type: Jar, dependsOn: androidJavadocs) {
@@ -231,7 +234,7 @@ afterEvaluate { project ->
 
     task androidSourcesJar(type: Jar) {
         classifier = 'sources'
-//        from android.sourceSets.main.allSource
+        from android.sourceSets.main.java.sourceFiles
     }
 
     artifacts {

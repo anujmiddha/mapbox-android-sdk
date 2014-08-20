@@ -1,0 +1,256 @@
+---
+layout: api
+title: TileLooper
+category: api
+tags: util
+---
+<div class="contentcontainer">
+<ul class="inheritance">
+<li>java.lang.object</li>
+<li>
+<ul class="inheritance">
+<li>com.mapbox.mapboxsdk.util.tilelooper</li>
+</ul>
+</li>
+</ul>
+<div class="description">
+
+
+
+
+<pre>public abstract class <span class="strong">tilelooper</span>
+extends java.lang.object</pre>
+<div class="block">a class that will loop around all the map tiles in the given viewport.</div>
+
+
+</div>
+<div class="summary">
+
+
+<!-- =========== field summary =========== -->
+
+<a name="field_summary">
+<!--   -->
+</a>
+<h3>field summary</h3>
+<table class="overviewsummary" border="0" cellpadding="3" cellspacing="0" summary="field summary table, listing fields, and an explanation">
+<caption class="small dark strong round-top pad1 fill-darken3"><span>fields</span><span class="tabend">&nbsp;</span></caption>
+<tr>
+<th class="colfirst" scope="col">modifier and type</th>
+<th class="collast" scope="col">field and description</th>
+</tr>
+<tr class="altcolor">
+<td class="colfirst"><code>protected android.graphics.point</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/tilelooper#center">center</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowcolor">
+<td class="colfirst"><code>protected java.util.list&lt;<a href="../../../../uk/co/senab/bitmapcache/cacheablebitmapdrawable.html" title="class in uk.co.senab.bitmapcache">cacheablebitmapdrawable</a>&gt;</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/tilelooper#mbeinguseddrawables">mbeinguseddrawables</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altcolor">
+<td class="colfirst"><code>protected android.graphics.point</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/tilelooper#mlowerright">mlowerright</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowcolor">
+<td class="colfirst"><code>protected android.graphics.point</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/tilelooper#mupperleft">mupperleft</a></strong></code>&nbsp;</td>
+</tr>
+</table>
+
+
+<!-- ======== constructor summary ======== -->
+
+<a name="constructor_summary">
+<!--   -->
+</a>
+<h3>constructor summary</h3>
+<table class="overviewsummary" border="0" cellpadding="3" cellspacing="0" summary="constructor summary table, listing constructors, and an explanation">
+<caption class="small dark strong round-top pad1 fill-darken3"><span>constructors</span><span class="tabend">&nbsp;</span></caption>
+<tr>
+<th class="colone" scope="col">constructor and description</th>
+</tr>
+<tr class="altcolor">
+<td class="colone"><code><strong><a href="{{site.baseurl}}/api/tilelooper#tilelooper()">tilelooper</a></strong>()</code>&nbsp;</td>
+</tr>
+</table>
+
+
+<!-- ========== method summary =========== -->
+
+<a name="method_summary">
+<!--   -->
+</a>
+<h3>method summary</h3>
+<table class="overviewsummary" border="0" cellpadding="3" cellspacing="0" summary="method summary table, listing methods, and an explanation">
+<caption class="small dark strong round-top pad1 fill-darken3"><span>methods</span><span class="tabend">&nbsp;</span></caption>
+<tr>
+<th class="colfirst" scope="col">modifier and type</th>
+<th class="collast" scope="col">method and description</th>
+</tr>
+<tr class="altcolor">
+<td class="colfirst"><code>void</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/tilelooper#finalizeloop()">finalizeloop</a></strong>()</code>&nbsp;</td>
+</tr>
+<tr class="rowcolor">
+<td class="colfirst"><code>abstract void</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/tilelooper#handletile(android.graphics.canvas, java.lang.string, int, com.mapbox.mapboxsdk.tileprovider.maptile, int, int, android.graphics.rect)">handletile</a></strong>(android.graphics.canvas&nbsp;pcanvas,
+          java.lang.string&nbsp;pcachekey,
+          int&nbsp;ptilesizepx,
+          <a href="{{site.baseurl}}/api/maptile" title="class in com.mapbox.mapboxsdk.tileprovider">maptile</a>&nbsp;ptile,
+          int&nbsp;px,
+          int&nbsp;py,
+          android.graphics.rect&nbsp;pcliprect)</code>&nbsp;</td>
+</tr>
+<tr class="altcolor">
+<td class="colfirst"><code>abstract void</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/tilelooper#initializeloop(float, int)">initializeloop</a></strong>(float&nbsp;pzoomlevel,
+              int&nbsp;ptilesizepx)</code>&nbsp;</td>
+</tr>
+<tr class="rowcolor">
+<td class="colfirst"><code>void</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/tilelooper#loop(android.graphics.canvas, java.lang.string, float, int, android.graphics.rect, android.graphics.rect)">loop</a></strong>(android.graphics.canvas&nbsp;pcanvas,
+    java.lang.string&nbsp;pcachekey,
+    float&nbsp;pzoomlevel,
+    int&nbsp;ptilesizepx,
+    android.graphics.rect&nbsp;pviewport,
+    android.graphics.rect&nbsp;pcliprect)</code>&nbsp;</td>
+</tr>
+</table>
+
+<a name="methods_inherited_from_class_java.lang.object">
+<!--   -->
+</a>
+<h3>methods inherited from class&nbsp;java.lang.object</h3>
+<code>clone, equals, finalize, getclass, hashcode, notify, notifyall, tostring, wait, wait, wait</code>
+
+
+
+
+
+</div>
+<div class="details">
+
+
+<!-- ============ field detail =========== -->
+
+<a name="field_detail">
+<!--   -->
+</a>
+<h3>field detail</h3>
+<a name="mupperleft">
+<!--   -->
+</a>
+
+
+<h4>mupperleft</h4>
+<pre>protected final&nbsp;android.graphics.point mupperleft</pre>
+
+
+<a name="mlowerright">
+<!--   -->
+</a>
+
+
+<h4>mlowerright</h4>
+<pre>protected final&nbsp;android.graphics.point mlowerright</pre>
+
+
+<a name="center">
+<!--   -->
+</a>
+
+
+<h4>center</h4>
+<pre>protected final&nbsp;android.graphics.point center</pre>
+
+
+<a name="mbeinguseddrawables">
+<!--   -->
+</a>
+
+
+<h4>mbeinguseddrawables</h4>
+<pre>protected&nbsp;java.util.list&lt;<a href="../../../../uk/co/senab/bitmapcache/cacheablebitmapdrawable.html" title="class in uk.co.senab.bitmapcache">cacheablebitmapdrawable</a>&gt; mbeinguseddrawables</pre>
+
+
+
+
+<!-- ========= constructor detail ======== -->
+
+<a name="constructor_detail">
+<!--   -->
+</a>
+<h3>constructor detail</h3>
+<a name="tilelooper()">
+<!--   -->
+</a>
+
+
+<h4>tilelooper</h4>
+<pre>public&nbsp;tilelooper()</pre>
+
+
+
+
+<!-- ============ method detail ========== -->
+
+<a name="method_detail">
+<!--   -->
+</a>
+<h3>method detail</h3>
+<a name="loop(android.graphics.canvas, java.lang.string, float, int, android.graphics.rect, android.graphics.rect)">
+<!--   -->
+</a>
+
+
+<h4>loop</h4>
+<pre>public final&nbsp;void&nbsp;loop(android.graphics.canvas&nbsp;pcanvas,
+        java.lang.string&nbsp;pcachekey,
+        float&nbsp;pzoomlevel,
+        int&nbsp;ptilesizepx,
+        android.graphics.rect&nbsp;pviewport,
+        android.graphics.rect&nbsp;pcliprect)</pre>
+
+
+<a name="initializeloop(float, int)">
+<!--   -->
+</a>
+
+
+<h4>initializeloop</h4>
+<pre>public abstract&nbsp;void&nbsp;initializeloop(float&nbsp;pzoomlevel,
+                  int&nbsp;ptilesizepx)</pre>
+
+
+<a name="handletile(android.graphics.canvas, java.lang.string, int, com.mapbox.mapboxsdk.tileprovider.maptile, int, int, android.graphics.rect)">
+<!--   -->
+</a>
+
+
+<h4>handletile</h4>
+<pre>public abstract&nbsp;void&nbsp;handletile(android.graphics.canvas&nbsp;pcanvas,
+              java.lang.string&nbsp;pcachekey,
+              int&nbsp;ptilesizepx,
+              <a href="{{site.baseurl}}/api/maptile" title="class in com.mapbox.mapboxsdk.tileprovider">maptile</a>&nbsp;ptile,
+              int&nbsp;px,
+              int&nbsp;py,
+              android.graphics.rect&nbsp;pcliprect)</pre>
+
+
+<a name="finalizeloop()">
+<!--   -->
+</a>
+
+
+<h4>finalizeloop</h4>
+<pre>public&nbsp;void&nbsp;finalizeloop()</pre>
+
+
+
+
+
+
+</div>
+</div>
+<!-- ========= end of class data ========= -->
+<!-- ======= start of bottom navbar ====== -->

@@ -1,0 +1,130 @@
+---
+layout: api
+title: IMapTileProviderCallback
+category: api
+tags: tileprovider
+---
+<div class="contentcontainer">
+<div class="description">
+
+
+<dl>
+<dt>all known implementing classes:</dt>
+<dd><a href="{{site.baseurl}}/api/maptilelayerbasic" title="class in com.mapbox.mapboxsdk.tileprovider">maptilelayerbasic</a></dd>
+</dl>
+
+
+<pre>public interface <span class="strong">imaptileprovidercallback</span></pre>
+
+
+</div>
+<div class="summary">
+
+
+<!-- ========== method summary =========== -->
+
+<a name="method_summary">
+<!--   -->
+</a>
+<h3>method summary</h3>
+<table class="overviewsummary" border="0" cellpadding="3" cellspacing="0" summary="method summary table, listing methods, and an explanation">
+<caption class="small dark strong round-top pad1 fill-darken3"><span>methods</span><span class="tabend">&nbsp;</span></caption>
+<tr>
+<th class="colfirst" scope="col">modifier and type</th>
+<th class="collast" scope="col">method and description</th>
+</tr>
+<tr class="altcolor">
+<td class="colfirst"><code>void</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/maptilerequeststate" title="class in com.mapbox.mapboxsdk.tileprovider">maptilerequeststate</a>&nbsp;astate,
+                       android.graphics.drawable.drawable&nbsp;adrawable)</code>
+<div class="block">the map tile request has completed.</div>
+</td>
+</tr>
+<tr class="rowcolor">
+<td class="colfirst"><code>void</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/maptilerequeststate" title="class in com.mapbox.mapboxsdk.tileprovider">maptilerequeststate</a>&nbsp;astate,
+                         <a href="../../../../uk/co/senab/bitmapcache/cacheablebitmapdrawable.html" title="class in uk.co.senab.bitmapcache">cacheablebitmapdrawable</a>&nbsp;adrawable)</code>
+<div class="block">the map tile request has produced an expired tile.</div>
+</td>
+</tr>
+<tr class="altcolor">
+<td class="colfirst"><code>void</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/maptilerequeststate" title="class in com.mapbox.mapboxsdk.tileprovider">maptilerequeststate</a>&nbsp;astate)</code>
+<div class="block">the map tile request has failed.</div>
+</td>
+</tr>
+<tr class="rowcolor">
+<td class="colfirst"><code>boolean</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/imaptileprovidercallback#usedataconnection()">usedataconnection</a></strong>()</code>
+<div class="block">returns true if the network connection should be used, false if not.</div>
+</td>
+</tr>
+</table>
+
+
+
+
+</div>
+<div class="details">
+
+
+<!-- ============ method detail ========== -->
+
+<a name="method_detail">
+<!--   -->
+</a>
+<h3>method detail</h3>
+<a name="maptilerequestcompleted(com.mapbox.mapboxsdk.tileprovider.maptilerequeststate, android.graphics.drawable.drawable)">
+<!--   -->
+</a>
+
+
+<h4>maptilerequestcompleted</h4>
+<pre>void&nbsp;maptilerequestcompleted(<a href="{{site.baseurl}}/api/maptilerequeststate" title="class in com.mapbox.mapboxsdk.tileprovider">maptilerequeststate</a>&nbsp;astate,
+                           android.graphics.drawable.drawable&nbsp;adrawable)</pre>
+<div class="block">the map tile request has completed.</div>
+<dl><dt><span class="strong">parameters:</span></dt><dd><code>astate</code> - a state object</dd><dd><code>adrawable</code> - a drawable</dd></dl>
+
+
+<a name="maptilerequestfailed(com.mapbox.mapboxsdk.tileprovider.maptilerequeststate)">
+<!--   -->
+</a>
+
+
+<h4>maptilerequestfailed</h4>
+<pre>void&nbsp;maptilerequestfailed(<a href="{{site.baseurl}}/api/maptilerequeststate" title="class in com.mapbox.mapboxsdk.tileprovider">maptilerequeststate</a>&nbsp;astate)</pre>
+<div class="block">the map tile request has failed.</div>
+<dl><dt><span class="strong">parameters:</span></dt><dd><code>astate</code> - a state object</dd></dl>
+
+
+<a name="maptilerequestexpiredtile(com.mapbox.mapboxsdk.tileprovider.maptilerequeststate, uk.co.senab.bitmapcache.cacheablebitmapdrawable)">
+<!--   -->
+</a>
+
+
+<h4>maptilerequestexpiredtile</h4>
+<pre>void&nbsp;maptilerequestexpiredtile(<a href="{{site.baseurl}}/api/maptilerequeststate" title="class in com.mapbox.mapboxsdk.tileprovider">maptilerequeststate</a>&nbsp;astate,
+                             <a href="../../../../uk/co/senab/bitmapcache/cacheablebitmapdrawable.html" title="class in uk.co.senab.bitmapcache">cacheablebitmapdrawable</a>&nbsp;adrawable)</pre>
+<div class="block">the map tile request has produced an expired tile.</div>
+<dl><dt><span class="strong">parameters:</span></dt><dd><code>astate</code> - a state object</dd></dl>
+
+
+<a name="usedataconnection()">
+<!--   -->
+</a>
+
+
+<h4>usedataconnection</h4>
+<pre>boolean&nbsp;usedataconnection()</pre>
+<div class="block">returns true if the network connection should be used, false if not.</div>
+<dl><dt><span class="strong">returns:</span></dt><dd>true if data connection should be used, false otherwise</dd></dl>
+
+
+
+
+
+
+</div>
+</div>
+<!-- ========= end of class data ========= -->
+<!-- ======= start of bottom navbar ====== -->

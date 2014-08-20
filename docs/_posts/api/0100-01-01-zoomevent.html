@@ -1,0 +1,239 @@
+---
+layout: api
+title: ZoomEvent
+category: api
+tags: events
+---
+<div class="contentcontainer">
+<ul class="inheritance">
+<li>java.lang.object</li>
+<li>
+<ul class="inheritance">
+<li>com.mapbox.mapboxsdk.events.zoomevent</li>
+</ul>
+</li>
+</ul>
+<div class="description">
+
+
+<dl>
+<dt>all implemented interfaces:</dt>
+<dd><a href="{{site.baseurl}}/api/mapevent" title="interface in com.mapbox.mapboxsdk.events">mapevent</a></dd>
+</dl>
+
+
+<pre>public class <span class="strong">zoomevent</span>
+extends java.lang.object
+implements <a href="{{site.baseurl}}/api/mapevent" title="interface in com.mapbox.mapboxsdk.events">mapevent</a></pre>
+<div class="block">the event generated when a map has finished zooming to the level zoomlevel</div>
+
+
+</div>
+<div class="summary">
+
+
+<!-- =========== field summary =========== -->
+
+<a name="field_summary">
+<!--   -->
+</a>
+<h3>field summary</h3>
+<table class="overviewsummary" border="0" cellpadding="3" cellspacing="0" summary="field summary table, listing fields, and an explanation">
+<caption class="small dark strong round-top pad1 fill-darken3"><span>fields</span><span class="tabend">&nbsp;</span></caption>
+<tr>
+<th class="colfirst" scope="col">modifier and type</th>
+<th class="collast" scope="col">field and description</th>
+</tr>
+<tr class="altcolor">
+<td class="colfirst"><code>protected <a href="{{site.baseurl}}/api/mapview" title="class in com.mapbox.mapboxsdk.views">mapview</a></code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/zoomevent#source">source</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowcolor">
+<td class="colfirst"><code>protected boolean</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/zoomevent#useraction">useraction</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altcolor">
+<td class="colfirst"><code>protected float</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/zoomevent#zoomlevel">zoomlevel</a></strong></code>&nbsp;</td>
+</tr>
+</table>
+
+
+<!-- ======== constructor summary ======== -->
+
+<a name="constructor_summary">
+<!--   -->
+</a>
+<h3>constructor summary</h3>
+<table class="overviewsummary" border="0" cellpadding="3" cellspacing="0" summary="constructor summary table, listing constructors, and an explanation">
+<caption class="small dark strong round-top pad1 fill-darken3"><span>constructors</span><span class="tabend">&nbsp;</span></caption>
+<tr>
+<th class="colone" scope="col">constructor and description</th>
+</tr>
+<tr class="altcolor">
+<td class="colone"><code><strong><a href="{{site.baseurl}}/api/mapview" title="class in com.mapbox.mapboxsdk.views">mapview</a>&nbsp;asource,
+         float&nbsp;azoomlevel,
+         boolean&nbsp;useraction)</code>&nbsp;</td>
+</tr>
+</table>
+
+
+<!-- ========== method summary =========== -->
+
+<a name="method_summary">
+<!--   -->
+</a>
+<h3>method summary</h3>
+<table class="overviewsummary" border="0" cellpadding="3" cellspacing="0" summary="method summary table, listing methods, and an explanation">
+<caption class="small dark strong round-top pad1 fill-darken3"><span>methods</span><span class="tabend">&nbsp;</span></caption>
+<tr>
+<th class="colfirst" scope="col">modifier and type</th>
+<th class="collast" scope="col">method and description</th>
+</tr>
+<tr class="altcolor">
+<td class="colfirst"><code><a href="{{site.baseurl}}/api/mapview" title="class in com.mapbox.mapboxsdk.views">mapview</a></code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/zoomevent#getsource()">getsource</a></strong>()</code>
+<div class="block">return the map which generated this event.</div>
+</td>
+</tr>
+<tr class="rowcolor">
+<td class="colfirst"><code>boolean</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/zoomevent#getuseraction()">getuseraction</a></strong>()</code>&nbsp;</td>
+</tr>
+<tr class="altcolor">
+<td class="colfirst"><code>float</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/zoomevent#getzoomlevel()">getzoomlevel</a></strong>()</code>
+<div class="block">return the zoom level zoomed to.</div>
+</td>
+</tr>
+<tr class="rowcolor">
+<td class="colfirst"><code>java.lang.string</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/zoomevent#tostring()">tostring</a></strong>()</code>&nbsp;</td>
+</tr>
+</table>
+
+<a name="methods_inherited_from_class_java.lang.object">
+<!--   -->
+</a>
+<h3>methods inherited from class&nbsp;java.lang.object</h3>
+<code>clone, equals, finalize, getclass, hashcode, notify, notifyall, wait, wait, wait</code>
+
+
+
+
+
+</div>
+<div class="details">
+
+
+<!-- ============ field detail =========== -->
+
+<a name="field_detail">
+<!--   -->
+</a>
+<h3>field detail</h3>
+<a name="source">
+<!--   -->
+</a>
+
+
+<h4>source</h4>
+<pre>protected&nbsp;<a href="{{site.baseurl}}/api/mapview" title="class in com.mapbox.mapboxsdk.views">mapview</a> source</pre>
+
+
+<a name="zoomlevel">
+<!--   -->
+</a>
+
+
+<h4>zoomlevel</h4>
+<pre>protected&nbsp;float zoomlevel</pre>
+
+
+<a name="useraction">
+<!--   -->
+</a>
+
+
+<h4>useraction</h4>
+<pre>protected&nbsp;boolean useraction</pre>
+
+
+
+
+<!-- ========= constructor detail ======== -->
+
+<a name="constructor_detail">
+<!--   -->
+</a>
+<h3>constructor detail</h3>
+<a name="zoomevent(com.mapbox.mapboxsdk.views.mapview, float, boolean)">
+<!--   -->
+</a>
+
+
+<h4>zoomevent</h4>
+<pre>public&nbsp;zoomevent(<a href="{{site.baseurl}}/api/mapview" title="class in com.mapbox.mapboxsdk.views">mapview</a>&nbsp;asource,
+         float&nbsp;azoomlevel,
+         boolean&nbsp;useraction)</pre>
+
+
+
+
+<!-- ============ method detail ========== -->
+
+<a name="method_detail">
+<!--   -->
+</a>
+<h3>method detail</h3>
+<a name="getsource()">
+<!--   -->
+</a>
+
+
+<h4>getsource</h4>
+<pre>public&nbsp;<a href="{{site.baseurl}}/api/mapview" title="class in com.mapbox.mapboxsdk.views">mapview</a>&nbsp;getsource()</pre>
+<div class="block">return the map which generated this event.</div>
+
+
+<a name="getzoomlevel()">
+<!--   -->
+</a>
+
+
+<h4>getzoomlevel</h4>
+<pre>public&nbsp;float&nbsp;getzoomlevel()</pre>
+<div class="block">return the zoom level zoomed to.</div>
+
+
+<a name="getuseraction()">
+<!--   -->
+</a>
+
+
+<h4>getuseraction</h4>
+<pre>public&nbsp;boolean&nbsp;getuseraction()</pre>
+<dl><dt><span class="strong">returns:</span></dt><dd>true if it was a user action (touch action).</dd></dl>
+
+
+<a name="tostring()">
+<!--   -->
+</a>
+
+
+<h4>tostring</h4>
+<pre>public&nbsp;java.lang.string&nbsp;tostring()</pre>
+<dl>
+<dt><strong>overrides:</strong></dt>
+<dd><code>tostring</code>&nbsp;in class&nbsp;<code>java.lang.object</code></dd>
+</dl>
+
+
+
+
+
+
+</div>
+</div>
+<!-- ========= end of class data ========= -->
+<!-- ======= start of bottom navbar ====== -->

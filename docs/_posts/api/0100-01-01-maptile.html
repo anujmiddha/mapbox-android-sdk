@@ -1,0 +1,312 @@
+---
+layout: api
+title: MapTile
+category: api
+tags: tileprovider
+---
+<div class="contentcontainer">
+<ul class="inheritance">
+<li>java.lang.object</li>
+<li>
+<ul class="inheritance">
+<li>com.mapbox.mapboxsdk.tileprovider.maptile</li>
+</ul>
+</li>
+</ul>
+<div class="description">
+
+
+
+
+<pre>public class <span class="strong">maptile</span>
+extends java.lang.object</pre>
+<div class="block">a map tile is distributed using the observer pattern. the tile is delivered by a tile provider
+ (i.e. a descendant of <a href="{{site.baseurl}}/api/maptilemodulelayerbase" title="class in com.mapbox.mapboxsdk.tileprovider.modules"><code>maptilemodulelayerbase</code></a>
+ or
+ <a href="{{site.baseurl}}/api/maptilelayerbase" title="class in com.mapbox.mapboxsdk.tileprovider"><code>maptilelayerbase</code></a> to a consumer of tiles (e.g. descendant of
+ <a href="{{site.baseurl}}/api/tilesoverlay" title="class in com.mapbox.mapboxsdk.overlay"><code>tilesoverlay</code></a>). tiles are typically images (e.g. png or
+ jpeg).</div>
+
+
+</div>
+<div class="summary">
+
+
+<!-- =========== field summary =========== -->
+
+<a name="field_summary">
+<!--   -->
+</a>
+<h3>field summary</h3>
+<table class="overviewsummary" border="0" cellpadding="3" cellspacing="0" summary="field summary table, listing fields, and an explanation">
+<caption class="small dark strong round-top pad1 fill-darken3"><span>fields</span><span class="tabend">&nbsp;</span></caption>
+<tr>
+<th class="colfirst" scope="col">modifier and type</th>
+<th class="collast" scope="col">field and description</th>
+</tr>
+<tr class="altcolor">
+<td class="colfirst"><code>static int</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/maptile#maptile_fail_id">maptile_fail_id</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowcolor">
+<td class="colfirst"><code>static int</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/maptile#maptile_success_id">maptile_success_id</a></strong></code>&nbsp;</td>
+</tr>
+</table>
+
+
+<!-- ======== constructor summary ======== -->
+
+<a name="constructor_summary">
+<!--   -->
+</a>
+<h3>constructor summary</h3>
+<table class="overviewsummary" border="0" cellpadding="3" cellspacing="0" summary="constructor summary table, listing constructors, and an explanation">
+<caption class="small dark strong round-top pad1 fill-darken3"><span>constructors</span><span class="tabend">&nbsp;</span></caption>
+<tr>
+<th class="colone" scope="col">constructor and description</th>
+</tr>
+<tr class="altcolor">
+<td class="colone"><code><strong><a href="{{site.baseurl}}/api/maptile#maptile(int, int, int)">maptile</a></strong>(int&nbsp;az,
+       int&nbsp;ax,
+       int&nbsp;ay)</code>&nbsp;</td>
+</tr>
+<tr class="rowcolor">
+<td class="colone"><code><strong><a href="{{site.baseurl}}/api/maptile#maptile(java.lang.string, int, int, int)">maptile</a></strong>(java.lang.string&nbsp;acachekey,
+       int&nbsp;az,
+       int&nbsp;ax,
+       int&nbsp;ay)</code>&nbsp;</td>
+</tr>
+</table>
+
+
+<!-- ========== method summary =========== -->
+
+<a name="method_summary">
+<!--   -->
+</a>
+<h3>method summary</h3>
+<table class="overviewsummary" border="0" cellpadding="3" cellspacing="0" summary="method summary table, listing methods, and an explanation">
+<caption class="small dark strong round-top pad1 fill-darken3"><span>methods</span><span class="tabend">&nbsp;</span></caption>
+<tr>
+<th class="colfirst" scope="col">modifier and type</th>
+<th class="collast" scope="col">method and description</th>
+</tr>
+<tr class="altcolor">
+<td class="colfirst"><code>boolean</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/maptile#equals(java.lang.object)">equals</a></strong>(java.lang.object&nbsp;obj)</code>&nbsp;</td>
+</tr>
+<tr class="rowcolor">
+<td class="colfirst"><code>java.lang.string</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/maptile#getcachekey()">getcachekey</a></strong>()</code>&nbsp;</td>
+</tr>
+<tr class="altcolor">
+<td class="colfirst"><code>android.graphics.rect</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/maptile#gettilerect()">gettilerect</a></strong>()</code>&nbsp;</td>
+</tr>
+<tr class="rowcolor">
+<td class="colfirst"><code>int</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/maptile#getx()">getx</a></strong>()</code>&nbsp;</td>
+</tr>
+<tr class="altcolor">
+<td class="colfirst"><code>int</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/maptile#gety()">gety</a></strong>()</code>&nbsp;</td>
+</tr>
+<tr class="rowcolor">
+<td class="colfirst"><code>int</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/maptile#getz()">getz</a></strong>()</code>&nbsp;</td>
+</tr>
+<tr class="altcolor">
+<td class="colfirst"><code>int</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/maptile#hashcode()">hashcode</a></strong>()</code>&nbsp;</td>
+</tr>
+<tr class="rowcolor">
+<td class="colfirst"><code>void</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/maptile#settilerect(android.graphics.rect)">settilerect</a></strong>(android.graphics.rect&nbsp;rect)</code>&nbsp;</td>
+</tr>
+<tr class="altcolor">
+<td class="colfirst"><code>java.lang.string</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/maptile#tostring()">tostring</a></strong>()</code>&nbsp;</td>
+</tr>
+</table>
+
+<a name="methods_inherited_from_class_java.lang.object">
+<!--   -->
+</a>
+<h3>methods inherited from class&nbsp;java.lang.object</h3>
+<code>clone, finalize, getclass, notify, notifyall, wait, wait, wait</code>
+
+
+
+
+
+</div>
+<div class="details">
+
+
+<!-- ============ field detail =========== -->
+
+<a name="field_detail">
+<!--   -->
+</a>
+<h3>field detail</h3>
+<a name="maptile_success_id">
+<!--   -->
+</a>
+
+
+<h4>maptile_success_id</h4>
+<pre>public static final&nbsp;int maptile_success_id</pre>
+<dl><dt><span class="strong">see also:</span></dt><dd><a href="../../../../constant-values.html#com.mapbox.mapboxsdk.tileprovider.maptile.maptile_success_id">constant field values</a></dd></dl>
+
+
+<a name="maptile_fail_id">
+<!--   -->
+</a>
+
+
+<h4>maptile_fail_id</h4>
+<pre>public static final&nbsp;int maptile_fail_id</pre>
+<dl><dt><span class="strong">see also:</span></dt><dd><a href="../../../../constant-values.html#com.mapbox.mapboxsdk.tileprovider.maptile.maptile_fail_id">constant field values</a></dd></dl>
+
+
+
+
+<!-- ========= constructor detail ======== -->
+
+<a name="constructor_detail">
+<!--   -->
+</a>
+<h3>constructor detail</h3>
+<a name="maptile(int, int, int)">
+<!--   -->
+</a>
+
+
+<h4>maptile</h4>
+<pre>public&nbsp;maptile(int&nbsp;az,
+       int&nbsp;ax,
+       int&nbsp;ay)</pre>
+
+
+<a name="maptile(java.lang.string, int, int, int)">
+<!--   -->
+</a>
+
+
+<h4>maptile</h4>
+<pre>public&nbsp;maptile(java.lang.string&nbsp;acachekey,
+       int&nbsp;az,
+       int&nbsp;ax,
+       int&nbsp;ay)</pre>
+
+
+
+
+<!-- ============ method detail ========== -->
+
+<a name="method_detail">
+<!--   -->
+</a>
+<h3>method detail</h3>
+<a name="getz()">
+<!--   -->
+</a>
+
+
+<h4>getz</h4>
+<pre>public&nbsp;int&nbsp;getz()</pre>
+
+
+<a name="getx()">
+<!--   -->
+</a>
+
+
+<h4>getx</h4>
+<pre>public&nbsp;int&nbsp;getx()</pre>
+
+
+<a name="gety()">
+<!--   -->
+</a>
+
+
+<h4>gety</h4>
+<pre>public&nbsp;int&nbsp;gety()</pre>
+
+
+<a name="getcachekey()">
+<!--   -->
+</a>
+
+
+<h4>getcachekey</h4>
+<pre>public&nbsp;java.lang.string&nbsp;getcachekey()</pre>
+
+
+<a name="tostring()">
+<!--   -->
+</a>
+
+
+<h4>tostring</h4>
+<pre>public&nbsp;java.lang.string&nbsp;tostring()</pre>
+<dl>
+<dt><strong>overrides:</strong></dt>
+<dd><code>tostring</code>&nbsp;in class&nbsp;<code>java.lang.object</code></dd>
+</dl>
+
+
+<a name="equals(java.lang.object)">
+<!--   -->
+</a>
+
+
+<h4>equals</h4>
+<pre>public&nbsp;boolean&nbsp;equals(java.lang.object&nbsp;obj)</pre>
+<dl>
+<dt><strong>overrides:</strong></dt>
+<dd><code>equals</code>&nbsp;in class&nbsp;<code>java.lang.object</code></dd>
+</dl>
+
+
+<a name="hashcode()">
+<!--   -->
+</a>
+
+
+<h4>hashcode</h4>
+<pre>public&nbsp;int&nbsp;hashcode()</pre>
+<dl>
+<dt><strong>overrides:</strong></dt>
+<dd><code>hashcode</code>&nbsp;in class&nbsp;<code>java.lang.object</code></dd>
+</dl>
+
+
+<a name="settilerect(android.graphics.rect)">
+<!--   -->
+</a>
+
+
+<h4>settilerect</h4>
+<pre>public&nbsp;void&nbsp;settilerect(android.graphics.rect&nbsp;rect)</pre>
+
+
+<a name="gettilerect()">
+<!--   -->
+</a>
+
+
+<h4>gettilerect</h4>
+<pre>public final&nbsp;android.graphics.rect&nbsp;gettilerect()</pre>
+
+
+
+
+
+
+</div>
+</div>
+<!-- ========= end of class data ========= -->
+<!-- ======= start of bottom navbar ====== -->

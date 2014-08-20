@@ -1,0 +1,149 @@
+---
+layout: api
+title: StreamUtils
+category: api
+tags: tileprovider
+---
+<div class="contentcontainer">
+<ul class="inheritance">
+<li>java.lang.object</li>
+<li>
+<ul class="inheritance">
+<li>com.mapbox.mapboxsdk.tileprovider.util.streamutils</li>
+</ul>
+</li>
+</ul>
+<div class="description">
+
+
+
+
+<pre>public class <span class="strong">streamutils</span>
+extends java.lang.object</pre>
+
+
+</div>
+<div class="summary">
+
+
+<!-- =========== field summary =========== -->
+
+<a name="field_summary">
+<!--   -->
+</a>
+<h3>field summary</h3>
+<table class="overviewsummary" border="0" cellpadding="3" cellspacing="0" summary="field summary table, listing fields, and an explanation">
+<caption class="small dark strong round-top pad1 fill-darken3"><span>fields</span><span class="tabend">&nbsp;</span></caption>
+<tr>
+<th class="colfirst" scope="col">modifier and type</th>
+<th class="collast" scope="col">field and description</th>
+</tr>
+<tr class="altcolor">
+<td class="colfirst"><code>static int</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/streamutils#io_buffer_size">io_buffer_size</a></strong></code>&nbsp;</td>
+</tr>
+</table>
+
+
+<!-- ========== method summary =========== -->
+
+<a name="method_summary">
+<!--   -->
+</a>
+<h3>method summary</h3>
+<table class="overviewsummary" border="0" cellpadding="3" cellspacing="0" summary="method summary table, listing methods, and an explanation">
+<caption class="small dark strong round-top pad1 fill-darken3"><span>methods</span><span class="tabend">&nbsp;</span></caption>
+<tr>
+<th class="colfirst" scope="col">modifier and type</th>
+<th class="collast" scope="col">method and description</th>
+</tr>
+<tr class="altcolor">
+<td class="colfirst"><code>static void</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/streamutils#closestream(java.io.closeable)">closestream</a></strong>(java.io.closeable&nbsp;stream)</code>
+<div class="block">closes the specified stream.</div>
+</td>
+</tr>
+<tr class="rowcolor">
+<td class="colfirst"><code>static long</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/streamutils#copy(java.io.inputstream, java.io.outputstream)">copy</a></strong>(java.io.inputstream&nbsp;in,
+    java.io.outputstream&nbsp;out)</code>
+<div class="block">copy the content of the input stream into the output stream, using a temporary byte array
+ buffer whose size is defined by <a href="{{site.baseurl}}/api/streamutils#io_buffer_size"><code>io_buffer_size</code></a>.</div>
+</td>
+</tr>
+</table>
+
+<a name="methods_inherited_from_class_java.lang.object">
+<!--   -->
+</a>
+<h3>methods inherited from class&nbsp;java.lang.object</h3>
+<code>clone, equals, finalize, getclass, hashcode, notify, notifyall, tostring, wait, wait, wait</code>
+
+
+
+
+
+</div>
+<div class="details">
+
+
+<!-- ============ field detail =========== -->
+
+<a name="field_detail">
+<!--   -->
+</a>
+<h3>field detail</h3>
+<a name="io_buffer_size">
+<!--   -->
+</a>
+
+
+<h4>io_buffer_size</h4>
+<pre>public static final&nbsp;int io_buffer_size</pre>
+<dl><dt><span class="strong">see also:</span></dt><dd><a href="../../../../../constant-values.html#com.mapbox.mapboxsdk.tileprovider.util.streamutils.io_buffer_size">constant field values</a></dd></dl>
+
+
+
+
+<!-- ============ method detail ========== -->
+
+<a name="method_detail">
+<!--   -->
+</a>
+<h3>method detail</h3>
+<a name="copy(java.io.inputstream, java.io.outputstream)">
+<!--   -->
+</a>
+
+
+<h4>copy</h4>
+<pre>public static&nbsp;long&nbsp;copy(java.io.inputstream&nbsp;in,
+        java.io.outputstream&nbsp;out)
+                 throws java.io.ioexception</pre>
+<div class="block">copy the content of the input stream into the output stream, using a temporary byte array
+ buffer whose size is defined by <a href="{{site.baseurl}}/api/streamutils#io_buffer_size"><code>io_buffer_size</code></a>.</div>
+<dl><dt><span class="strong">parameters:</span></dt><dd><code>in</code> - the input stream to copy from.</dd><dd><code>out</code> - the output stream to copy to.</dd>
+<dt><span class="strong">returns:</span></dt><dd>the total length copied</dd>
+<dt><span class="strong">throws:</span></dt>
+<dd><code>java.io.ioexception</code> - if any error occurs during the copy.</dd></dl>
+
+
+<a name="closestream(java.io.closeable)">
+<!--   -->
+</a>
+
+
+<h4>closestream</h4>
+<pre>public static&nbsp;void&nbsp;closestream(java.io.closeable&nbsp;stream)</pre>
+<div class="block">closes the specified stream.</div>
+<dl><dt><span class="strong">parameters:</span></dt><dd><code>stream</code> - the stream to close.</dd></dl>
+
+
+
+
+
+
+</div>
+</div>
+<!-- ========= end of class data ========= -->
+<!-- ======= start of bottom navbar ====== -->

@@ -1,0 +1,247 @@
+---
+layout: api
+title: TileMillLayer
+category: api
+tags: tileprovider
+---
+<div class="contentcontainer">
+<ul class="inheritance">
+<li>java.lang.object</li>
+<li>
+<ul class="inheritance">
+<li><a href="{{site.baseurl}}/api/tilelayer" title="class in com.mapbox.mapboxsdk.tileprovider.tilesource">com.mapbox.mapboxsdk.tileprovider.tilesource.tilelayer</a></li>
+<li>
+<ul class="inheritance">
+<li><a href="{{site.baseurl}}/api/websourcetilelayer" title="class in com.mapbox.mapboxsdk.tileprovider.tilesource">com.mapbox.mapboxsdk.tileprovider.tilesource.websourcetilelayer</a></li>
+<li>
+<ul class="inheritance">
+<li>com.mapbox.mapboxsdk.tileprovider.tilesource.tilemilllayer</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<div class="description">
+
+
+<dl>
+<dt>all implemented interfaces:</dt>
+<dd><a href="{{site.baseurl}}/api/mapviewconstants" title="interface in com.mapbox.mapboxsdk.views.util.constants">mapviewconstants</a></dd>
+</dl>
+
+
+<pre>public class <span class="strong">tilemilllayer</span>
+extends <a href="{{site.baseurl}}/api/websourcetilelayer" title="class in com.mapbox.mapboxsdk.tileprovider.tilesource">websourcetilelayer</a></pre>
+
+
+</div>
+<div class="summary">
+
+
+<!-- =========== field summary =========== -->
+
+<a name="field_summary">
+<!--   -->
+</a>
+<h3>field summary</h3>
+
+<a name="fields_inherited_from_class_com.mapbox.mapboxsdk.tileprovider.tilesource.websourcetilelayer">
+<!--   -->
+</a>
+<h3>fields inherited from class&nbsp;com.mapbox.mapboxsdk.tileprovider.tilesource.<a href="{{site.baseurl}}/api/websourcetilelayer" title="class in com.mapbox.mapboxsdk.tileprovider.tilesource">websourcetilelayer</a></h3>
+<code><a href="{{site.baseurl}}/api/websourcetilelayer#menablessl">menablessl</a></code>
+
+
+<a name="fields_inherited_from_class_com.mapbox.mapboxsdk.tileprovider.tilesource.tilelayer">
+<!--   -->
+</a>
+<h3>fields inherited from class&nbsp;com.mapbox.mapboxsdk.tileprovider.tilesource.<a href="{{site.baseurl}}/api/tilelayer" title="class in com.mapbox.mapboxsdk.tileprovider.tilesource">tilelayer</a></h3>
+<code><a href="{{site.baseurl}}/api/tilelayer#murl">murl</a></code>
+
+
+<a name="fields_inherited_from_class_com.mapbox.mapboxsdk.tileprovider.constants.tilelayerconstants">
+<!--   -->
+</a>
+<h3>fields inherited from interface&nbsp;com.mapbox.mapboxsdk.tileprovider.constants.<a href="{{site.baseurl}}/api/tilelayerconstants" title="interface in com.mapbox.mapboxsdk.tileprovider.constants">tilelayerconstants</a></h3>
+<code><a href="{{site.baseurl}}/api/tilelayerconstants#world_bounding_box">world_bounding_box</a></code>
+
+
+<a name="fields_inherited_from_class_com.mapbox.mapboxsdk.views.util.constants.mapviewconstants">
+<!--   -->
+</a>
+<h3>fields inherited from interface&nbsp;com.mapbox.mapboxsdk.views.util.constants.<a href="{{site.baseurl}}/api/mapviewconstants" title="interface in com.mapbox.mapboxsdk.views.util.constants">mapviewconstants</a></h3>
+<code><a href="{{site.baseurl}}/api/mapviewconstants#default_pin_anchor">default_pin_anchor</a></code>
+
+
+
+<!-- ======== constructor summary ======== -->
+
+<a name="constructor_summary">
+<!--   -->
+</a>
+<h3>constructor summary</h3>
+<table class="overviewsummary" border="0" cellpadding="3" cellspacing="0" summary="constructor summary table, listing constructors, and an explanation">
+<caption class="small dark strong round-top pad1 fill-darken3"><span>constructors</span><span class="tabend">&nbsp;</span></caption>
+<tr>
+<th class="colone" scope="col">constructor and description</th>
+</tr>
+<tr class="altcolor">
+<td class="colone"><code><strong><a href="{{site.baseurl}}/api/tilemilllayer#tilemilllayer(java.lang.string)">tilemilllayer</a></strong>(java.lang.string&nbsp;pmap)</code>&nbsp;</td>
+</tr>
+<tr class="rowcolor">
+<td class="colone"><code><strong><a href="{{site.baseurl}}/api/tilemilllayer#tilemilllayer(java.lang.string, java.lang.string)">tilemilllayer</a></strong>(java.lang.string&nbsp;phost,
+             java.lang.string&nbsp;pmap)</code>&nbsp;</td>
+</tr>
+<tr class="altcolor">
+<td class="colone"><code><strong><a href="{{site.baseurl}}/api/tilemilllayer#tilemilllayer(java.lang.string, java.lang.string, float, float)">tilemilllayer</a></strong>(java.lang.string&nbsp;phost,
+             java.lang.string&nbsp;pmap,
+             float&nbsp;pminzoom,
+             float&nbsp;pmaxzoom)</code>&nbsp;</td>
+</tr>
+</table>
+
+
+<!-- ========== method summary =========== -->
+
+<a name="method_summary">
+<!--   -->
+</a>
+<h3>method summary</h3>
+<table class="overviewsummary" border="0" cellpadding="3" cellspacing="0" summary="method summary table, listing methods, and an explanation">
+<caption class="small dark strong round-top pad1 fill-darken3"><span>methods</span><span class="tabend">&nbsp;</span></caption>
+<tr>
+<th class="colfirst" scope="col">modifier and type</th>
+<th class="collast" scope="col">method and description</th>
+</tr>
+<tr class="altcolor">
+<td class="colfirst"><code>java.lang.string</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/maptile" title="class in com.mapbox.mapboxsdk.tileprovider">maptile</a>&nbsp;atile,
+          boolean&nbsp;hdpi)</code>
+<div class="block">get a single tile url for a single tile.</div>
+</td>
+</tr>
+<tr class="rowcolor">
+<td class="colfirst"><code><a href="{{site.baseurl}}/api/tilelayer" title="class in com.mapbox.mapboxsdk.tileprovider.tilesource">tilelayer</a></code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/tilemilllayer#seturl(java.lang.string)">seturl</a></strong>(java.lang.string&nbsp;aurl)</code>
+<div class="block">sets the layer's tile url template string.</div>
+</td>
+</tr>
+</table>
+
+<a name="methods_inherited_from_class_com.mapbox.mapboxsdk.tileprovider.tilesource.websourcetilelayer">
+<!--   -->
+</a>
+<h3>methods inherited from class&nbsp;com.mapbox.mapboxsdk.tileprovider.tilesource.<a href="{{site.baseurl}}/api/websourcetilelayer" title="class in com.mapbox.mapboxsdk.tileprovider.tilesource">websourcetilelayer</a></h3>
+<code><a href="{{site.baseurl}}/api/websourcetilelayer#parseurlfortile(java.lang.string, com.mapbox.mapboxsdk.tileprovider.maptile, boolean)">parseurlfortile</a></code>
+
+
+<a name="methods_inherited_from_class_com.mapbox.mapboxsdk.tileprovider.tilesource.tilelayer">
+<!--   -->
+</a>
+<h3>methods inherited from class&nbsp;com.mapbox.mapboxsdk.tileprovider.tilesource.<a href="{{site.baseurl}}/api/tilelayer" title="class in com.mapbox.mapboxsdk.tileprovider.tilesource">tilelayer</a></h3>
+<code><a href="{{site.baseurl}}/api/tilelayer#setname(java.lang.string)">setname</a></code>
+
+
+<a name="methods_inherited_from_class_java.lang.object">
+<!--   -->
+</a>
+<h3>methods inherited from class&nbsp;java.lang.object</h3>
+<code>clone, equals, finalize, getclass, hashcode, notify, notifyall, tostring, wait, wait, wait</code>
+
+
+
+
+
+</div>
+<div class="details">
+
+
+<!-- ========= constructor detail ======== -->
+
+<a name="constructor_detail">
+<!--   -->
+</a>
+<h3>constructor detail</h3>
+<a name="tilemilllayer(java.lang.string, java.lang.string, float, float)">
+<!--   -->
+</a>
+
+
+<h4>tilemilllayer</h4>
+<pre>public&nbsp;tilemilllayer(java.lang.string&nbsp;phost,
+             java.lang.string&nbsp;pmap,
+             float&nbsp;pminzoom,
+             float&nbsp;pmaxzoom)</pre>
+
+
+<a name="tilemilllayer(java.lang.string, java.lang.string)">
+<!--   -->
+</a>
+
+
+<h4>tilemilllayer</h4>
+<pre>public&nbsp;tilemilllayer(java.lang.string&nbsp;phost,
+             java.lang.string&nbsp;pmap)</pre>
+
+
+<a name="tilemilllayer(java.lang.string)">
+<!--   -->
+</a>
+
+
+<h4>tilemilllayer</h4>
+<pre>public&nbsp;tilemilllayer(java.lang.string&nbsp;pmap)</pre>
+
+
+
+
+<!-- ============ method detail ========== -->
+
+<a name="method_detail">
+<!--   -->
+</a>
+<h3>method detail</h3>
+<a name="seturl(java.lang.string)">
+<!--   -->
+</a>
+
+
+<h4>seturl</h4>
+<pre>public&nbsp;<a href="{{site.baseurl}}/api/tilelayer" title="class in com.mapbox.mapboxsdk.tileprovider.tilesource">tilelayer</a>&nbsp;seturl(java.lang.string&nbsp;aurl)</pre>
+<div class="block"><strong>description copied from class:&nbsp;<code><a href="{{site.baseurl}}/api/tilelayer#seturl(java.lang.string)">tilelayer</a></code></strong></div>
+<div class="block">sets the layer's tile url template string.</div>
+<dl>
+<dt><strong>specified by:</strong></dt>
+<dd><code><a href="{{site.baseurl}}/api/itilelayer" title="interface in com.mapbox.mapboxsdk.tileprovider.tilesource">itilelayer</a></code></dd>
+<dt><strong>overrides:</strong></dt>
+<dd><code><a href="{{site.baseurl}}/api/websourcetilelayer" title="class in com.mapbox.mapboxsdk.tileprovider.tilesource">websourcetilelayer</a></code></dd>
+<dt><span class="strong">returns:</span></dt><dd>the tile layer</dd></dl>
+
+
+<a name="gettileurl(com.mapbox.mapboxsdk.tileprovider.maptile, boolean)">
+<!--   -->
+</a>
+
+
+<h4>gettileurl</h4>
+<pre>public&nbsp;java.lang.string&nbsp;gettileurl(<a href="{{site.baseurl}}/api/maptile" title="class in com.mapbox.mapboxsdk.tileprovider">maptile</a>&nbsp;atile,
+                          boolean&nbsp;hdpi)</pre>
+<div class="block"><strong>description copied from class:&nbsp;<code><a href="{{site.baseurl}}/api/websourcetilelayer#gettileurl(com.mapbox.mapboxsdk.tileprovider.maptile, boolean)">websourcetilelayer</a></code></strong></div>
+<div class="block">get a single tile url for a single tile.</div>
+<dl>
+<dt><strong>overrides:</strong></dt>
+<dd><code><a href="{{site.baseurl}}/api/websourcetilelayer" title="class in com.mapbox.mapboxsdk.tileprovider.tilesource">websourcetilelayer</a></code></dd>
+<dt><span class="strong">parameters:</span></dt><dd><code>atile</code> - a map tile</dd><dd><code>hdpi</code> - a boolean that indicates whether the tile should be at 2x or retina size</dd>
+<dt><span class="strong">returns:</span></dt><dd>a list of tile urls</dd></dl>
+
+
+
+
+
+
+</div>
+</div>
+<!-- ========= end of class data ========= -->
+<!-- ======= start of bottom navbar ====== -->

@@ -1,0 +1,352 @@
+---
+layout: api
+title: PathOverlay
+category: api
+tags: overlay
+---
+<div class="contentcontainer">
+<ul class="inheritance">
+<li>java.lang.object</li>
+<li>
+<ul class="inheritance">
+<li><a href="{{site.baseurl}}/api/overlay" title="class in com.mapbox.mapboxsdk.overlay">com.mapbox.mapboxsdk.overlay.overlay</a></li>
+<li>
+<ul class="inheritance">
+<li>com.mapbox.mapboxsdk.overlay.pathoverlay</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<div class="description">
+
+
+
+
+<pre>public class <span class="strong">pathoverlay</span>
+extends <a href="{{site.baseurl}}/api/overlay" title="class in com.mapbox.mapboxsdk.overlay">overlay</a></pre>
+
+
+</div>
+<div class="summary">
+
+
+<!-- ======== nested class summary ======== -->
+
+<a name="nested_class_summary">
+<!--   -->
+</a>
+<h3>nested class summary</h3>
+
+<a name="nested_classes_inherited_from_class_com.mapbox.mapboxsdk.overlay.overlay">
+<!--   -->
+</a>
+<h3>nested classes/interfaces inherited from class&nbsp;com.mapbox.mapboxsdk.overlay.<a href="{{site.baseurl}}/api/overlay" title="class in com.mapbox.mapboxsdk.overlay">overlay</a></h3>
+<code><a href="{{site.baseurl}}/api/overlay.snappable" title="interface in com.mapbox.mapboxsdk.overlay">overlay.snappable</a></code>
+
+
+
+<!-- =========== field summary =========== -->
+
+<a name="field_summary">
+<!--   -->
+</a>
+<h3>field summary</h3>
+<table class="overviewsummary" border="0" cellpadding="3" cellspacing="0" summary="field summary table, listing fields, and an explanation">
+<caption class="small dark strong round-top pad1 fill-darken3"><span>fields</span><span class="tabend">&nbsp;</span></caption>
+<tr>
+<th class="colfirst" scope="col">modifier and type</th>
+<th class="collast" scope="col">field and description</th>
+</tr>
+<tr class="altcolor">
+<td class="colfirst"><code>protected android.graphics.paint</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/pathoverlay#mpaint">mpaint</a></strong></code>
+<div class="block">paint settings.</div>
+</td>
+</tr>
+</table>
+
+<a name="fields_inherited_from_class_com.mapbox.mapboxsdk.overlay.overlay">
+<!--   -->
+</a>
+<h3>fields inherited from class&nbsp;com.mapbox.mapboxsdk.overlay.<a href="{{site.baseurl}}/api/overlay" title="class in com.mapbox.mapboxsdk.overlay">overlay</a></h3>
+<code><a href="{{site.baseurl}}/api/overlay#mscale">mscale</a></code>
+
+
+
+<!-- ======== constructor summary ======== -->
+
+<a name="constructor_summary">
+<!--   -->
+</a>
+<h3>constructor summary</h3>
+<table class="overviewsummary" border="0" cellpadding="3" cellspacing="0" summary="constructor summary table, listing constructors, and an explanation">
+<caption class="small dark strong round-top pad1 fill-darken3"><span>constructors</span><span class="tabend">&nbsp;</span></caption>
+<tr>
+<th class="colone" scope="col">constructor and description</th>
+</tr>
+<tr class="altcolor">
+<td class="colone"><code><strong><a href="{{site.baseurl}}/api/pathoverlay#pathoverlay()">pathoverlay</a></strong>()</code>&nbsp;</td>
+</tr>
+<tr class="rowcolor">
+<td class="colone"><code><strong><a href="{{site.baseurl}}/api/pathoverlay#pathoverlay(int, float)">pathoverlay</a></strong>(int&nbsp;color,
+           float&nbsp;width)</code>&nbsp;</td>
+</tr>
+</table>
+
+
+<!-- ========== method summary =========== -->
+
+<a name="method_summary">
+<!--   -->
+</a>
+<h3>method summary</h3>
+<table class="overviewsummary" border="0" cellpadding="3" cellspacing="0" summary="method summary table, listing methods, and an explanation">
+<caption class="small dark strong round-top pad1 fill-darken3"><span>methods</span><span class="tabend">&nbsp;</span></caption>
+<tr>
+<th class="colfirst" scope="col">modifier and type</th>
+<th class="collast" scope="col">method and description</th>
+</tr>
+<tr class="altcolor">
+<td class="colfirst"><code>void</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/pathoverlay#addpoint(double, double)">addpoint</a></strong>(double&nbsp;alatitude,
+        double&nbsp;alongitude)</code>&nbsp;</td>
+</tr>
+<tr class="rowcolor">
+<td class="colfirst"><code>void</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/latlng" title="class in com.mapbox.mapboxsdk.geometry">latlng</a>&nbsp;apoint)</code>&nbsp;</td>
+</tr>
+<tr class="altcolor">
+<td class="colfirst"><code>void</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/latlng" title="class in com.mapbox.mapboxsdk.geometry">latlng</a>...&nbsp;apoints)</code>&nbsp;</td>
+</tr>
+<tr class="rowcolor">
+<td class="colfirst"><code>void</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/latlng" title="class in com.mapbox.mapboxsdk.geometry">latlng</a>&gt;&nbsp;apoints)</code>&nbsp;</td>
+</tr>
+<tr class="altcolor">
+<td class="colfirst"><code>void</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/pathoverlay#clearpath()">clearpath</a></strong>()</code>&nbsp;</td>
+</tr>
+<tr class="rowcolor">
+<td class="colfirst"><code>protected void</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/pathoverlay#draw(android.graphics.canvas, com.mapbox.mapboxsdk.views.mapview, boolean)">draw</a></strong>(android.graphics.canvas&nbsp;canvas,
+    <a href="{{site.baseurl}}/api/mapview" title="class in com.mapbox.mapboxsdk.views">mapview</a>&nbsp;mapview,
+    boolean&nbsp;shadow)</code>
+<div class="block">this method draws the line.</div>
+</td>
+</tr>
+<tr class="altcolor">
+<td class="colfirst"><code>int</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/pathoverlay#getnumberofpoints()">getnumberofpoints</a></strong>()</code>&nbsp;</td>
+</tr>
+<tr class="rowcolor">
+<td class="colfirst"><code>android.graphics.paint</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/pathoverlay#getpaint()">getpaint</a></strong>()</code>&nbsp;</td>
+</tr>
+<tr class="altcolor">
+<td class="colfirst"><code>void</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/pathoverlay#removeallpoints()">removeallpoints</a></strong>()</code>&nbsp;</td>
+</tr>
+<tr class="rowcolor">
+<td class="colfirst"><code>void</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/pathoverlay#setoptimizepath(boolean)">setoptimizepath</a></strong>(boolean&nbsp;value)</code>
+<div class="block">if true the path will be optimised.</div>
+</td>
+</tr>
+<tr class="altcolor">
+<td class="colfirst"><code><a href="{{site.baseurl}}/api/pathoverlay" title="class in com.mapbox.mapboxsdk.overlay">pathoverlay</a></code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/pathoverlay#setpaint(android.graphics.paint)">setpaint</a></strong>(android.graphics.paint&nbsp;ppaint)</code>&nbsp;</td>
+</tr>
+</table>
+
+<a name="methods_inherited_from_class_com.mapbox.mapboxsdk.overlay.overlay">
+<!--   -->
+</a>
+<h3>methods inherited from class&nbsp;com.mapbox.mapboxsdk.overlay.<a href="{{site.baseurl}}/api/overlay" title="class in com.mapbox.mapboxsdk.overlay">overlay</a></h3>
+<code><a href="{{site.baseurl}}/api/overlay#setenabled(boolean)">setenabled</a></code>
+
+
+<a name="methods_inherited_from_class_java.lang.object">
+<!--   -->
+</a>
+<h3>methods inherited from class&nbsp;java.lang.object</h3>
+<code>clone, equals, finalize, getclass, hashcode, notify, notifyall, tostring, wait, wait, wait</code>
+
+
+
+
+
+</div>
+<div class="details">
+
+
+<!-- ============ field detail =========== -->
+
+<a name="field_detail">
+<!--   -->
+</a>
+<h3>field detail</h3>
+<a name="mpaint">
+<!--   -->
+</a>
+
+
+<h4>mpaint</h4>
+<pre>protected&nbsp;android.graphics.paint mpaint</pre>
+<div class="block">paint settings.</div>
+
+
+
+
+<!-- ========= constructor detail ======== -->
+
+<a name="constructor_detail">
+<!--   -->
+</a>
+<h3>constructor detail</h3>
+<a name="pathoverlay()">
+<!--   -->
+</a>
+
+
+<h4>pathoverlay</h4>
+<pre>public&nbsp;pathoverlay()</pre>
+
+
+<a name="pathoverlay(int, float)">
+<!--   -->
+</a>
+
+
+<h4>pathoverlay</h4>
+<pre>public&nbsp;pathoverlay(int&nbsp;color,
+           float&nbsp;width)</pre>
+
+
+
+
+<!-- ============ method detail ========== -->
+
+<a name="method_detail">
+<!--   -->
+</a>
+<h3>method detail</h3>
+<a name="getpaint()">
+<!--   -->
+</a>
+
+
+<h4>getpaint</h4>
+<pre>public&nbsp;android.graphics.paint&nbsp;getpaint()</pre>
+
+
+<a name="setpaint(android.graphics.paint)">
+<!--   -->
+</a>
+
+
+<h4>setpaint</h4>
+<pre>public&nbsp;<a href="{{site.baseurl}}/api/pathoverlay" title="class in com.mapbox.mapboxsdk.overlay">pathoverlay</a>&nbsp;setpaint(android.graphics.paint&nbsp;ppaint)</pre>
+
+
+<a name="clearpath()">
+<!--   -->
+</a>
+
+
+<h4>clearpath</h4>
+<pre>public&nbsp;void&nbsp;clearpath()</pre>
+
+
+<a name="addpoint(com.mapbox.mapboxsdk.geometry.latlng)">
+<!--   -->
+</a>
+
+
+<h4>addpoint</h4>
+<pre>public&nbsp;void&nbsp;addpoint(<a href="{{site.baseurl}}/api/latlng" title="class in com.mapbox.mapboxsdk.geometry">latlng</a>&nbsp;apoint)</pre>
+
+
+<a name="addpoint(double, double)">
+<!--   -->
+</a>
+
+
+<h4>addpoint</h4>
+<pre>public&nbsp;void&nbsp;addpoint(double&nbsp;alatitude,
+            double&nbsp;alongitude)</pre>
+
+
+<a name="addpoints(com.mapbox.mapboxsdk.geometry.latlng...)">
+<!--   -->
+</a>
+
+
+<h4>addpoints</h4>
+<pre>public&nbsp;void&nbsp;addpoints(<a href="{{site.baseurl}}/api/latlng" title="class in com.mapbox.mapboxsdk.geometry">latlng</a>...&nbsp;apoints)</pre>
+
+
+<a name="addpoints(java.util.list)">
+<!--   -->
+</a>
+
+
+<h4>addpoints</h4>
+<pre>public&nbsp;void&nbsp;addpoints(java.util.list&lt;<a href="{{site.baseurl}}/api/latlng" title="class in com.mapbox.mapboxsdk.geometry">latlng</a>&gt;&nbsp;apoints)</pre>
+
+
+<a name="removeallpoints()">
+<!--   -->
+</a>
+
+
+<h4>removeallpoints</h4>
+<pre>public&nbsp;void&nbsp;removeallpoints()</pre>
+
+
+<a name="getnumberofpoints()">
+<!--   -->
+</a>
+
+
+<h4>getnumberofpoints</h4>
+<pre>public&nbsp;int&nbsp;getnumberofpoints()</pre>
+
+
+<a name="draw(android.graphics.canvas, com.mapbox.mapboxsdk.views.mapview, boolean)">
+<!--   -->
+</a>
+
+
+<h4>draw</h4>
+<pre>protected&nbsp;void&nbsp;draw(android.graphics.canvas&nbsp;canvas,
+        <a href="{{site.baseurl}}/api/mapview" title="class in com.mapbox.mapboxsdk.views">mapview</a>&nbsp;mapview,
+        boolean&nbsp;shadow)</pre>
+<div class="block">this method draws the line. note - highly optimized to handle long paths, proceed with care.
+ should be fine up to 10k points.</div>
+<dl>
+<dt><strong>specified by:</strong></dt>
+<dd><code><a href="{{site.baseurl}}/api/overlay" title="class in com.mapbox.mapboxsdk.overlay">overlay</a></code></dd>
+</dl>
+
+
+<a name="setoptimizepath(boolean)">
+<!--   -->
+</a>
+
+
+<h4>setoptimizepath</h4>
+<pre>public&nbsp;void&nbsp;setoptimizepath(boolean&nbsp;value)</pre>
+<div class="block">if true the path will be optimised. true by default. but be aware that the optimize method
+ does not work for filled path.</div>
+
+
+
+
+
+
+</div>
+</div>
+<!-- ========= end of class data ========= -->
+<!-- ======= start of bottom navbar ====== -->

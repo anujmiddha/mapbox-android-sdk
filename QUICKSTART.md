@@ -34,7 +34,7 @@ To add the ```MapView``` as a layout element, add the following to your xml file
 android:id="@+id/mapview"
 android:layout_width="fill_parent"
 android:layout_height="fill_parent"
-mapid="Your MapBox mapid" />
+mapbox:mapid="Your MapBox mapid" />
 ```
 
 
@@ -49,7 +49,8 @@ this.findViewById(R.id.mapview);
 On runtime you can create a new MapView by specifying the context of the application and a valid [MapBox mapid](https://www.mapbox.com/developers/api-overview/), a TileJSON file or a zxy image template.
 
 ```java
-MapView mapView = new MapView(this, "examples.map-vyofok3q");
+MapView mapView = new MapView(context);
+mapView.setTileSource(new MapboxTileLayer("examples.map-vyofok3q"));
 ```
 
 And set it as the current view like this:
@@ -76,12 +77,12 @@ mapView.addMarker(marker);
 
 #### Location overlay
 
-The location of the user can be displayed on the view using ```MyLocationNewOverlay```
+The location of the user can be displayed on the view using ```UserLocationOverlay```
 ```java
-MyLocationNewOverlay myLocationOverlay = new MyLocationNewOverlay(this, mapView);
-myLocationOverlay.enableMyLocation();
-myLocationOverlay.setDrawAccuracyEnabled(true);
-mapView.getOverlays().add(myLocationOverlay);
+UserLocationOverlay myLocationOverlay = new UserLocationOverlay(this, mapView);
+userLocationOverlay.enableMyLocation();
+userLocationOverlay.setDrawAccuracyEnabled(true);
+mapView.getOverlays().add(userLocationOverlay);
 ```
 
 ####Paths
@@ -120,7 +121,19 @@ By default, every time the screen is rotated, Android will call ```onCreate``` a
 
 Alternatively you can override the methods ```onSaveInstanceState()``` and ```onRestoreInstanceState()``` to have broader control of the saved states in the app. See this [StackOverflow question](http://stackoverflow.com/questions/4096169/onsaveinstancestate-and-onrestoreinstancestate) for more information on these methods
 
-### Generating API Documentation (aka JavaDoc)
+### Including SDK JavaDoc
+
+JavaDocs are automatically generated and distributed with each official and SNAPSHOT release.  They can be downloaded from Maven Central for local viewing and / or integration with an IDE.  The latest official version is available here:
+
+**`0.2.3` Release Overview**
+
+http://search.maven.org/#artifactdetails%7Ccom.mapbox.mapboxsdk%7Cmapbox-android-sdk%7C0.2.3%7Cjar
+
+**`0.2.3` JavaDoc**
+
+http://search.maven.org/remotecontent?filepath=com/mapbox/mapboxsdk/mapbox-android-sdk/0.2.3/mapbox-android-sdk-0.2.3-javadoc.jar
+
+### Generating SDK Documentation (aka JavaDoc)
 
 ```
 cd <PROJECT_HOME>/MapboxAndroidSDK/

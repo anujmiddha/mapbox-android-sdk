@@ -1,0 +1,372 @@
+---
+layout: api
+title: LatLng
+category: api
+tags: geometry
+---
+<div class="contentcontainer">
+<ul class="inheritance">
+<li>java.lang.object</li>
+<li>
+<ul class="inheritance">
+<li>com.mapbox.mapboxsdk.geometry.latlng</li>
+</ul>
+</li>
+</ul>
+<div class="description">
+
+
+<dl>
+<dt>all implemented interfaces:</dt>
+<dd>android.os.parcelable, <a href="{{site.baseurl}}/api/ilatlng" title="interface in com.mapbox.mapboxsdk.api">ilatlng</a>, java.io.serializable</dd>
+</dl>
+
+
+<pre>public final class <span class="strong">latlng</span>
+extends java.lang.object
+implements <a href="{{site.baseurl}}/api/ilatlng" title="interface in com.mapbox.mapboxsdk.api">ilatlng</a>, android.os.parcelable, java.io.serializable</pre>
+<div class="block">an immutable latitude, longitude, and optionally altitude point.
+ coordinates are stored as wgs84 degrees.</div>
+<dl><dt><span class="strong">see also:</span></dt><dd><a href="../../../../serialized-form.html#com.mapbox.mapboxsdk.geometry.latlng">serialized form</a></dd></dl>
+
+
+</div>
+<div class="summary">
+
+
+<!-- ======== nested class summary ======== -->
+
+<a name="nested_class_summary">
+<!--   -->
+</a>
+<h3>nested class summary</h3>
+
+<a name="nested_classes_inherited_from_class_android.os.parcelable">
+<!--   -->
+</a>
+<h3>nested classes/interfaces inherited from interface&nbsp;android.os.parcelable</h3>
+<code>android.os.parcelable.classloadercreator&lt;t&gt;, android.os.parcelable.creator&lt;t&gt;</code>
+
+
+
+<!-- =========== field summary =========== -->
+
+<a name="field_summary">
+<!--   -->
+</a>
+<h3>field summary</h3>
+<table class="overviewsummary" border="0" cellpadding="3" cellspacing="0" summary="field summary table, listing fields, and an explanation">
+<caption class="small dark strong round-top pad1 fill-darken3"><span>fields</span><span class="tabend">&nbsp;</span></caption>
+<tr>
+<th class="colfirst" scope="col">modifier and type</th>
+<th class="collast" scope="col">field and description</th>
+</tr>
+<tr class="altcolor">
+<td class="colfirst"><code>static android.os.parcelable.creator&lt;<a href="{{site.baseurl}}/api/latlng" title="class in com.mapbox.mapboxsdk.geometry">latlng</a>&gt;</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/latlng#creator">creator</a></strong></code>&nbsp;</td>
+</tr>
+</table>
+
+<a name="fields_inherited_from_class_android.os.parcelable">
+<!--   -->
+</a>
+<h3>fields inherited from interface&nbsp;android.os.parcelable</h3>
+<code>contents_file_descriptor, parcelable_write_return_value</code>
+
+
+
+<!-- ======== constructor summary ======== -->
+
+<a name="constructor_summary">
+<!--   -->
+</a>
+<h3>constructor summary</h3>
+<table class="overviewsummary" border="0" cellpadding="3" cellspacing="0" summary="constructor summary table, listing constructors, and an explanation">
+<caption class="small dark strong round-top pad1 fill-darken3"><span>constructors</span><span class="tabend">&nbsp;</span></caption>
+<tr>
+<th class="colone" scope="col">constructor and description</th>
+</tr>
+<tr class="altcolor">
+<td class="colone"><code><strong><a href="{{site.baseurl}}/api/latlng#latlng(double, double)">latlng</a></strong>(double&nbsp;alatitude,
+      double&nbsp;alongitude)</code>
+<div class="block">construct a new latitude, longitude point given float arguments</div>
+</td>
+</tr>
+<tr class="rowcolor">
+<td class="colone"><code><strong><a href="{{site.baseurl}}/api/latlng#latlng(double, double, double)">latlng</a></strong>(double&nbsp;alatitude,
+      double&nbsp;alongitude,
+      double&nbsp;aaltitude)</code>
+<div class="block">construct a new latitude, longitude, altitude point given float arguments</div>
+</td>
+</tr>
+<tr class="altcolor">
+<td class="colone"><code><strong><a href="{{site.baseurl}}/api/latlng" title="class in com.mapbox.mapboxsdk.geometry">latlng</a>&nbsp;alatlng)</code>
+<div class="block">clone an existing latitude longitude point</div>
+</td>
+</tr>
+<tr class="rowcolor">
+<td class="colone"><code><strong><a href="{{site.baseurl}}/api/latlng#latlng(android.location.location)">latlng</a></strong>(android.location.location&nbsp;alocation)</code>
+<div class="block">transform a location into a latlng point</div>
+</td>
+</tr>
+</table>
+
+
+<!-- ========== method summary =========== -->
+
+<a name="method_summary">
+<!--   -->
+</a>
+<h3>method summary</h3>
+<table class="overviewsummary" border="0" cellpadding="3" cellspacing="0" summary="method summary table, listing methods, and an explanation">
+<caption class="small dark strong round-top pad1 fill-darken3"><span>methods</span><span class="tabend">&nbsp;</span></caption>
+<tr>
+<th class="colfirst" scope="col">modifier and type</th>
+<th class="collast" scope="col">method and description</th>
+</tr>
+<tr class="altcolor">
+<td class="colfirst"><code>int</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/latlng#describecontents()">describecontents</a></strong>()</code>&nbsp;</td>
+</tr>
+<tr class="rowcolor">
+<td class="colfirst"><code>boolean</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/latlng#equals(java.lang.object)">equals</a></strong>(java.lang.object&nbsp;obj)</code>&nbsp;</td>
+</tr>
+<tr class="altcolor">
+<td class="colfirst"><code>double</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/latlng#getaltitude()">getaltitude</a></strong>()</code>
+<div class="block">returns the altitude value of this point.</div>
+</td>
+</tr>
+<tr class="rowcolor">
+<td class="colfirst"><code>double</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/latlng#getlatitude()">getlatitude</a></strong>()</code>
+<div class="block">returns the latitude value of this point</div>
+</td>
+</tr>
+<tr class="altcolor">
+<td class="colfirst"><code>double</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/latlng#getlongitude()">getlongitude</a></strong>()</code>
+<div class="block">returns the longitude value of this point</div>
+</td>
+</tr>
+<tr class="rowcolor">
+<td class="colfirst"><code>int</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/latlng#hashcode()">hashcode</a></strong>()</code>&nbsp;</td>
+</tr>
+<tr class="altcolor">
+<td class="colfirst"><code>java.lang.string</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/latlng#tostring()">tostring</a></strong>()</code>&nbsp;</td>
+</tr>
+<tr class="rowcolor">
+<td class="colfirst"><code>void</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/latlng#writetoparcel(android.os.parcel, int)">writetoparcel</a></strong>(android.os.parcel&nbsp;out,
+             int&nbsp;flags)</code>&nbsp;</td>
+</tr>
+</table>
+
+<a name="methods_inherited_from_class_java.lang.object">
+<!--   -->
+</a>
+<h3>methods inherited from class&nbsp;java.lang.object</h3>
+<code>clone, finalize, getclass, notify, notifyall, wait, wait, wait</code>
+
+
+
+
+
+</div>
+<div class="details">
+
+
+<!-- ============ field detail =========== -->
+
+<a name="field_detail">
+<!--   -->
+</a>
+<h3>field detail</h3>
+<a name="creator">
+<!--   -->
+</a>
+
+
+<h4>creator</h4>
+<pre>public static final&nbsp;android.os.parcelable.creator&lt;<a href="{{site.baseurl}}/api/latlng" title="class in com.mapbox.mapboxsdk.geometry">latlng</a>&gt; creator</pre>
+
+
+
+
+<!-- ========= constructor detail ======== -->
+
+<a name="constructor_detail">
+<!--   -->
+</a>
+<h3>constructor detail</h3>
+<a name="latlng(double, double)">
+<!--   -->
+</a>
+
+
+<h4>latlng</h4>
+<pre>public&nbsp;latlng(double&nbsp;alatitude,
+      double&nbsp;alongitude)</pre>
+<div class="block">construct a new latitude, longitude point given float arguments</div>
+
+
+<a name="latlng(double, double, double)">
+<!--   -->
+</a>
+
+
+<h4>latlng</h4>
+<pre>public&nbsp;latlng(double&nbsp;alatitude,
+      double&nbsp;alongitude,
+      double&nbsp;aaltitude)</pre>
+<div class="block">construct a new latitude, longitude, altitude point given float arguments</div>
+
+
+<a name="latlng(android.location.location)">
+<!--   -->
+</a>
+
+
+<h4>latlng</h4>
+<pre>public&nbsp;latlng(android.location.location&nbsp;alocation)</pre>
+<div class="block">transform a location into a latlng point</div>
+
+
+<a name="latlng(com.mapbox.mapboxsdk.geometry.latlng)">
+<!--   -->
+</a>
+
+
+<h4>latlng</h4>
+<pre>public&nbsp;latlng(<a href="{{site.baseurl}}/api/latlng" title="class in com.mapbox.mapboxsdk.geometry">latlng</a>&nbsp;alatlng)</pre>
+<div class="block">clone an existing latitude longitude point</div>
+
+
+
+
+<!-- ============ method detail ========== -->
+
+<a name="method_detail">
+<!--   -->
+</a>
+<h3>method detail</h3>
+<a name="getlongitude()">
+<!--   -->
+</a>
+
+
+<h4>getlongitude</h4>
+<pre>public&nbsp;double&nbsp;getlongitude()</pre>
+<div class="block">returns the longitude value of this point</div>
+<dl>
+<dt><strong>specified by:</strong></dt>
+<dd><code><a href="{{site.baseurl}}/api/ilatlng" title="interface in com.mapbox.mapboxsdk.api">ilatlng</a></code></dd>
+<dt><span class="strong">returns:</span></dt><dd>the longitude value in decimal degrees</dd></dl>
+
+
+<a name="getlatitude()">
+<!--   -->
+</a>
+
+
+<h4>getlatitude</h4>
+<pre>public&nbsp;double&nbsp;getlatitude()</pre>
+<div class="block">returns the latitude value of this point</div>
+<dl>
+<dt><strong>specified by:</strong></dt>
+<dd><code><a href="{{site.baseurl}}/api/ilatlng" title="interface in com.mapbox.mapboxsdk.api">ilatlng</a></code></dd>
+<dt><span class="strong">returns:</span></dt><dd>the latitude value in decimal degrees</dd></dl>
+
+
+<a name="getaltitude()">
+<!--   -->
+</a>
+
+
+<h4>getaltitude</h4>
+<pre>public&nbsp;double&nbsp;getaltitude()</pre>
+<div class="block">returns the altitude value of this point. the encoding
+ of altitude is unspecified.</div>
+<dl>
+<dt><strong>specified by:</strong></dt>
+<dd><code><a href="{{site.baseurl}}/api/ilatlng" title="interface in com.mapbox.mapboxsdk.api">ilatlng</a></code></dd>
+<dt><span class="strong">returns:</span></dt><dd>the altitude value</dd></dl>
+
+
+<a name="tostring()">
+<!--   -->
+</a>
+
+
+<h4>tostring</h4>
+<pre>public&nbsp;java.lang.string&nbsp;tostring()</pre>
+<dl>
+<dt><strong>overrides:</strong></dt>
+<dd><code>tostring</code>&nbsp;in class&nbsp;<code>java.lang.object</code></dd>
+</dl>
+
+
+<a name="equals(java.lang.object)">
+<!--   -->
+</a>
+
+
+<h4>equals</h4>
+<pre>public&nbsp;boolean&nbsp;equals(java.lang.object&nbsp;obj)</pre>
+<dl>
+<dt><strong>overrides:</strong></dt>
+<dd><code>equals</code>&nbsp;in class&nbsp;<code>java.lang.object</code></dd>
+</dl>
+
+
+<a name="hashcode()">
+<!--   -->
+</a>
+
+
+<h4>hashcode</h4>
+<pre>public&nbsp;int&nbsp;hashcode()</pre>
+<dl>
+<dt><strong>overrides:</strong></dt>
+<dd><code>hashcode</code>&nbsp;in class&nbsp;<code>java.lang.object</code></dd>
+</dl>
+
+
+<a name="describecontents()">
+<!--   -->
+</a>
+
+
+<h4>describecontents</h4>
+<pre>public&nbsp;int&nbsp;describecontents()</pre>
+<dl>
+<dt><strong>specified by:</strong></dt>
+<dd><code>describecontents</code>&nbsp;in interface&nbsp;<code>android.os.parcelable</code></dd>
+</dl>
+
+
+<a name="writetoparcel(android.os.parcel, int)">
+<!--   -->
+</a>
+
+
+<h4>writetoparcel</h4>
+<pre>public&nbsp;void&nbsp;writetoparcel(android.os.parcel&nbsp;out,
+                 int&nbsp;flags)</pre>
+<dl>
+<dt><strong>specified by:</strong></dt>
+<dd><code>writetoparcel</code>&nbsp;in interface&nbsp;<code>android.os.parcelable</code></dd>
+</dl>
+
+
+
+
+
+
+</div>
+</div>
+<!-- ========= end of class data ========= -->
+<!-- ======= start of bottom navbar ====== -->

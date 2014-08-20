@@ -1,0 +1,377 @@
+---
+layout: api
+title: MBTilesFileArchive
+category: api
+tags: tileprovider
+---
+<div class="contentcontainer">
+<ul class="inheritance">
+<li>java.lang.object</li>
+<li>
+<ul class="inheritance">
+<li>com.mapbox.mapboxsdk.tileprovider.modules.mbtilesfilearchive</li>
+</ul>
+</li>
+</ul>
+<div class="description">
+
+
+<dl>
+<dt>all implemented interfaces:</dt>
+<dd><a href="{{site.baseurl}}/api/iarchivefile" title="interface in com.mapbox.mapboxsdk.tileprovider.modules">iarchivefile</a></dd>
+</dl>
+
+
+<pre>public class <span class="strong">mbtilesfilearchive</span>
+extends java.lang.object
+implements <a href="{{site.baseurl}}/api/iarchivefile" title="interface in com.mapbox.mapboxsdk.tileprovider.modules">iarchivefile</a></pre>
+<div class="block">an access layer to the mbtiles format. this is useful for offline tiles
+ that one would pre-package with an app.</div>
+
+
+</div>
+<div class="summary">
+
+
+<!-- =========== field summary =========== -->
+
+<a name="field_summary">
+<!--   -->
+</a>
+<h3>field summary</h3>
+<table class="overviewsummary" border="0" cellpadding="3" cellspacing="0" summary="field summary table, listing fields, and an explanation">
+<caption class="small dark strong round-top pad1 fill-darken3"><span>fields</span><span class="tabend">&nbsp;</span></caption>
+<tr>
+<th class="colfirst" scope="col">modifier and type</th>
+<th class="collast" scope="col">field and description</th>
+</tr>
+<tr class="altcolor">
+<td class="colfirst"><code>static java.lang.string</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/mbtilesfilearchive#col_tiles_tile_data">col_tiles_tile_data</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowcolor">
+<td class="colfirst"><code>static java.lang.string</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/mbtilesfilearchive#col_value">col_value</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="altcolor">
+<td class="colfirst"><code>static java.lang.string</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/mbtilesfilearchive#table_metadata">table_metadata</a></strong></code>&nbsp;</td>
+</tr>
+<tr class="rowcolor">
+<td class="colfirst"><code>static java.lang.string</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/mbtilesfilearchive#table_tiles">table_tiles</a></strong></code>&nbsp;</td>
+</tr>
+</table>
+
+
+<!-- ======== constructor summary ======== -->
+
+<a name="constructor_summary">
+<!--   -->
+</a>
+<h3>constructor summary</h3>
+<table class="overviewsummary" border="0" cellpadding="3" cellspacing="0" summary="constructor summary table, listing constructors, and an explanation">
+<caption class="small dark strong round-top pad1 fill-darken3"><span>constructors</span><span class="tabend">&nbsp;</span></caption>
+<tr>
+<th class="colone" scope="col">constructor and description</th>
+</tr>
+<tr class="altcolor">
+<td class="colone"><code><strong><a href="{{site.baseurl}}/api/mbtilesfilearchive#mbtilesfilearchive(android.database.sqlite.sqlitedatabase)">mbtilesfilearchive</a></strong>(android.database.sqlite.sqlitedatabase&nbsp;pdatabase)</code>&nbsp;</td>
+</tr>
+</table>
+
+
+<!-- ========== method summary =========== -->
+
+<a name="method_summary">
+<!--   -->
+</a>
+<h3>method summary</h3>
+<table class="overviewsummary" border="0" cellpadding="3" cellspacing="0" summary="method summary table, listing methods, and an explanation">
+<caption class="small dark strong round-top pad1 fill-darken3"><span>methods</span><span class="tabend">&nbsp;</span></caption>
+<tr>
+<th class="colfirst" scope="col">modifier and type</th>
+<th class="collast" scope="col">method and description</th>
+</tr>
+<tr class="altcolor">
+<td class="colfirst"><code>void</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/mbtilesfilearchive#close()">close</a></strong>()</code>&nbsp;</td>
+</tr>
+<tr class="rowcolor">
+<td class="colfirst"><code>java.lang.string</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/mbtilesfilearchive#getattribution()">getattribution</a></strong>()</code>&nbsp;</td>
+</tr>
+<tr class="altcolor">
+<td class="colfirst"><code><a href="{{site.baseurl}}/api/boundingbox" title="class in com.mapbox.mapboxsdk.geometry">boundingbox</a></code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/mbtilesfilearchive#getbounds()">getbounds</a></strong>()</code>&nbsp;</td>
+</tr>
+<tr class="rowcolor">
+<td class="colfirst"><code><a href="{{site.baseurl}}/api/latlng" title="class in com.mapbox.mapboxsdk.geometry">latlng</a></code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/mbtilesfilearchive#getcenter()">getcenter</a></strong>()</code>&nbsp;</td>
+</tr>
+<tr class="altcolor">
+<td class="colfirst"><code>static <a href="{{site.baseurl}}/api/mbtilesfilearchive" title="class in com.mapbox.mapboxsdk.tileprovider.modules">mbtilesfilearchive</a></code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/mbtilesfilearchive#getdatabasefilearchive(java.io.file)">getdatabasefilearchive</a></strong>(java.io.file&nbsp;pfile)</code>&nbsp;</td>
+</tr>
+<tr class="rowcolor">
+<td class="colfirst"><code>java.lang.string</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/mbtilesfilearchive#getdescription()">getdescription</a></strong>()</code>&nbsp;</td>
+</tr>
+<tr class="altcolor">
+<td class="colfirst"><code>java.io.inputstream</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/itilelayer" title="interface in com.mapbox.mapboxsdk.tileprovider.tilesource">itilelayer</a>&nbsp;ptilesource,
+              <a href="{{site.baseurl}}/api/maptile" title="class in com.mapbox.mapboxsdk.tileprovider">maptile</a>&nbsp;ptile)</code>
+<div class="block">get the input stream for the requested tile.</div>
+</td>
+</tr>
+<tr class="rowcolor">
+<td class="colfirst"><code>float</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/mbtilesfilearchive#getmaxzoomlevel()">getmaxzoomlevel</a></strong>()</code>&nbsp;</td>
+</tr>
+<tr class="altcolor">
+<td class="colfirst"><code>float</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/mbtilesfilearchive#getminzoomlevel()">getminzoomlevel</a></strong>()</code>&nbsp;</td>
+</tr>
+<tr class="rowcolor">
+<td class="colfirst"><code>java.lang.string</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/mbtilesfilearchive#getname()">getname</a></strong>()</code>&nbsp;</td>
+</tr>
+<tr class="altcolor">
+<td class="colfirst"><code>java.lang.string</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/mbtilesfilearchive#gettype()">gettype</a></strong>()</code>&nbsp;</td>
+</tr>
+<tr class="rowcolor">
+<td class="colfirst"><code>java.lang.string</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/mbtilesfilearchive#getversion()">getversion</a></strong>()</code>&nbsp;</td>
+</tr>
+<tr class="altcolor">
+<td class="colfirst"><code>java.lang.string</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/mbtilesfilearchive#tostring()">tostring</a></strong>()</code>&nbsp;</td>
+</tr>
+</table>
+
+<a name="methods_inherited_from_class_java.lang.object">
+<!--   -->
+</a>
+<h3>methods inherited from class&nbsp;java.lang.object</h3>
+<code>clone, equals, finalize, getclass, hashcode, notify, notifyall, wait, wait, wait</code>
+
+
+
+
+
+</div>
+<div class="details">
+
+
+<!-- ============ field detail =========== -->
+
+<a name="field_detail">
+<!--   -->
+</a>
+<h3>field detail</h3>
+<a name="table_tiles">
+<!--   -->
+</a>
+
+
+<h4>table_tiles</h4>
+<pre>public static final&nbsp;java.lang.string table_tiles</pre>
+<dl><dt><span class="strong">see also:</span></dt><dd><a href="../../../../../constant-values.html#com.mapbox.mapboxsdk.tileprovider.modules.mbtilesfilearchive.table_tiles">constant field values</a></dd></dl>
+
+
+<a name="table_metadata">
+<!--   -->
+</a>
+
+
+<h4>table_metadata</h4>
+<pre>public static final&nbsp;java.lang.string table_metadata</pre>
+<dl><dt><span class="strong">see also:</span></dt><dd><a href="../../../../../constant-values.html#com.mapbox.mapboxsdk.tileprovider.modules.mbtilesfilearchive.table_metadata">constant field values</a></dd></dl>
+
+
+<a name="col_tiles_tile_data">
+<!--   -->
+</a>
+
+
+<h4>col_tiles_tile_data</h4>
+<pre>public static final&nbsp;java.lang.string col_tiles_tile_data</pre>
+<dl><dt><span class="strong">see also:</span></dt><dd><a href="../../../../../constant-values.html#com.mapbox.mapboxsdk.tileprovider.modules.mbtilesfilearchive.col_tiles_tile_data">constant field values</a></dd></dl>
+
+
+<a name="col_value">
+<!--   -->
+</a>
+
+
+<h4>col_value</h4>
+<pre>public static final&nbsp;java.lang.string col_value</pre>
+<dl><dt><span class="strong">see also:</span></dt><dd><a href="../../../../../constant-values.html#com.mapbox.mapboxsdk.tileprovider.modules.mbtilesfilearchive.col_value">constant field values</a></dd></dl>
+
+
+
+
+<!-- ========= constructor detail ======== -->
+
+<a name="constructor_detail">
+<!--   -->
+</a>
+<h3>constructor detail</h3>
+<a name="mbtilesfilearchive(android.database.sqlite.sqlitedatabase)">
+<!--   -->
+</a>
+
+
+<h4>mbtilesfilearchive</h4>
+<pre>public&nbsp;mbtilesfilearchive(android.database.sqlite.sqlitedatabase&nbsp;pdatabase)</pre>
+
+
+
+
+<!-- ============ method detail ========== -->
+
+<a name="method_detail">
+<!--   -->
+</a>
+<h3>method detail</h3>
+<a name="getdatabasefilearchive(java.io.file)">
+<!--   -->
+</a>
+
+
+<h4>getdatabasefilearchive</h4>
+<pre>public static&nbsp;<a href="{{site.baseurl}}/api/mbtilesfilearchive" title="class in com.mapbox.mapboxsdk.tileprovider.modules">mbtilesfilearchive</a>&nbsp;getdatabasefilearchive(java.io.file&nbsp;pfile)
+                                                 throws android.database.sqlite.sqliteexception</pre>
+<dl><dt><span class="strong">throws:</span></dt>
+<dd><code>android.database.sqlite.sqliteexception</code></dd></dl>
+
+
+<a name="getinputstream(com.mapbox.mapboxsdk.tileprovider.tilesource.itilelayer, com.mapbox.mapboxsdk.tileprovider.maptile)">
+<!--   -->
+</a>
+
+
+<h4>getinputstream</h4>
+<pre>public&nbsp;java.io.inputstream&nbsp;getinputstream(<a href="{{site.baseurl}}/api/itilelayer" title="interface in com.mapbox.mapboxsdk.tileprovider.tilesource">itilelayer</a>&nbsp;ptilesource,
+                                 <a href="{{site.baseurl}}/api/maptile" title="class in com.mapbox.mapboxsdk.tileprovider">maptile</a>&nbsp;ptile)</pre>
+<div class="block"><strong>description copied from interface:&nbsp;<code><a href="{{site.baseurl}}/api/iarchivefile#getinputstream(com.mapbox.mapboxsdk.tileprovider.tilesource.itilelayer, com.mapbox.mapboxsdk.tileprovider.maptile)">iarchivefile</a></code></strong></div>
+<div class="block">get the input stream for the requested tile.</div>
+<dl>
+<dt><strong>specified by:</strong></dt>
+<dd><code><a href="{{site.baseurl}}/api/iarchivefile" title="interface in com.mapbox.mapboxsdk.tileprovider.modules">iarchivefile</a></code></dd>
+<dt><span class="strong">returns:</span></dt><dd>the input stream, or null if the archive doesn't contain an entry for the requested
+ tile</dd></dl>
+
+
+<a name="tostring()">
+<!--   -->
+</a>
+
+
+<h4>tostring</h4>
+<pre>public&nbsp;java.lang.string&nbsp;tostring()</pre>
+<dl>
+<dt><strong>overrides:</strong></dt>
+<dd><code>tostring</code>&nbsp;in class&nbsp;<code>java.lang.object</code></dd>
+</dl>
+
+
+<a name="getminzoomlevel()">
+<!--   -->
+</a>
+
+
+<h4>getminzoomlevel</h4>
+<pre>public&nbsp;float&nbsp;getminzoomlevel()</pre>
+
+
+<a name="getmaxzoomlevel()">
+<!--   -->
+</a>
+
+
+<h4>getmaxzoomlevel</h4>
+<pre>public&nbsp;float&nbsp;getmaxzoomlevel()</pre>
+
+
+<a name="getname()">
+<!--   -->
+</a>
+
+
+<h4>getname</h4>
+<pre>public&nbsp;java.lang.string&nbsp;getname()</pre>
+
+
+<a name="gettype()">
+<!--   -->
+</a>
+
+
+<h4>gettype</h4>
+<pre>public&nbsp;java.lang.string&nbsp;gettype()</pre>
+
+
+<a name="getversion()">
+<!--   -->
+</a>
+
+
+<h4>getversion</h4>
+<pre>public&nbsp;java.lang.string&nbsp;getversion()</pre>
+
+
+<a name="getdescription()">
+<!--   -->
+</a>
+
+
+<h4>getdescription</h4>
+<pre>public&nbsp;java.lang.string&nbsp;getdescription()</pre>
+
+
+<a name="getattribution()">
+<!--   -->
+</a>
+
+
+<h4>getattribution</h4>
+<pre>public&nbsp;java.lang.string&nbsp;getattribution()</pre>
+
+
+<a name="getbounds()">
+<!--   -->
+</a>
+
+
+<h4>getbounds</h4>
+<pre>public&nbsp;<a href="{{site.baseurl}}/api/boundingbox" title="class in com.mapbox.mapboxsdk.geometry">boundingbox</a>&nbsp;getbounds()</pre>
+
+
+<a name="getcenter()">
+<!--   -->
+</a>
+
+
+<h4>getcenter</h4>
+<pre>public&nbsp;<a href="{{site.baseurl}}/api/latlng" title="class in com.mapbox.mapboxsdk.geometry">latlng</a>&nbsp;getcenter()</pre>
+
+
+<a name="close()">
+<!--   -->
+</a>
+
+
+<h4>close</h4>
+<pre>public&nbsp;void&nbsp;close()</pre>
+
+
+
+
+
+
+</div>
+</div>
+<!-- ========= end of class data ========= -->
+<!-- ======= start of bottom navbar ====== -->

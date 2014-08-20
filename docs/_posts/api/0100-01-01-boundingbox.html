@@ -1,0 +1,575 @@
+---
+layout: api
+title: BoundingBox
+category: api
+tags: geometry
+---
+<div class="contentcontainer">
+<ul class="inheritance">
+<li>java.lang.object</li>
+<li>
+<ul class="inheritance">
+<li>com.mapbox.mapboxsdk.geometry.boundingbox</li>
+</ul>
+</li>
+</ul>
+<div class="description">
+
+
+<dl>
+<dt>all implemented interfaces:</dt>
+<dd>android.os.parcelable, <a href="{{site.baseurl}}/api/mapviewconstants" title="interface in com.mapbox.mapboxsdk.views.util.constants">mapviewconstants</a>, java.io.serializable</dd>
+</dl>
+
+
+<pre>public final class <span class="strong">boundingbox</span>
+extends java.lang.object
+implements android.os.parcelable, java.io.serializable, <a href="{{site.baseurl}}/api/mapviewconstants" title="interface in com.mapbox.mapboxsdk.views.util.constants">mapviewconstants</a></pre>
+<div class="block">a rectangular geographical area defined in latitude and longitude units.</div>
+<dl><dt><span class="strong">see also:</span></dt><dd><a href="../../../../serialized-form.html#com.mapbox.mapboxsdk.geometry.boundingbox">serialized form</a></dd></dl>
+
+
+</div>
+<div class="summary">
+
+
+<!-- ======== nested class summary ======== -->
+
+<a name="nested_class_summary">
+<!--   -->
+</a>
+<h3>nested class summary</h3>
+
+<a name="nested_classes_inherited_from_class_android.os.parcelable">
+<!--   -->
+</a>
+<h3>nested classes/interfaces inherited from interface&nbsp;android.os.parcelable</h3>
+<code>android.os.parcelable.classloadercreator&lt;t&gt;, android.os.parcelable.creator&lt;t&gt;</code>
+
+
+
+<!-- =========== field summary =========== -->
+
+<a name="field_summary">
+<!--   -->
+</a>
+<h3>field summary</h3>
+<table class="overviewsummary" border="0" cellpadding="3" cellspacing="0" summary="field summary table, listing fields, and an explanation">
+<caption class="small dark strong round-top pad1 fill-darken3"><span>fields</span><span class="tabend">&nbsp;</span></caption>
+<tr>
+<th class="colfirst" scope="col">modifier and type</th>
+<th class="collast" scope="col">field and description</th>
+</tr>
+<tr class="altcolor">
+<td class="colfirst"><code>static android.os.parcelable.creator&lt;<a href="{{site.baseurl}}/api/boundingbox" title="class in com.mapbox.mapboxsdk.geometry">boundingbox</a>&gt;</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/boundingbox#creator">creator</a></strong></code>&nbsp;</td>
+</tr>
+</table>
+
+<a name="fields_inherited_from_class_android.os.parcelable">
+<!--   -->
+</a>
+<h3>fields inherited from interface&nbsp;android.os.parcelable</h3>
+<code>contents_file_descriptor, parcelable_write_return_value</code>
+
+
+<a name="fields_inherited_from_class_com.mapbox.mapboxsdk.views.util.constants.mapviewconstants">
+<!--   -->
+</a>
+<h3>fields inherited from interface&nbsp;com.mapbox.mapboxsdk.views.util.constants.<a href="{{site.baseurl}}/api/mapviewconstants" title="interface in com.mapbox.mapboxsdk.views.util.constants">mapviewconstants</a></h3>
+<code><a href="{{site.baseurl}}/api/mapviewconstants#default_pin_anchor">default_pin_anchor</a></code>
+
+
+
+<!-- ======== constructor summary ======== -->
+
+<a name="constructor_summary">
+<!--   -->
+</a>
+<h3>constructor summary</h3>
+<table class="overviewsummary" border="0" cellpadding="3" cellspacing="0" summary="constructor summary table, listing constructors, and an explanation">
+<caption class="small dark strong round-top pad1 fill-darken3"><span>constructors</span><span class="tabend">&nbsp;</span></caption>
+<tr>
+<th class="colone" scope="col">constructor and description</th>
+</tr>
+<tr class="altcolor">
+<td class="colone"><code><strong><a href="{{site.baseurl}}/api/boundingbox#boundingbox()">boundingbox</a></strong>()</code>
+<div class="block">create a new boundingbox with no size centered at 0, 0, also known as null island</div>
+</td>
+</tr>
+<tr class="rowcolor">
+<td class="colone"><code><strong><a href="{{site.baseurl}}/api/boundingbox" title="class in com.mapbox.mapboxsdk.geometry">boundingbox</a>&nbsp;other)</code>
+<div class="block">create a bounding box from another bounding box</div>
+</td>
+</tr>
+<tr class="altcolor">
+<td class="colone"><code><strong><a href="{{site.baseurl}}/api/boundingbox#boundingbox(double, double, double, double)">boundingbox</a></strong>(double&nbsp;north,
+           double&nbsp;east,
+           double&nbsp;south,
+           double&nbsp;west)</code>
+<div class="block">construct a new bounding box based on its corners, given in nesw
+ order.</div>
+</td>
+</tr>
+<tr class="rowcolor">
+<td class="colone"><code><strong><a href="{{site.baseurl}}/api/latlng" title="class in com.mapbox.mapboxsdk.geometry">latlng</a>&nbsp;northeast,
+           <a href="{{site.baseurl}}/api/latlng" title="class in com.mapbox.mapboxsdk.geometry">latlng</a>&nbsp;southwest)</code>
+<div class="block">construct a new bounding box based on its corners, given in nesw
+ order.</div>
+</td>
+</tr>
+</table>
+
+
+<!-- ========== method summary =========== -->
+
+<a name="method_summary">
+<!--   -->
+</a>
+<h3>method summary</h3>
+<table class="overviewsummary" border="0" cellpadding="3" cellspacing="0" summary="method summary table, listing methods, and an explanation">
+<caption class="small dark strong round-top pad1 fill-darken3"><span>methods</span><span class="tabend">&nbsp;</span></caption>
+<tr>
+<th class="colfirst" scope="col">modifier and type</th>
+<th class="collast" scope="col">method and description</th>
+</tr>
+<tr class="altcolor">
+<td class="colfirst"><code>boolean</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/ilatlng" title="interface in com.mapbox.mapboxsdk.api">ilatlng</a>&nbsp;pgeopoint)</code>
+<div class="block">determines whether this bounding box contains a point and the point
+ does not touch its boundary.</div>
+</td>
+</tr>
+<tr class="rowcolor">
+<td class="colfirst"><code>int</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/boundingbox#describecontents()">describecontents</a></strong>()</code>&nbsp;</td>
+</tr>
+<tr class="altcolor">
+<td class="colfirst"><code>boolean</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/boundingbox" title="class in com.mapbox.mapboxsdk.geometry">boundingbox</a>&nbsp;other)</code>
+<div class="block">determines whether this bounding box matches another one via coordinates.</div>
+</td>
+</tr>
+<tr class="rowcolor">
+<td class="colfirst"><code>static <a href="{{site.baseurl}}/api/boundingbox" title="class in com.mapbox.mapboxsdk.geometry">boundingbox</a></code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/latlng" title="class in com.mapbox.mapboxsdk.geometry">latlng</a>&gt;&nbsp;latlngs)</code>
+<div class="block">constructs a bounding box that contains all of a list of latlng
+ objects.</div>
+</td>
+</tr>
+<tr class="altcolor">
+<td class="colfirst"><code><a href="{{site.baseurl}}/api/latlng" title="class in com.mapbox.mapboxsdk.geometry">latlng</a></code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/boundingbox#getcenter()">getcenter</a></strong>()</code>
+<div class="block">calculates the centerpoint of this bounding box by simple interpolation and returns
+ it as a point.</div>
+</td>
+</tr>
+<tr class="rowcolor">
+<td class="colfirst"><code>double</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/boundingbox#getlatitudespan()">getlatitudespan</a></strong>()</code>
+<div class="block">get the absolute distance, in degrees, between the north and
+ south boundaries of this bounding box</div>
+</td>
+</tr>
+<tr class="altcolor">
+<td class="colfirst"><code>double</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/boundingbox#getlatnorth()">getlatnorth</a></strong>()</code>&nbsp;</td>
+</tr>
+<tr class="rowcolor">
+<td class="colfirst"><code>double</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/boundingbox#getlatsouth()">getlatsouth</a></strong>()</code>&nbsp;</td>
+</tr>
+<tr class="altcolor">
+<td class="colfirst"><code>double</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/boundingbox#getloneast()">getloneast</a></strong>()</code>&nbsp;</td>
+</tr>
+<tr class="rowcolor">
+<td class="colfirst"><code>double</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/boundingbox#getlongitudespan()">getlongitudespan</a></strong>()</code>
+<div class="block">get the absolute distance, in degrees, between the west and
+ east boundaries of this bounding box</div>
+</td>
+</tr>
+<tr class="altcolor">
+<td class="colfirst"><code>double</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/boundingbox#getlonwest()">getlonwest</a></strong>()</code>&nbsp;</td>
+</tr>
+<tr class="rowcolor">
+<td class="colfirst"><code>int</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/boundingbox#hashcode()">hashcode</a></strong>()</code>&nbsp;</td>
+</tr>
+<tr class="altcolor">
+<td class="colfirst"><code><a href="{{site.baseurl}}/api/boundingbox" title="class in com.mapbox.mapboxsdk.geometry">boundingbox</a></code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/boundingbox" title="class in com.mapbox.mapboxsdk.geometry">boundingbox</a>&nbsp;box)</code>
+<div class="block">returns a new boundingbox that is the intersection of this with another box</div>
+</td>
+</tr>
+<tr class="rowcolor">
+<td class="colfirst"><code><a href="{{site.baseurl}}/api/boundingbox" title="class in com.mapbox.mapboxsdk.geometry">boundingbox</a></code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/boundingbox#intersect(double, double, double, double)">intersect</a></strong>(double&nbsp;north,
+         double&nbsp;east,
+         double&nbsp;south,
+         double&nbsp;west)</code>
+<div class="block">returns a new boundingbox that is the intersection of this with another box</div>
+</td>
+</tr>
+<tr class="altcolor">
+<td class="colfirst"><code>boolean</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/boundingbox#isvalid()">isvalid</a></strong>()</code>&nbsp;</td>
+</tr>
+<tr class="rowcolor">
+<td class="colfirst"><code>java.lang.string</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/boundingbox#tostring()">tostring</a></strong>()</code>&nbsp;</td>
+</tr>
+<tr class="altcolor">
+<td class="colfirst"><code><a href="{{site.baseurl}}/api/boundingbox" title="class in com.mapbox.mapboxsdk.geometry">boundingbox</a></code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/boundingbox" title="class in com.mapbox.mapboxsdk.geometry">boundingbox</a>&nbsp;box)</code>
+<div class="block">returns a new boundingbox that stretches to contain both this and another boundingbox.</div>
+</td>
+</tr>
+<tr class="rowcolor">
+<td class="colfirst"><code><a href="{{site.baseurl}}/api/boundingbox" title="class in com.mapbox.mapboxsdk.geometry">boundingbox</a></code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/boundingbox#union(double, double, double, double)">union</a></strong>(double&nbsp;platnorth,
+     double&nbsp;ploneast,
+     double&nbsp;platsouth,
+     double&nbsp;plonwest)</code>
+<div class="block">returns a new boundingbox that stretches to include another bounding box,
+ given by corner points.</div>
+</td>
+</tr>
+<tr class="altcolor">
+<td class="colfirst"><code>void</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/boundingbox#writetoparcel(android.os.parcel, int)">writetoparcel</a></strong>(android.os.parcel&nbsp;out,
+             int&nbsp;arg1)</code>&nbsp;</td>
+</tr>
+</table>
+
+<a name="methods_inherited_from_class_java.lang.object">
+<!--   -->
+</a>
+<h3>methods inherited from class&nbsp;java.lang.object</h3>
+<code>clone, equals, finalize, getclass, notify, notifyall, wait, wait, wait</code>
+
+
+
+
+
+</div>
+<div class="details">
+
+
+<!-- ============ field detail =========== -->
+
+<a name="field_detail">
+<!--   -->
+</a>
+<h3>field detail</h3>
+<a name="creator">
+<!--   -->
+</a>
+
+
+<h4>creator</h4>
+<pre>public static final&nbsp;android.os.parcelable.creator&lt;<a href="{{site.baseurl}}/api/boundingbox" title="class in com.mapbox.mapboxsdk.geometry">boundingbox</a>&gt; creator</pre>
+
+
+
+
+<!-- ========= constructor detail ======== -->
+
+<a name="constructor_detail">
+<!--   -->
+</a>
+<h3>constructor detail</h3>
+<a name="boundingbox(double, double, double, double)">
+<!--   -->
+</a>
+
+
+<h4>boundingbox</h4>
+<pre>public&nbsp;boundingbox(double&nbsp;north,
+           double&nbsp;east,
+           double&nbsp;south,
+           double&nbsp;west)</pre>
+<div class="block">construct a new bounding box based on its corners, given in nesw
+ order.</div>
+<dl><dt><span class="strong">parameters:</span></dt><dd><code>north</code> - northern coordinate</dd><dd><code>east</code> - eastern coordinate</dd><dd><code>south</code> - southern coordinate</dd><dd><code>west</code> - western coordinate</dd></dl>
+
+
+<a name="boundingbox(com.mapbox.mapboxsdk.geometry.latlng, com.mapbox.mapboxsdk.geometry.latlng)">
+<!--   -->
+</a>
+
+
+<h4>boundingbox</h4>
+<pre>public&nbsp;boundingbox(<a href="{{site.baseurl}}/api/latlng" title="class in com.mapbox.mapboxsdk.geometry">latlng</a>&nbsp;northeast,
+           <a href="{{site.baseurl}}/api/latlng" title="class in com.mapbox.mapboxsdk.geometry">latlng</a>&nbsp;southwest)</pre>
+<div class="block">construct a new bounding box based on its corners, given in nesw
+ order.</div>
+<dl><dt><span class="strong">parameters:</span></dt><dd><code>northeast</code> - coordinate</dd><dd><code>southwest</code> - coordinate</dd></dl>
+
+
+<a name="boundingbox(com.mapbox.mapboxsdk.geometry.boundingbox)">
+<!--   -->
+</a>
+
+
+<h4>boundingbox</h4>
+<pre>public&nbsp;boundingbox(<a href="{{site.baseurl}}/api/boundingbox" title="class in com.mapbox.mapboxsdk.geometry">boundingbox</a>&nbsp;other)</pre>
+<div class="block">create a bounding box from another bounding box</div>
+<dl><dt><span class="strong">parameters:</span></dt><dd><code>other</code> - the other bounding box</dd></dl>
+
+
+<a name="boundingbox()">
+<!--   -->
+</a>
+
+
+<h4>boundingbox</h4>
+<pre>public&nbsp;boundingbox()</pre>
+<div class="block">create a new boundingbox with no size centered at 0, 0, also known as null island</div>
+
+
+
+
+<!-- ============ method detail ========== -->
+
+<a name="method_detail">
+<!--   -->
+</a>
+<h3>method detail</h3>
+<a name="getcenter()">
+<!--   -->
+</a>
+
+
+<h4>getcenter</h4>
+<pre>public&nbsp;<a href="{{site.baseurl}}/api/latlng" title="class in com.mapbox.mapboxsdk.geometry">latlng</a>&nbsp;getcenter()</pre>
+<div class="block">calculates the centerpoint of this bounding box by simple interpolation and returns
+ it as a point. this is a non-geodesic calculation which is not the geographic center.</div>
+<dl><dt><span class="strong">returns:</span></dt><dd>latlng center of this boundingbox</dd></dl>
+
+
+<a name="getlatnorth()">
+<!--   -->
+</a>
+
+
+<h4>getlatnorth</h4>
+<pre>public&nbsp;double&nbsp;getlatnorth()</pre>
+
+
+<a name="getlatsouth()">
+<!--   -->
+</a>
+
+
+<h4>getlatsouth</h4>
+<pre>public&nbsp;double&nbsp;getlatsouth()</pre>
+
+
+<a name="getloneast()">
+<!--   -->
+</a>
+
+
+<h4>getloneast</h4>
+<pre>public&nbsp;double&nbsp;getloneast()</pre>
+
+
+<a name="getlonwest()">
+<!--   -->
+</a>
+
+
+<h4>getlonwest</h4>
+<pre>public&nbsp;double&nbsp;getlonwest()</pre>
+
+
+<a name="isvalid()">
+<!--   -->
+</a>
+
+
+<h4>isvalid</h4>
+<pre>public&nbsp;boolean&nbsp;isvalid()</pre>
+
+
+<a name="getlatitudespan()">
+<!--   -->
+</a>
+
+
+<h4>getlatitudespan</h4>
+<pre>public&nbsp;double&nbsp;getlatitudespan()</pre>
+<div class="block">get the absolute distance, in degrees, between the north and
+ south boundaries of this bounding box</div>
+<dl><dt><span class="strong">returns:</span></dt><dd>span distance</dd></dl>
+
+
+<a name="getlongitudespan()">
+<!--   -->
+</a>
+
+
+<h4>getlongitudespan</h4>
+<pre>public&nbsp;double&nbsp;getlongitudespan()</pre>
+<div class="block">get the absolute distance, in degrees, between the west and
+ east boundaries of this bounding box</div>
+<dl><dt><span class="strong">returns:</span></dt><dd>span distance</dd></dl>
+
+
+<a name="tostring()">
+<!--   -->
+</a>
+
+
+<h4>tostring</h4>
+<pre>public&nbsp;java.lang.string&nbsp;tostring()</pre>
+<dl>
+<dt><strong>overrides:</strong></dt>
+<dd><code>tostring</code>&nbsp;in class&nbsp;<code>java.lang.object</code></dd>
+</dl>
+
+
+<a name="fromlatlngs(java.util.arraylist)">
+<!--   -->
+</a>
+
+
+<h4>fromlatlngs</h4>
+<pre>public static&nbsp;<a href="{{site.baseurl}}/api/latlng" title="class in com.mapbox.mapboxsdk.geometry">latlng</a>&gt;&nbsp;latlngs)</pre>
+<div class="block">constructs a bounding box that contains all of a list of latlng
+ objects. empty lists will yield invalid bounding boxes.</div>
+<dl><dt><span class="strong">parameters:</span></dt><dd><code>latlngs</code> - list of latlng objects</dd>
+<dt><span class="strong">returns:</span></dt><dd>boundingbox</dd></dl>
+
+
+<a name="equals(com.mapbox.mapboxsdk.geometry.boundingbox)">
+<!--   -->
+</a>
+
+
+<h4>equals</h4>
+<pre>public&nbsp;boolean&nbsp;equals(<a href="{{site.baseurl}}/api/boundingbox" title="class in com.mapbox.mapboxsdk.geometry">boundingbox</a>&nbsp;other)</pre>
+<div class="block">determines whether this bounding box matches another one via coordinates.</div>
+<dl><dt><span class="strong">parameters:</span></dt><dd><code>other</code> - another bounding box</dd>
+<dt><span class="strong">returns:</span></dt><dd>a boolean indicating whether the bounding boxes are equal</dd></dl>
+
+
+<a name="contains(com.mapbox.mapboxsdk.api.ilatlng)">
+<!--   -->
+</a>
+
+
+<h4>contains</h4>
+<pre>public&nbsp;boolean&nbsp;contains(<a href="{{site.baseurl}}/api/ilatlng" title="interface in com.mapbox.mapboxsdk.api">ilatlng</a>&nbsp;pgeopoint)</pre>
+<div class="block">determines whether this bounding box contains a point and the point
+ does not touch its boundary.</div>
+<dl><dt><span class="strong">parameters:</span></dt><dd><code>pgeopoint</code> - the point which may be contained</dd>
+<dt><span class="strong">returns:</span></dt><dd>true, if the point is contained within the box.</dd></dl>
+
+
+<a name="union(com.mapbox.mapboxsdk.geometry.boundingbox)">
+<!--   -->
+</a>
+
+
+<h4>union</h4>
+<pre>public&nbsp;<a href="{{site.baseurl}}/api/boundingbox" title="class in com.mapbox.mapboxsdk.geometry">boundingbox</a>&nbsp;box)</pre>
+<div class="block">returns a new boundingbox that stretches to contain both this and another boundingbox.</div>
+<dl><dt><span class="strong">parameters:</span></dt><dd><code>box</code> - boundingbox to add</dd>
+<dt><span class="strong">returns:</span></dt><dd>boundingbox</dd></dl>
+
+
+<a name="union(double, double, double, double)">
+<!--   -->
+</a>
+
+
+<h4>union</h4>
+<pre>public&nbsp;<a href="{{site.baseurl}}/api/boundingbox" title="class in com.mapbox.mapboxsdk.geometry">boundingbox</a>&nbsp;union(double&nbsp;platnorth,
+                double&nbsp;ploneast,
+                double&nbsp;platsouth,
+                double&nbsp;plonwest)</pre>
+<div class="block">returns a new boundingbox that stretches to include another bounding box,
+ given by corner points.</div>
+<dl><dt><span class="strong">parameters:</span></dt><dd><code>platnorth</code> - northern coordinate</dd><dd><code>ploneast</code> - eastern coordinate</dd><dd><code>platsouth</code> - southern coordinate</dd><dd><code>plonwest</code> - western coordinate</dd>
+<dt><span class="strong">returns:</span></dt><dd>boundingbox</dd></dl>
+
+
+<a name="intersect(com.mapbox.mapboxsdk.geometry.boundingbox)">
+<!--   -->
+</a>
+
+
+<h4>intersect</h4>
+<pre>public&nbsp;<a href="{{site.baseurl}}/api/boundingbox" title="class in com.mapbox.mapboxsdk.geometry">boundingbox</a>&nbsp;box)</pre>
+<div class="block">returns a new boundingbox that is the intersection of this with another box</div>
+<dl><dt><span class="strong">parameters:</span></dt><dd><code>box</code> - boundingbox to intersect with</dd>
+<dt><span class="strong">returns:</span></dt><dd>boundingbox</dd></dl>
+
+
+<a name="intersect(double, double, double, double)">
+<!--   -->
+</a>
+
+
+<h4>intersect</h4>
+<pre>public&nbsp;<a href="{{site.baseurl}}/api/boundingbox" title="class in com.mapbox.mapboxsdk.geometry">boundingbox</a>&nbsp;intersect(double&nbsp;north,
+                    double&nbsp;east,
+                    double&nbsp;south,
+                    double&nbsp;west)</pre>
+<div class="block">returns a new boundingbox that is the intersection of this with another box</div>
+<dl><dt><span class="strong">parameters:</span></dt><dd><code>north</code> - northern coordinate</dd><dd><code>east</code> - eastern coordinate</dd><dd><code>south</code> - southern coordinate</dd><dd><code>west</code> - western coordinate</dd>
+<dt><span class="strong">returns:</span></dt><dd>boundingbox</dd></dl>
+
+
+<a name="hashcode()">
+<!--   -->
+</a>
+
+
+<h4>hashcode</h4>
+<pre>public&nbsp;int&nbsp;hashcode()</pre>
+<dl>
+<dt><strong>overrides:</strong></dt>
+<dd><code>hashcode</code>&nbsp;in class&nbsp;<code>java.lang.object</code></dd>
+</dl>
+
+
+<a name="describecontents()">
+<!--   -->
+</a>
+
+
+<h4>describecontents</h4>
+<pre>public&nbsp;int&nbsp;describecontents()</pre>
+<dl>
+<dt><strong>specified by:</strong></dt>
+<dd><code>describecontents</code>&nbsp;in interface&nbsp;<code>android.os.parcelable</code></dd>
+</dl>
+
+
+<a name="writetoparcel(android.os.parcel, int)">
+<!--   -->
+</a>
+
+
+<h4>writetoparcel</h4>
+<pre>public&nbsp;void&nbsp;writetoparcel(android.os.parcel&nbsp;out,
+                 int&nbsp;arg1)</pre>
+<dl>
+<dt><strong>specified by:</strong></dt>
+<dd><code>writetoparcel</code>&nbsp;in interface&nbsp;<code>android.os.parcelable</code></dd>
+</dl>
+
+
+
+
+
+
+</div>
+</div>
+<!-- ========= end of class data ========= -->
+<!-- ======= start of bottom navbar ====== -->

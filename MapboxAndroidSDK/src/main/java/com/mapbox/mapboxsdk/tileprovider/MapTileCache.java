@@ -10,8 +10,6 @@ import android.os.Environment;
 import android.util.Log;
 import com.mapbox.mapboxsdk.tileprovider.constants.TileLayerConstants;
 import com.mapbox.mapboxsdk.util.BitmapUtils;
-import com.mapbox.mapboxsdk.util.constants.UtilConstants;
-
 import java.io.File;
 import java.io.InputStream;
 import uk.co.senab.bitmapcache.BitmapLruCache;
@@ -29,6 +27,8 @@ public class MapTileCache implements TileLayerConstants {
     private static final String DISK_CACHE_SUBDIR = "mapbox_tiles_cache";
     private int mMaximumCacheSize;
 
+    private boolean mDiskCacheEnabled = false;
+
     public MapTileCache(final Context aContext) {
         this(aContext, CACHE_MAPTILEDISKSIZE_DEFAULT);
     }
@@ -45,25 +45,26 @@ public class MapTileCache implements TileLayerConstants {
      * @return BitmapLruCache the cache
      */
     protected BitmapLruCache getCache() {
-        if (this.sCachedTiles == null) {
+        if (sCachedTiles == null) {
             File cacheDir = getDiskCacheDir(context, DISK_CACHE_SUBDIR);
             if (!cacheDir.exists()) {
                 if (cacheDir.mkdirs()) {
-                    if (UtilConstants.DEBUGMODE) {
-                        Log.d(TAG, "creating cacheDir " + cacheDir);
-                    }
+                    Log.i(TAG, "created cacheDir " + cacheDir.getAbsolutePath());
                 } else {
                     Log.e(TAG, "can't create cacheDir " + cacheDir);
                 }
+            } else {
+                Log.i(TAG, "cacheDir previously created '" + cacheDir.getAbsolutePath() + "'");
             }
-            this.sCachedTiles = (new BitmapLruCache.Builder(context)).setMemoryCacheEnabled(true)
+            sCachedTiles = (new BitmapLruCache.Builder(context)).setMemoryCacheEnabled(true)
                     .setMemoryCacheMaxSize(BitmapUtils.calculateMemoryCacheSize(context))
-                    .setDiskCacheEnabled(false)
-                    .setDiskCacheMaxSize(this.mMaximumCacheSize)
+                    .setDiskCacheEnabled(mDiskCacheEnabled)
+                    .setDiskCacheMaxSize(mMaximumCacheSize)
                     .setDiskCacheLocation(cacheDir)
                     .build();
+            Log.i(TAG, "Disk Cache Enabled: '" + sCachedTiles.isDiskCacheEnabled() + "'; Memory Cache Enabled: '" + sCachedTiles.isMemoryCacheEnabled() + "'");
         }
-        return this.sCachedTiles;
+        return sCachedTiles;
     }
 
     /**
@@ -110,7 +111,7 @@ public class MapTileCache implements TileLayerConstants {
                 drawable = getCache().putInMemoryCache(getCacheKey(aTile),
                         ((BitmapDrawable) aDrawable).getBitmap());
             }
-            if (!getCache().containsInDiskCache(key)) {
+            if (getCache().isDiskCacheEnabled() && !getCache().containsInDiskCache(key)) {
                 if (drawable != null) {
                     getCache().putInDiskCache(getCacheKey(aTile), drawable);
                 } else {
@@ -147,7 +148,7 @@ public class MapTileCache implements TileLayerConstants {
             final Drawable aDrawable) {
         if (aDrawable != null && aDrawable instanceof BitmapDrawable) {
             String key = getCacheKey(aTile);
-            if (!getCache().containsInDiskCache(key)) {
+            if (getCache().isDiskCacheEnabled() && !getCache().containsInDiskCache(key)) {
                 return getCache().putInDiskCache(getCacheKey(aTile),
                         ((BitmapDrawable) aDrawable).getBitmap());
             }
@@ -160,7 +161,7 @@ public class MapTileCache implements TileLayerConstants {
     }
 
     public boolean containsTileInDiskCache(final MapTile aTile) {
-        return getCache().containsInDiskCache(getCacheKey(aTile));
+        return getCache().isDiskCacheEnabled() && getCache().containsInDiskCache(getCacheKey(aTile));
     }
 
     public void removeTile(final MapTile aTile) {
@@ -210,7 +211,19 @@ public class MapTileCache implements TileLayerConstants {
                         || (!Environment.isExternalStorageRemovable())
                         ? Environment.getExternalStorageDirectory().getPath()
                         : context.getFilesDir().getPath();
+        Log.i(TAG, "cachePath: '" + cachePath + "'");
 
         return new File(cachePath, uniqueName);
+    }
+
+    public void setDiskCacheEnabled(final boolean enabled) {
+        if (mDiskCacheEnabled != enabled) {
+            mDiskCacheEnabled = enabled;
+            sCachedTiles = null;
+        }
+    }
+
+    public boolean isDiskCacheEnabled() {
+        return mDiskCacheEnabled;
     }
 }

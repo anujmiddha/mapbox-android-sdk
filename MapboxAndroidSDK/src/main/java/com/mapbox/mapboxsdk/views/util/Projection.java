@@ -29,7 +29,7 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import com.mapbox.mapboxsdk.api.ILatLng;
 import com.mapbox.mapboxsdk.geometry.BoundingBox;
-import com.mapbox.mapboxsdk.geometry.GeoConstants;
+import com.mapbox.mapboxsdk.constants.GeoConstants;
 import com.mapbox.mapboxsdk.geometry.LatLng;
 import com.mapbox.mapboxsdk.tileprovider.constants.TileLayerConstants;
 import com.mapbox.mapboxsdk.util.GeometryMath;
@@ -325,11 +325,22 @@ public class Projection implements GeoConstants {
      * @param levelOfDetail Level of detail, from 1 (lowest detail) to 23 (highest detail)
      * @return The ground resolution, in meters per pixel
      */
-    public static double groundResolution(double latitude, final float levelOfDetail) {
-        latitude = wrap(latitude, -90, 90, 180);
-        latitude = clip(latitude, MIN_LATITUDE, MAX_LATITUDE);
-        return Math.cos(latitude * Math.PI / 180) * 2 * Math.PI * RADIUS_EARTH_METERS / mapSize(
+    public static double groundResolution(final double latitude, final float levelOfDetail) {
+        double result = wrap(latitude, -90, 90, 180);
+        result = clip(result, MIN_LATITUDE, MAX_LATITUDE);
+        return Math.cos(result * Math.PI / 180) * 2 * Math.PI * RADIUS_EARTH_METERS / mapSize(
                 levelOfDetail);
+    }
+
+    /**
+     * Determines the ground resolution (in meters per pixel) at a specified latitude and level of
+     * detail.
+     *
+     * @param latitude Latitude (in degrees) at which to measure the ground resolution
+     * @return The ground resolution, in meters per pixel
+     */
+    public double groundResolution(final double latitude) {
+        return groundResolution(latitude, mZoomLevelProjection);
     }
 
     /**

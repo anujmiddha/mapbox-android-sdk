@@ -1,0 +1,96 @@
+---
+layout: api
+title: Overlay.Snappable
+category: api
+tags: overlay
+---
+<div class="contentcontainer">
+<div class="description">
+
+
+<dl>
+<dt>all known implementing classes:</dt>
+<dd><a href="{{site.baseurl}}/api/userlocationoverlay" title="class in com.mapbox.mapboxsdk.overlay">userlocationoverlay</a></dd>
+</dl>
+<dl>
+<dt>enclosing class:</dt>
+<dd><a href="{{site.baseurl}}/api/overlay" title="class in com.mapbox.mapboxsdk.overlay">overlay</a></dd>
+</dl>
+
+
+<pre>public static interface <span class="strong">overlay.snappable</span></pre>
+<div class="block">interface definition for overlays that contain items that can be snapped to (for example,
+ when the user invokes a zoom, this could be called allowing the user to snap the zoom to an
+ interesting point.)</div>
+
+
+</div>
+<div class="summary">
+
+
+<!-- ========== method summary =========== -->
+
+<a name="method_summary">
+<!--   -->
+</a>
+<h3>method summary</h3>
+<table class="overviewsummary" border="0" cellpadding="3" cellspacing="0" summary="method summary table, listing methods, and an explanation">
+<caption class="small dark strong round-top pad1 fill-darken3"><span>methods</span><span class="tabend">&nbsp;</span></caption>
+<tr>
+<th class="colfirst" scope="col">modifier and type</th>
+<th class="collast" scope="col">method and description</th>
+</tr>
+<tr class="altcolor">
+<td class="colfirst"><code>boolean</code></td>
+<td class="collast"><code><strong><a href="{{site.baseurl}}/api/overlay.snappable#onsnaptoitem(int, int, android.graphics.point, com.mapbox.mapboxsdk.views.mapview)">onsnaptoitem</a></strong>(int&nbsp;x,
+            int&nbsp;y,
+            android.graphics.point&nbsp;snappoint,
+            <a href="{{site.baseurl}}/api/mapview" title="class in com.mapbox.mapboxsdk.views">mapview</a>&nbsp;mapview)</code>
+<div class="block">checks to see if the given x and y are close enough to an item resulting in snapping the
+ current action (e.g.</div>
+</td>
+</tr>
+</table>
+
+
+
+
+</div>
+<div class="details">
+
+
+<!-- ============ method detail ========== -->
+
+<a name="method_detail">
+<!--   -->
+</a>
+<h3>method detail</h3>
+<a name="onsnaptoitem(int, int, android.graphics.point, com.mapbox.mapboxsdk.views.mapview)">
+<!--   -->
+</a>
+
+
+<h4>onsnaptoitem</h4>
+<pre>boolean&nbsp;onsnaptoitem(int&nbsp;x,
+                   int&nbsp;y,
+                   android.graphics.point&nbsp;snappoint,
+                   <a href="{{site.baseurl}}/api/mapview" title="class in com.mapbox.mapboxsdk.views">mapview</a>&nbsp;mapview)</pre>
+<div class="block">checks to see if the given x and y are close enough to an item resulting in snapping the
+ current action (e.g. zoom) to the item.</div>
+<dl><dt><span class="strong">parameters:</span></dt><dd><code>x</code> - the x in screen coordinates.</dd><dd><code>y</code> - the y in screen coordinates.</dd><dd><code>snappoint</code> - to be filled with the the interesting point (in screen coordinates)
+ that
+ is
+ closest to the given x and y. can be untouched if not snapping.</dd><dd><code>mapview</code> - the <a href="{{site.baseurl}}/api/mapview" title="class in com.mapbox.mapboxsdk.views"><code>mapview</code></a> that is requesting the snap. use
+ mapview.getprojection()
+ to convert between on-screen pixels and latitude/longitude pairs.</dd>
+<dt><span class="strong">returns:</span></dt><dd>whether or not to snap to the interesting point.</dd></dl>
+
+
+
+
+
+
+</div>
+</div>
+<!-- ========= end of class data ========= -->
+<!-- ======= start of bottom navbar ====== -->
