@@ -113,7 +113,7 @@ public class TilesOverlay extends SafeDrawOverlay {
     @Override
     protected void drawSafe(final ISafeCanvas c, final MapView mapView, final boolean shadow) {
 
-        Log.d(TAG, "drawSafe() called with shadow = '" + shadow + "'");
+//        Log.d(TAG, "drawSafe() called with shadow = '" + shadow + "'");
 
         if (shadow) {
             return;
@@ -132,10 +132,10 @@ public class TilesOverlay extends SafeDrawOverlay {
         int tileSize = Projection.getTileSize();
         // Draw the tiles!
         if (tileSize > 0) {
-            Log.d(TAG, "drawSafe(), start drawing tiles!");
+//            Log.d(TAG, "drawSafe(), start drawing tiles!");
             drawLoadingTile(c.getSafeCanvas(), mapView, zoomLevel, mClipRect);
             drawTiles(c.getSafeCanvas(), zoomLevel, tileSize, mViewPort, mClipRect);
-            Log.d(TAG, "drawSafe(), done drawing tiles!");
+//            Log.d(TAG, "drawSafe(), done drawing tiles!");
         } else {
             Log.d(TAG, "tileSize is not > 0, so not drawing tiles.");
         }
@@ -178,7 +178,7 @@ public class TilesOverlay extends SafeDrawOverlay {
     public void drawTiles(final Canvas c, final float zoomLevel, final int tileSizePx,
                           final Rect viewPort, final Rect pClipRect) {
 
-        Log.d(TAG, "drawTiles() start.");
+//        Log.d(TAG, "drawTiles() start.");
         mTileLooper.loop(c, mTileProvider.getCacheKey(), zoomLevel, tileSizePx, viewPort, pClipRect);
 
         // draw a cross at center in debug mode
@@ -190,7 +190,7 @@ public class TilesOverlay extends SafeDrawOverlay {
             canvas.drawLine(centerPoint.x - 9, centerPoint.y, centerPoint.x + 9, centerPoint.y,
                     mDebugPaint);
         }
-        Log.d(TAG, "drawTiles() done.");
+//        Log.d(TAG, "drawTiles() done.");
     }
 
     private final TileLooper mTileLooper = new TileLooper() {
@@ -450,7 +450,7 @@ public class TilesOverlay extends SafeDrawOverlay {
                     final Canvas canvas = new Canvas(bitmap);
                     canvas.drawBitmap(oldBitmap, mSrcRect, mDestRect, null);
                     mNewTiles.put(pTile, bitmap);
-                    Log.d(TAG, "rescaled new tile : " + pTile);
+//                    Log.d(TAG, "rescaled new tile : " + pTile);
 
                 }
             }

@@ -369,13 +369,14 @@ public class Marker {
     }
 
     static final PointF reusePoint = new PointF();
+    float x, y;
     protected RectF getDrawingBounds(final Projection projection, RectF reuse) {
         if (reuse == null) {
             reuse = new RectF();
         }
         getPositionOnScreen(projection, reusePoint);
-        final float x = reusePoint.x - mAnchor.x * mWidth;
-        final float y = reusePoint.y - mAnchor.y * mHeight;
+        x = reusePoint.x - mAnchor.x * mWidth;
+        y = reusePoint.y - mAnchor.y * mHeight;
         reuse.set(x, y, x + mWidth, y + mHeight * 2);
         return reuse;
     }

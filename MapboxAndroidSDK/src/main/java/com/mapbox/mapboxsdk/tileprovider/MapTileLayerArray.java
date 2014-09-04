@@ -2,17 +2,19 @@ package com.mapbox.mapboxsdk.tileprovider;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.util.Log;
+
 import com.mapbox.mapboxsdk.geometry.BoundingBox;
 import com.mapbox.mapboxsdk.geometry.LatLng;
 import com.mapbox.mapboxsdk.tileprovider.modules.MapTileModuleLayerBase;
 import com.mapbox.mapboxsdk.tileprovider.modules.NetworkAvailabilityCheck;
 import com.mapbox.mapboxsdk.tileprovider.tilesource.ITileLayer;
 import com.mapbox.mapboxsdk.util.BitmapUtils;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+
 import uk.co.senab.bitmapcache.CacheableBitmapDrawable;
 
 /**
@@ -114,9 +116,9 @@ public class MapTileLayerArray extends MapTileLayerBase {
 
     @Override
     public Drawable getMapTile(final MapTile pTile, final boolean allowRemote) {
-        Log.d(TAG, "getMapTile() with pTile (CacheKey) = '" + pTile.getCacheKey() + "'; allowRemote = '" + allowRemote + "'");
+//        Log.d(TAG, "getMapTile() with pTile (CacheKey) = '" + pTile.getCacheKey() + "'; allowRemote = '" + allowRemote + "'");
         if (tileUnavailable(pTile)) {
-            Log.d(TAG, "MapTileLayerArray.getMapTile() tileUnavailable: " + pTile);
+//            Log.d(TAG, "MapTileLayerArray.getMapTile() tileUnavailable: " + pTile);
             return null;
         }
 
@@ -124,17 +126,17 @@ public class MapTileLayerArray extends MapTileLayerBase {
 
         if (tileDrawable != null && tileDrawable.isBitmapValid() && !BitmapUtils.isCacheDrawableExpired(tileDrawable)) {
             tileDrawable.setBeingUsed(true);
-            Log.d(TAG, "Found tile(" + pTile.getCacheKey() + ") in memory, so returning for drawing.");
+//            Log.d(TAG, "Found tile(" + pTile.getCacheKey() + ") in memory, so returning for drawing.");
             return tileDrawable;
         } else if (allowRemote) {
-            Log.d(TAG, "Tile not found in memory so will load from remote.");
+//            Log.d(TAG, "Tile not found in memory so will load from remote.");
             boolean alreadyInProgress = false;
             synchronized (mWorking) {
                 alreadyInProgress = mWorking.containsKey(pTile);
             }
 
             if (!alreadyInProgress) {
-                Log.d(TAG, "MapTileLayerArray.getMapTile() requested but not in cache, trying from async providers: " + pTile);
+//                Log.d(TAG, "MapTileLayerArray.getMapTile() requested but not in cache, trying from async providers: " + pTile);
 
                 final MapTileRequestState state;
 
@@ -161,7 +163,7 @@ public class MapTileLayerArray extends MapTileLayerBase {
             }
             return tileDrawable;
         } else {
-            Log.w(TAG, "Tile not found in memory, and not allowed to load from remote source.");
+//            Log.w(TAG, "Tile not found in memory, and not allowed to load from remote source.");
         }
         return null;
     }
