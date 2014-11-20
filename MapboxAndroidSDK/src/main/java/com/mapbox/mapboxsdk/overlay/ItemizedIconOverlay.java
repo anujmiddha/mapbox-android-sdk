@@ -22,29 +22,40 @@ public class ItemizedIconOverlay extends ItemizedOverlay {
     private Context context;
 
     public ItemizedIconOverlay(final Context pContext, final List<Marker> pList,
-            final com.mapbox.mapboxsdk.overlay.ItemizedIconOverlay.OnItemGestureListener<Marker> pOnItemGestureListener) {
+                               final com.mapbox.mapboxsdk.overlay.ItemizedIconOverlay.OnItemGestureListener<Marker> pOnItemGestureListener) {
+        this(pContext, pList, pOnItemGestureListener, false);
+    }
+
+    public ItemizedIconOverlay(final Context pContext,
+                               final List<Marker> pList,
+                               final com.mapbox.mapboxsdk.overlay.ItemizedIconOverlay.OnItemGestureListener<Marker> pOnItemGestureListener,
+                               boolean sortList) {
         super();
         this.context = pContext;
         this.mItemList = pList;
         this.mOnItemGestureListener = pOnItemGestureListener;
+        if (sortList) {
+            sortListByLatitude();
+        }
         populate();
+    }
+
+    /**
+     * Sorts List of Marker by Latitude
+     */
+    private void sortListByLatitude() {
+        Collections.sort(mItemList, new Comparator<Marker>() {
+            public int compare(Marker a, Marker b) {
+                return Double.valueOf(a.getPoint().getLatitude()).compareTo(b.getPoint().getLatitude());
+            }
+        });
     }
 
     @Override
     public boolean onSnapToItem(final int pX, final int pY, final Point pSnapPoint,
-            final MapView pMapView) {
+                                final MapView pMapView) {
         // TODO Implement this!
         return false;
-    }
-
-    @Override
-    protected void populate() {
-        Collections.sort(mItemList, new Comparator<Marker>() {
-            public int compare(Marker a, Marker b) {
-                return Double.valueOf(a.getPoint().getLatitude()).compareTo(Double.valueOf(b.getPoint().getLatitude()));
-            }
-        });
-        super.populate();
     }
 
     @Override
@@ -76,8 +87,9 @@ public class ItemizedIconOverlay extends ItemizedOverlay {
      *
      * @return true if event is handled false otherwise
      */
-    private boolean activateSelectedItems(final MotionEvent event, final MapView mapView,
-            final ActiveItem task) {
+    private boolean activateSelectedItems(final MotionEvent event,
+                                          final MapView mapView,
+                                          final ActiveItem task) {
         final Projection projection = mapView.getProjection();
         final float x = event.getX();
         final float y = event.getY();
@@ -118,10 +130,15 @@ public class ItemizedIconOverlay extends ItemizedOverlay {
         }
     }
 
+    protected void onItemRemoved(final Marker item) {
+        blurItem(item);
+        item.setParentHolder(null);
+    }
+
     public boolean removeItem(final Marker item) {
         final boolean result = mItemList.remove(item);
         if (result) {
-            item.setParentHolder(null);
+            onItemRemoved(item);
         }
         populate();
         return result;
@@ -130,7 +147,7 @@ public class ItemizedIconOverlay extends ItemizedOverlay {
     public Marker removeItem(final int position) {
         final Marker item = mItemList.remove(position);
         if (item != null) {
-            item.setParentHolder(null);
+            onItemRemoved(item);
         }
         populate();
         return item;
@@ -141,7 +158,7 @@ public class ItemizedIconOverlay extends ItemizedOverlay {
             if (item instanceof Marker) {
                 final boolean result = mItemList.remove(item);
                 if (result) {
-                    ((Marker) item).setParentHolder(null);
+                    onItemRemoved((Marker) item);
                 }
             }
         }
@@ -170,7 +187,7 @@ public class ItemizedIconOverlay extends ItemizedOverlay {
     }
 
     protected boolean onSingleTapUpHelper(final int index, final Marker item,
-            final MapView mapView) {
+                                          final MapView mapView) {
         return this.mOnItemGestureListener.onItemSingleTapUp(index, item);
     }
 

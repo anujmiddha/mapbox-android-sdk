@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/mapbox/mapbox-android-sdk.svg?branch=master)](https://travis-ci.org/mapbox/mapbox-android-sdk)
+[![Build Status](https://travis-ci.org/mapbox/mapbox-android-sdk.svg?branch=mb-pages)](https://travis-ci.org/mapbox/mapbox-android-sdk)
 
 # Mapbox Android SDK
 
@@ -9,7 +9,7 @@ data and interactive tooltips.
 
 This is a fork of [osmdroid](http://code.google.com/p/osmdroid/), so the entire
 core is open source: it doesn't depend on the Google Maps SDK or any components
-outside of AOSP that would require the Google Play Store.
+outside of [AOSP](https://source.android.com/) that would require the [Google Play Store](https://play.google.com/).
 
 ## Installation
 
@@ -17,10 +17,7 @@ We recommend using the Mapbox Android SDK with [Gradle](http://www.gradle.org/):
 this will automatically install the necessary dependencies and pull the SDK
 binaries from the Maven Central repository ( [Mapbox Android SDK on Maven Central](http://search.maven.org/#artifactdetails%7Ccom.mapbox.mapboxsdk%7Cmapbox-android-sdk%7C0.2.3%7Cjar) ).
 
-
-### With Gradle (Android Studio, IntelliJ, etc)
-
-Add this to your to your `build.gradle`:
+To install the current **stable** version add this to your `build.gradle`:
 
 ```groovy
 repositories {
@@ -28,37 +25,64 @@ repositories {
 }
 
 dependencies {
-    compile ('com.mapbox.mapboxsdk:mapbox-android-sdk:0.2.3@aar'){
+    compile ('com.mapbox.mapboxsdk:mapbox-android-sdk:0.5.0@aar'){
+        transitive=true
+    }
+    compile ('com.cocoahero.android:geojson:1.0.0@aar'){
         transitive=true
     }
 }
 ```
 
+To install the current **SNAPSHOT** version add this to your `build.gradle`:
+
+```groovy
+repositories {
+    mavenCentral()
+    maven { url "http://oss.sonatype.org/content/repositories/snapshots/" }
+}
+
+dependencies {
+    compile ('com.mapbox.mapboxsdk:mapbox-android-sdk:0.5.1-SNAPSHOT@aar'){
+        transitive=true
+    }
+    compile ('com.cocoahero.android:geojson:1.0.0@aar'){
+        transitive=true
+    }
+}
+```
+
+For a full example Android project incorporating the SDK in this manner, please see the Mapbox Dev Preview app.
+
+* Source: https://github.com/mapbox/mapbox-android-demo
+* Free download to your Android device from Google Play: https://play.google.com/store/apps/details?id=com.mapbox.mapboxandroiddemo
+
+### NOTE: SDK Versions
+At any given time there will be 3 different versions of the SDK to use.  You're welcome to use whichever one makes the most sense for your project, just be aware that each comes with a different level of **stability**.
+
+1. Stable / Supported
+ * Currently `0.5.0`
+2. SNAPSHOT
+ * Currently `0.5.1-SNAPSHOT`
+3. Source
+
 ### Manually / Hardcoding In Project
 
 Download and include the mapbox-android-sdk.aar file and all
-artifacts (.aar and .jar files listed) listed in `MapboxAndroidSDK / build.gradle`.
+artifacts (.aar, .jar files, and Android support / compatibility libraries listed) listed in [`MapboxAndroidSDK / build.gradle`](https://github.com/mapbox/mapbox-android-sdk/blob/mb-pages/MapboxAndroidSDK/build.gradle).  For those new to Gradle the artifacts are listed in the `dependencies` block.
 These **will** change over time so please check back regularly.
 
-*Example:*
 
-* Mapbox Android SDK (.aar) - 0.2.3
-* Android Support V4 - 19.1
-* OkHttp - 1.3.0
-* NineOldAndroids - 2.4.0
-* DiskLRUCache - 2.0.1
-* Guava - 16.0.1
- 
 ### Legacy Support (Eclipse) - Experimental
 
 The Mapbox Android SDK is also packaged as a `.apk` file.  This allows integration with older tools (Eclipse) that don't support the `.aar` format yet.  It's also available from Maven Central via:
 
 ```xml
-<dependency> 
-    <groupId>com.mapbox.mapboxsdk</groupId> 
-    <artifactId>mapbox-android-sdk</artifactId> 
-    <version>0.2.3</version> 
-    <type>apklib</type> 
+<dependency>
+    <groupId>com.mapbox.mapboxsdk</groupId>
+    <artifactId>mapbox-android-sdk</artifactId>
+    <version>0.5.0</version>
+    <type>apklib</type>
 </dependency>
 ```
 
@@ -113,4 +137,24 @@ Then you can build an archive:
 
 **Don't forget to then also include the dependencies from `MapboxAndroidSDK / build.gradle` in your classpath!**
 
-## [Quick-start Guide](https://github.com/mapbox/mapbox-android-sdk/blob/master/QUICKSTART.md)
+## Changes from OSMDroid
+
+This project is a fork of OSMDroid, but is significantly different as the result of major refactoring and rethinking.
+
+* [GeoJSON](http://geojson.org/) and [TileJSON](https://www.mapbox.com/foundations/an-open-platform) support added.
+* The Mapbox Android SDK is [Apache 2.0](http://www.apache.org/licenses/LICENSE-2.0.html) licensed, and does not include any GPL or copyleft add-ons.
+* Mapbox Android SDK is a small core design. OSMDroid's semi-related utilities like GPX uploading, UI zoom buttons, GEM & Zip file support, Scale Bar, Compass Overlay, and more have been removed. These requirements will be better served by separate modules that do one thing well.
+* Interfaces and abstract classes are only defined when suitable: most single-use interfaces are removed for simplicity.
+* Data objects like points and lines use `double`s instead of the `E6` int convention. This simplifies implementations. The `reuse` pattern is also deemphasized, since it's less necessary with newer JITs.
+* Instead of supporting [specific tile layers](https://github.com/osmdroid/osmdroid/tree/mb-pages/osmdroid-android/src/main/java/org/osmdroid/tileprovider/tilesource) with hardcoded paths, Mapbox Android SDK provides an easy-to-configure `TileLayer` class.
+* Small modules are used in place of local implementations - [DiskLRUCache](https://github.com/JakeWharton/DiskLruCache) for caching, [OkHttp](http://square.github.io/okhttp/) for connection niceties, and [android-geojson](https://github.com/cocoahero/android-geojson) for GeoJSON parsing.
+* Markers can optionally use the Mapbox marker API for customized images.
+* Code style follows [the Sun conventions](https://github.com/mapbox/mapbox-android-sdk/blob/mb-pages/checks.xml)
+* [Automated tests](https://github.com/mapbox/mapbox-android-sdk/blob/mb-pages/MapboxAndroidSDKTestApp/src/instrumentTest/java/com/mapbox/mapboxsdk/android/testapp/test/MainActivityTest.java) are included.
+* [slf4j](http://www.slf4j.org/) dependency is removed
+
+## Contributors Note (aka, Where's the `master` branch?)
+
+The project's `master` branch is actually `mb-pages`.  There is no branch named `master` nor will there be.  The reason for it is that it allows some automatic processing and publishing of documentation behind the scenes.  In practice this shouldn't affect anybody wanting to contribute, but is something that will probably seem a bit "different" to newcomers.  Anyway, that's what's going on.  If you'd like more information please see [#404](https://github.com/mapbox/mapbox-android-sdk/issues/404) .
+
+## [Quick-start Guide](https://github.com/mapbox/mapbox-android-sdk/blob/mb-pages/QUICKSTART.md)

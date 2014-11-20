@@ -45,7 +45,7 @@ public abstract class MapTileLayerBase implements IMapTileProviderCallback, Tile
      *
      * @see CacheableBitmapDrawable
      */
-    public abstract Drawable getMapTile(MapTile pTile);
+    public abstract Drawable getMapTile(MapTile pTile, boolean allowRemote);
 
     public abstract void detach();
 
@@ -254,11 +254,8 @@ public abstract class MapTileLayerBase implements IMapTileProviderCallback, Tile
         if (bitmap == null) {
             return;
         }
-        CacheableBitmapDrawable drawable = mTileCache.getMapTileFromMemory(pTile);
-        if (drawable == null || BitmapUtils.isCacheDrawableExpired(drawable)) {
-            drawable = mTileCache.putTileInMemoryCache(pTile, bitmap);
-            BitmapUtils.setCacheDrawableExpired(drawable);
-        }
+        CacheableBitmapDrawable drawable = mTileCache.putTileInMemoryCache(pTile, bitmap);
+        BitmapUtils.setCacheDrawableExpired(drawable);
     }
 
     public void setTileRequestCompleteHandler(final Handler handler) {
@@ -271,6 +268,10 @@ public abstract class MapTileLayerBase implements IMapTileProviderCallback, Tile
 
     public void clearTileDiskCache() {
         mTileCache.purgeDiskCache();
+    }
+
+    public void setDiskCacheEnabled(final boolean enabled) {
+        mTileCache.setDiskCacheEnabled(enabled);
     }
 
     /**
@@ -308,6 +309,10 @@ public abstract class MapTileLayerBase implements IMapTileProviderCallback, Tile
         return (mTileCache != null) ? mTileCache.getBitmapFromRemoved(width, height) : null;
     }
 
+    /**
+     * If a given MapTile is present in this cache, remove it from memory.
+     * @param aTile
+     */
     public void removeTileFromMemory(final MapTile aTile) {
         if (mTileCache != null) {
             mTileCache.removeTileFromMemory(aTile);

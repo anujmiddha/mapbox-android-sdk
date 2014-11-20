@@ -11,11 +11,12 @@ import android.graphics.RectF;
 import android.location.Location;
 import android.util.Log;
 import android.view.MotionEvent;
-
 import com.mapbox.mapboxsdk.R;
 import com.mapbox.mapboxsdk.events.MapListener;
+import com.mapbox.mapboxsdk.events.RotateEvent;
 import com.mapbox.mapboxsdk.events.ScrollEvent;
 import com.mapbox.mapboxsdk.events.ZoomEvent;
+import com.mapbox.mapboxsdk.geometry.BoundingBox;
 import com.mapbox.mapboxsdk.geometry.LatLng;
 import com.mapbox.mapboxsdk.overlay.Overlay.Snappable;
 import com.mapbox.mapboxsdk.util.constants.UtilConstants;
@@ -24,7 +25,6 @@ import com.mapbox.mapboxsdk.views.MapView;
 import com.mapbox.mapboxsdk.views.safecanvas.ISafeCanvas;
 import com.mapbox.mapboxsdk.views.safecanvas.SafePaint;
 import com.mapbox.mapboxsdk.views.util.Projection;
-
 import java.util.LinkedList;
 
 /**
@@ -33,11 +33,12 @@ import java.util.LinkedList;
  */
 public class UserLocationOverlay extends SafeDrawOverlay implements Snappable, MapListener {
 
+    public enum TrackingMode {
+        NONE, FOLLOW, FOLLOW_BEARING
+    }
+
     private final SafePaint mPaint = new SafePaint();
     private final SafePaint mCirclePaint = new SafePaint();
-
-    private final Projection mProjection;
-
     protected final MapView mMapView;
     protected final Context mContext;
 
@@ -50,8 +51,10 @@ public class UserLocationOverlay extends SafeDrawOverlay implements Snappable, M
     private Location mLocation;
     private LatLng mLatLng;
     private boolean mIsLocationEnabled = false;
-    private boolean mIsFollowing = false; // follow location updates
     private boolean mDrawAccuracyEnabled = true;
+    private TrackingMode mTrackingMode = TrackingMode.NONE;
+    private boolean mZoomBasedOnAccuracy = true;
+    private float mRequiredZoomLevel = 10;
 
     /**
      * Coordinates the feet of the person are located scaled for display density.
@@ -83,17 +86,20 @@ public class UserLocationOverlay extends SafeDrawOverlay implements Snappable, M
         mPersonHotspot = point;
     }
 
-    public UserLocationOverlay(GpsLocationProvider myLocationProvider, MapView mapView, int arrowId,
-            int personId) {
+    public void setOverlayCircleColor(int newColor) {
+        mCirclePaint.setColor(newColor);
+    }
+
+    public UserLocationOverlay(GpsLocationProvider myLocationProvider, MapView mapView, int arrowId, int personId) {
         mMapView = mapView;
         mMapController = mapView.getController();
         mContext = mapView.getContext();
-        mCirclePaint.setARGB(0, 100, 100, 255);
+        mCirclePaint.setColor(0x776464FF);
         mCirclePaint.setAntiAlias(true);
         mPaint.setAntiAlias(true);
         mPaint.setFilterBitmap(true);
 
-        mPersonHotspot = new PointF(0.5f, 1.0f);
+        mPersonHotspot = new PointF(0.5f, 0.5f);
         mDirectionHotspot = new PointF(0.5f, 0.5f);
 
         if (personId != 0) {
@@ -103,12 +109,11 @@ public class UserLocationOverlay extends SafeDrawOverlay implements Snappable, M
             mDirectionArrowBitmap = BitmapFactory.decodeResource(mContext.getResources(), arrowId);
         }
 
-        mProjection = mapView.getProjection();
         setMyLocationProvider(myLocationProvider);
     }
 
     public UserLocationOverlay(GpsLocationProvider myLocationProvider, MapView mapView) {
-        this(myLocationProvider, mapView, R.drawable.direction_arrow, R.drawable.person);
+        this(myLocationProvider, mapView, R.drawable.direction_arrow, R.drawable.location_marker);
     }
 
     @Override
@@ -148,11 +153,9 @@ public class UserLocationOverlay extends SafeDrawOverlay implements Snappable, M
         mMyLocationProvider = myLocationProvider;
     }
 
-    protected void drawMyLocation(final ISafeCanvas canvas, final MapView mapView,
-            final Location lastFix) {
+    protected void drawMyLocation(final ISafeCanvas canvas, final MapView mapView, final Location lastFix) {
 
-        final Rect mapBounds =
-                new Rect(0, 0, mapView.getMeasuredWidth(), mapView.getMeasuredHeight());
+        final Rect mapBounds = new Rect(0, 0, mapView.getMeasuredWidth(), mapView.getMeasuredHeight());
         final Projection projection = mapView.getProjection();
         Rect rect = new Rect();
         getDrawingBounds(projection, lastFix, null).round(rect);
@@ -168,8 +171,8 @@ public class UserLocationOverlay extends SafeDrawOverlay implements Snappable, M
         canvas.scale(mapScale, mapScale, mMapCoords.x, mMapCoords.y);
 
         if (mDrawAccuracyEnabled) {
-            final float radius = lastFix.getAccuracy() / (float) mProjection.groundResolution(
-                    lastFix.getLatitude(), mapView.getZoomLevel());
+            final float radius = lastFix.getAccuracy() / (float) Projection.groundResolution(
+                    lastFix.getLatitude(), mapView.getZoomLevel()) * mapView.getScale();
             canvas.save();
             // Rotate the icon
             canvas.rotate(lastFix.getBearing(), mMapCoords.x, mMapCoords.y);
@@ -265,7 +268,7 @@ public class UserLocationOverlay extends SafeDrawOverlay implements Snappable, M
         // Add in the accuracy circle if enabled
         if (mDrawAccuracyEnabled) {
             final float radius = (float) Math.ceil(
-                    lastFix.getAccuracy() / (float) mProjection.groundResolution(
+                    lastFix.getAccuracy() / (float) Projection.groundResolution(
                             lastFix.getLatitude(), mMapView.getZoomLevel())
             );
             RectF accuracyRect =
@@ -294,7 +297,7 @@ public class UserLocationOverlay extends SafeDrawOverlay implements Snappable, M
     @Override
     public boolean onSnapToItem(final int x, final int y, final Point snapPoint,
             final MapView mapView) {
-        if (this.mLocation != null) {
+        if (!isFollowLocationEnabled() && this.mLocation != null) {
             snapPoint.x = (int) mMapCoords.x;
             snapPoint.y = (int) mMapCoords.y;
             final double xDiff = x - mMapCoords.x;
@@ -334,27 +337,12 @@ public class UserLocationOverlay extends SafeDrawOverlay implements Snappable, M
      * automatically scroll as you move. Scrolling the map in the UI will disable.
      */
     public void enableFollowLocation() {
-        mIsFollowing = true;
-
+        if (mTrackingMode == TrackingMode.NONE) {
+            mTrackingMode = TrackingMode.FOLLOW;
+        }
         // set initial location when enabled
         if (isMyLocationEnabled()) {
-            mLocation = mMyLocationProvider.getLastKnownLocation();
-            if (mLocation != null) {
-                mLatLng = new LatLng(mLocation);
-                if (mIsFollowing) {
-                    mMapController.animateTo(mLatLng);
-                } else {
-                    updateDrawingPositionRect();
-                    mMapView.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            mMapView.invalidateMapCoordinates(mMyLocationRect);
-                        }
-                    });
-                }
-            } else {
-                mLatLng = null;
-            }
+            updateMyLocation(mMyLocationProvider.getLastKnownLocation());
         }
     }
 
@@ -362,9 +350,25 @@ public class UserLocationOverlay extends SafeDrawOverlay implements Snappable, M
      * Disables "follow" functionality.
      */
     public void disableFollowLocation() {
-        mIsFollowing = false;
+        mTrackingMode = TrackingMode.NONE;
     }
 
+
+    public void setTrackingMode(TrackingMode mode) {
+        mTrackingMode = mode;
+        if (mTrackingMode != TrackingMode.NONE && isMyLocationEnabled()) {
+            updateMyLocation(mMyLocationProvider.getLastKnownLocation());
+        }
+    }
+
+    public void setRequiredZoom(final float zoomLevel) {
+        mRequiredZoomLevel = zoomLevel;
+        mZoomBasedOnAccuracy = false;
+    }
+
+    public TrackingMode getTrackingMode() {
+        return mTrackingMode;
+    }
     /**
      * If enabled, the map will center on your current location and automatically scroll as you
      * move. Scrolling the map in the UI will disable.
@@ -372,7 +376,7 @@ public class UserLocationOverlay extends SafeDrawOverlay implements Snappable, M
      * @return true if enabled, false otherwise
      */
     public boolean isFollowLocationEnabled() {
-        return mIsFollowing;
+        return mTrackingMode != TrackingMode.NONE;
     }
 
     private void updateDrawingPositionRect() {
@@ -403,17 +407,8 @@ public class UserLocationOverlay extends SafeDrawOverlay implements Snappable, M
         if (mLocation != null && mLocation.getBearing() == location.getBearing() && mLocation.distanceTo(location) == 0) {
             return;
         }
-        mLocation = location;
 
-
-        if (mLocation != null) {
-            mLatLng = new LatLng(mLocation);
-            if (mIsFollowing) {
-                mMapController.animateTo(mLatLng);
-            } else {
-                invalidate();
-            }
-        }
+        updateMyLocation(location);
 
         synchronized (mRunOnFirstFix) {
             for (final Runnable runnable : mRunOnFirstFix) {
@@ -427,6 +422,58 @@ public class UserLocationOverlay extends SafeDrawOverlay implements Snappable, M
         this.setMyLocationProvider(myLocationProvider);
         mIsLocationEnabled = false;
         return enableMyLocation();
+    }
+
+    public boolean goToMyPosition(final boolean animated) {
+        if (mLocation == null) {
+            return false;
+        }
+        float currentZoom = mMapView.getZoomLevel(false);
+        if (currentZoom <= mRequiredZoomLevel) {
+            double requiredZoom = mRequiredZoomLevel;
+            if (mZoomBasedOnAccuracy && mMapView.isLayedOut()) {
+                double delta = (mLocation.getAccuracy() / 110000) * 1.2; // approx. meter per degree latitude, plus some margin
+                final Projection projection = mMapView.getProjection();
+                LatLng desiredSouthWest = new LatLng(mLocation.getLatitude() - delta,
+                        mLocation.getLongitude() - delta);
+
+                LatLng desiredNorthEast = new LatLng(mLocation.getLatitude() + delta,
+                        mLocation.getLongitude() + delta);
+
+                float pixelRadius = Math.min(mMapView.getMeasuredWidth(), mMapView.getMeasuredHeight()) / 2;
+
+                BoundingBox currentBox = projection.getBoundingBox();
+                if (desiredNorthEast.getLatitude() != currentBox.getLatNorth() ||
+                        desiredNorthEast.getLongitude() != currentBox.getLonEast() ||
+                        desiredSouthWest.getLatitude() != currentBox.getLatSouth() ||
+                        desiredSouthWest.getLongitude() != currentBox.getLonWest()) {
+                    mMapView.zoomToBoundingBox(new BoundingBox(desiredNorthEast, desiredSouthWest), true, animated, true);
+                }
+            } else if (animated) {
+                return mMapController.setZoomAnimated((float) requiredZoom, mLatLng, true, false);
+            } else {
+                mMapController.setZoom((float) requiredZoom, mLatLng, false);
+            }
+        } else if (animated) {
+           return mMapController.animateTo(mLatLng);
+        } else {
+            return mMapController.goTo(mLatLng, new PointF(0, 0));
+        }
+        return true;
+    }
+
+    private void updateMyLocation(final Location location) {
+        mLocation = location;
+        if (mLocation == null) {
+            mLatLng = null;
+            return;
+        }
+        mLatLng = new LatLng(mLocation);
+        //if goToMyPosition return false, it means we are already there
+        //which means we have to invalidate ourselves to make sure we are redrawn
+        if (!isFollowLocationEnabled() || !goToMyPosition(true)) {
+            invalidate();
+        }
     }
 
     /**
@@ -446,15 +493,7 @@ public class UserLocationOverlay extends SafeDrawOverlay implements Snappable, M
 
         // set initial location when enabled
         if (result) {
-            mLocation = mMyLocationProvider.getLastKnownLocation();
-            if (mLocation != null) {
-                mLatLng = new LatLng(mLocation);
-                if (mIsFollowing) {
-                    mMapController.animateTo(mLatLng);
-                } else {
-                    invalidate();
-                }
-            }
+            updateMyLocation(mMyLocationProvider.getLastKnownLocation());
         }
         return result;
     }
@@ -501,14 +540,21 @@ public class UserLocationOverlay extends SafeDrawOverlay implements Snappable, M
     @Override
     public void onScroll(ScrollEvent event) {
         if (event.getUserAction()) {
-            mIsFollowing = false;
+            disableFollowLocation();
         }
     }
 
     @Override
     public void onZoom(ZoomEvent event) {
         if (event.getUserAction()) {
-            mIsFollowing = false;
+            disableFollowLocation();
+        }
+    }
+
+    @Override
+    public void onRotate(RotateEvent event) {
+        if (event.getUserAction()) {
+            disableFollowLocation();
         }
     }
 }

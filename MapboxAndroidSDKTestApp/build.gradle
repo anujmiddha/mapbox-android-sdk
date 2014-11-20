@@ -3,13 +3,13 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:0.9.+'
-        classpath 'com.jakewharton.sdkmanager:gradle-plugin:0.9.+'
+        classpath 'com.android.tools.build:gradle:0.13.2'
+        classpath 'com.jakewharton.sdkmanager:gradle-plugin:0.10.1'
     }
 }
 
 apply plugin: 'android-sdk-manager'
-apply plugin: 'android'
+apply plugin: 'com.android.application'
 apply plugin: 'checkstyle'
 
 repositories {
@@ -21,15 +21,15 @@ repositories {
 }
 
 android {
-    compileSdkVersion 19
-    buildToolsVersion "19.0.3"
+    compileSdkVersion 21
+    buildToolsVersion "21.0.2"
 
     defaultConfig {
         minSdkVersion 10
-        targetSdkVersion 19
+        targetSdkVersion 21
         versionCode 1
         versionName "1.0"
-        packageName "com.mapbox.mapboxsdk.android.testapp"
+        applicationId "com.mapbox.mapboxsdk.android.testapp"
     }
     buildTypes {
         release {
@@ -44,10 +44,11 @@ android {
 }
 
 dependencies {
-    compile 'com.android.support:appcompat-v7:19.1.0'
     compile(project(':MapboxAndroidSDK')) {
         transitive = true
     }
+    compile 'com.android.support:appcompat-v7:21.0.0'
+    compile 'com.android.support:support-v4:21.0.0'
 }
 
 

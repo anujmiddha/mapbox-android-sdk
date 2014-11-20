@@ -1,6 +1,7 @@
 package com.mapbox.mapboxsdk.tileprovider.tilesource;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.text.TextUtils;
@@ -8,15 +9,9 @@ import android.util.Log;
 import com.mapbox.mapboxsdk.tileprovider.MapTile;
 import com.mapbox.mapboxsdk.tileprovider.MapTileCache;
 import com.mapbox.mapboxsdk.tileprovider.modules.MapTileDownloader;
-import com.mapbox.mapboxsdk.tileprovider.util.StreamUtils;
 import com.mapbox.mapboxsdk.util.NetworkUtils;
-import com.mapbox.mapboxsdk.util.constants.UtilConstants;
 import com.mapbox.mapboxsdk.views.util.TileLoadedListener;
 import com.mapbox.mapboxsdk.views.util.TilesLoadedListener;
-import java.io.BufferedOutputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -58,7 +53,7 @@ public class WebSourceTileLayer extends TileLayer {
 
     protected void initialize(String pId, String aUrl, boolean enableSSL) {
         mEnableSSL = enableSSL;
-        this.setURL(aUrl);
+        setURL(aUrl);
     }
 
     /**
@@ -70,7 +65,7 @@ public class WebSourceTileLayer extends TileLayer {
      */
     public String[] getTileURLs(final MapTile aTile, boolean hdpi) {
         String url = getTileURL(aTile, hdpi);
-        if (url != null) {
+        if (!TextUtils.isEmpty(url)) {
             return new String[] { url };
         }
         return null;
@@ -117,7 +112,7 @@ public class WebSourceTileLayer extends TileLayer {
                     listener.onTilesLoadStarted();
                 }
                 for (final String url : urls) {
-                    Bitmap bitmap = getBitmapFromURL(url, cache);
+                    Bitmap bitmap = getBitmapFromURL(aTile, url, cache);
                     if (bitmap == null) {
                         continue;
                     }
@@ -145,9 +140,7 @@ public class WebSourceTileLayer extends TileLayer {
 
             return result;
         } else {
-            if (UtilConstants.DEBUGMODE) {
-                Log.d(TAG, "Skipping tile " + aTile.toString() + " due to NetworkAvailabilityCheck.");
-            }
+            Log.d(TAG, "Skipping tile " + aTile.toString() + " due to NetworkAvailabilityCheck.");
         }
         return null;
     }
@@ -155,15 +148,16 @@ public class WebSourceTileLayer extends TileLayer {
     /**
      * Requests and returns a bitmap object from a given URL, using aCache to decode it.
      *
+     *
+     * @param mapTile MapTile
      * @param url the map tile url. should refer to a valid bitmap resource.
      * @param aCache a cache, an instance of MapTileCache
      * @return the tile if valid, otherwise null
      */
-    public Bitmap getBitmapFromURL(final String url, final MapTileCache aCache) {
+    public Bitmap getBitmapFromURL(MapTile mapTile, final String url, final MapTileCache aCache) {
         // We track the active threads here, every exit point should decrement this value.
+        Log.d(getClass().getCanonicalName(), "getBitmapFormURL() called with url = '" + url + "'");
         activeThreads.incrementAndGet();
-        InputStream in = null;
-        OutputStream out = null;
 
         if (TextUtils.isEmpty(url)) {
             activeThreads.decrementAndGet();
@@ -172,28 +166,14 @@ public class WebSourceTileLayer extends TileLayer {
 
         try {
             HttpURLConnection connection = NetworkUtils.getHttpURLConnection(new URL(url));
-            in = connection.getInputStream();
-
-            if (in == null) {
-                if (UtilConstants.DEBUGMODE) {
-                    Log.d(TAG, "No content downloading MapTile: " + url);
-                }
-                return null;
+            Bitmap bitmap = BitmapFactory.decodeStream(connection.getInputStream());
+            if (bitmap != null) {
+                aCache.putTileInMemoryCache(mapTile, bitmap);
             }
-
-            final ByteArrayOutputStream dataStream = new ByteArrayOutputStream();
-            out = new BufferedOutputStream(dataStream, StreamUtils.IO_BUFFER_SIZE);
-            StreamUtils.copy(in, out);
-            out.flush();
-            final byte[] data = dataStream.toByteArray();
-            return aCache.decodeBitmap(data, null);
+            return bitmap;
         } catch (final Throwable e) {
-            if (UtilConstants.DEBUGMODE) {
-                Log.d(TAG, "Error downloading MapTile: " + url + ":" + e);
-            }
+            Log.e(TAG, "Error downloading MapTile: " + url + ":" + e);
         } finally {
-            StreamUtils.closeStream(in);
-            StreamUtils.closeStream(out);
             activeThreads.decrementAndGet();
         }
         return null;
