@@ -37,8 +37,8 @@ public class UserLocationOverlay extends SafeDrawOverlay implements Snappable, M
         NONE, FOLLOW, FOLLOW_BEARING
     }
 
-    private final SafePaint mPaint = new SafePaint();
-    private final SafePaint mCirclePaint = new SafePaint();
+    protected final SafePaint mPaint = new SafePaint();
+    protected final SafePaint mCirclePaint = new SafePaint();
     protected final MapView mMapView;
     protected final Context mContext;
 
@@ -46,7 +46,7 @@ public class UserLocationOverlay extends SafeDrawOverlay implements Snappable, M
     public GpsLocationProvider mMyLocationProvider;
 
     private final LinkedList<Runnable> mRunOnFirstFix = new LinkedList<Runnable>();
-    private final PointF mMapCoords = new PointF();
+    protected final PointF mMapCoords = new PointF();
 
     private Location mLocation;
     private LatLng mLatLng;
@@ -64,11 +64,11 @@ public class UserLocationOverlay extends SafeDrawOverlay implements Snappable, M
     private final RectF mMyLocationRect = new RectF();
     private final RectF mMyLocationPreviousRect = new RectF();
 
-    private Bitmap mPersonBitmap;
-    private Bitmap mDirectionArrowBitmap;
+    protected Bitmap mPersonBitmap;
+    protected Bitmap mDirectionArrowBitmap;
 
-    private PointF mPersonHotspot;
-    private PointF mDirectionHotspot;
+    protected PointF mPersonHotspot;
+    protected PointF mDirectionHotspot;
 
     public void setDirectionArrowBitmap(Bitmap bitmap) {
         mDirectionArrowBitmap = bitmap;
