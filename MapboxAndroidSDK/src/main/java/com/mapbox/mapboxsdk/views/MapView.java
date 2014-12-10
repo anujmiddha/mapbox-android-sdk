@@ -24,6 +24,7 @@ import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Scroller;
+import com.almeros.android.multitouch.RotateGestureDetector;
 import com.cocoahero.android.geojson.FeatureCollection;
 import com.mapbox.mapboxsdk.R;
 import com.mapbox.mapboxsdk.api.ILatLng;
@@ -55,6 +56,7 @@ import com.mapbox.mapboxsdk.util.DataLoadingUtils;
 import com.mapbox.mapboxsdk.util.GeometryMath;
 import com.mapbox.mapboxsdk.util.NetworkUtils;
 import com.mapbox.mapboxsdk.util.constants.UtilConstants;
+import com.mapbox.mapboxsdk.views.util.OnMapOrientationChangeListener;
 import com.mapbox.mapboxsdk.views.util.Projection;
 import com.mapbox.mapboxsdk.views.util.TileLoadedListener;
 import com.mapbox.mapboxsdk.views.util.TilesLoadedListener;
@@ -73,8 +75,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * state of a single map, including layers, markers,
  * and interaction code.
  */
-public class MapView extends ViewGroup
-        implements MapViewConstants, MapEventsReceiver, MapboxConstants {
+public class MapView extends ViewGroup implements MapViewConstants, MapEventsReceiver, MapboxConstants {
     /**
      * The default marker Overlay, automatically added to the view to add markers directly.
      */
@@ -127,14 +128,19 @@ public class MapView extends ViewGroup
     protected final Scroller mScroller;
     protected boolean mIsFlinging;
 
-    protected final AtomicInteger mTargetZoomLevel = new AtomicInteger();
-    protected final AtomicBoolean mIsAnimating = new AtomicBoolean(false);
+    private final AtomicInteger mTargetZoomLevel = new AtomicInteger();
+    private final AtomicBoolean mIsAnimating = new AtomicBoolean(false);
 
     private final MapController mController;
 
     protected ScaleGestureDetector mScaleGestureDetector;
+    protected RotateGestureDetector mRotateGestureDetector;
+    protected boolean mMapRotationEnabled;
+    protected OnMapOrientationChangeListener mOnMapOrientationChangeListener;
+
     protected float mMultiTouchScale = 1.0f;
     protected PointF mMultiTouchScalePoint = new PointF();
+    protected Matrix mInvTransformMatrix = new Matrix();
 
     protected List<MapListener> mListeners = new ArrayList<MapListener>();
 
@@ -203,9 +209,10 @@ public class MapView extends ViewGroup
         this.mGestureDetector =
                 new GestureDetector(aContext, new MapViewGestureDetectorListener(this));
 
-        mScaleGestureDetector =
+        this.mScaleGestureDetector =
                 new ScaleGestureDetector(aContext, new MapViewScaleGestureDetectorListener(this));
-
+        this.mRotateGestureDetector =
+                new RotateGestureDetector(aContext, new MapViewRotateGestureDetectorListener(this));
         this.context = aContext;
         eventsOverlay = new MapEventsOverlay(aContext, this);
         this.getOverlays().add(eventsOverlay);
@@ -393,6 +400,17 @@ public class MapView extends ViewGroup
     }
 
     /**
+     * Remove all markers from the map's display.
+     */
+    public void clear() {
+        defaultMarkerList.clear();
+        if (defaultMarkerOverlay != null) {
+            defaultMarkerOverlay.removeAllItems();
+        }
+        this.invalidate();
+    }
+
+    /**
      * Select a marker, showing a tooltip if the marker has content that would appear within it.
      */
     public void selectMarker(final Marker marker) {
@@ -469,7 +487,7 @@ public class MapView extends ViewGroup
     public void closeCurrentTooltip() {
         if (currentTooltip != null) {
             if (mMapViewListener != null) {
-                mMapViewListener.onHidemarker(this, currentTooltip.getBoundMarker());
+                mMapViewListener.onHideMarker(this, currentTooltip.getBoundMarker());
             }
             currentTooltip.close();
             currentTooltip = null;
@@ -612,23 +630,6 @@ public class MapView extends ViewGroup
         );
     }
 
-    /**
-     * Gets the current bounds of the screen in <I>screen coordinates</I>.
-     */
-    public Rect getScreenRect(final Rect reuse) {
-        final Rect out = getIntrinsicScreenRect(reuse);
-        if (this.getMapOrientation() % 180 != 0) {
-            // Since the canvas is shifted by getWidth/2, we can just return our
-            // natural scrollX/Y
-            // value since that is the same as the shifted center.
-            int centerX = this.getScrollX();
-            int centerY = this.getScrollY();
-            GeometryMath.getBoundingBoxForRotatedRectangle(out, centerX,
-                    centerY, this.getMapOrientation(), out);
-        }
-        return out;
-    }
-
     public Rect getIntrinsicScreenRect(Rect reuse) {
         if (reuse == null) {
             reuse = new Rect();
@@ -687,6 +688,7 @@ public class MapView extends ViewGroup
         float newZoom = mZoomLevel + zoomDelta;
         if (newZoom <= mMaximumZoomLevel && newZoom >= mMinimumZoomLevel) {
             mMultiTouchScale = scale;
+            updateInversedTransformMatrix();
             invalidate();
         }
         return this;
@@ -694,6 +696,16 @@ public class MapView extends ViewGroup
 
     public float getScale() {
         return mMultiTouchScale;
+    }
+
+    private final void updateInversedTransformMatrix() {
+        mInvTransformMatrix.reset();
+        mInvTransformMatrix.preScale(1 / mMultiTouchScale, 1 / mMultiTouchScale, mMultiTouchScalePoint.x,
+                mMultiTouchScalePoint.y);
+    }
+
+    public final Matrix getInversedTransformMatrix() {
+        return mInvTransformMatrix;
     }
 
 
@@ -728,10 +740,12 @@ public class MapView extends ViewGroup
 
         // reset the touchScale because from now on the zoom is the new one
         mMultiTouchScale = 1.0f;
+        mInvTransformMatrix.reset();
+
         if (newZoomLevel != curZoomLevel) {
             this.mZoomLevel = newZoomLevel;
             // just to be sure any one got the right one
-            mTargetZoomLevel.set(Float.floatToIntBits(this.mZoomLevel));
+            setAnimatedZoom(this.mZoomLevel);
             mScroller.forceFinished(true);
             mIsFlinging = false;
             updateScrollableAreaLimit();
@@ -926,8 +940,19 @@ public class MapView extends ViewGroup
         return getZoomLevel(true);
     }
 
-    private float getAnimatedZoom() {
+    protected float getAnimatedZoom() {
         return Float.intBitsToFloat(mTargetZoomLevel.get());
+    }
+    protected void setAnimatedZoom(float value) {
+        mTargetZoomLevel.set(Float.floatToIntBits(value));
+    }
+
+    protected void clearAnimatedZoom(float value) {
+        Float.floatToIntBits(-1);
+    }
+
+    protected boolean isAnimatedZoomSet() {
+        return  Float.intBitsToFloat(mTargetZoomLevel.get()) != -1;
     }
 
     /**
@@ -1051,6 +1076,38 @@ public class MapView extends ViewGroup
      */
     public float getMapOrientation() {
         return mapOrientation;
+    }
+
+    /**
+     * Gets whether the current map rotation feature is enabled or not
+     * default: disabled
+     */
+    public boolean isMapRotationEnabled() {
+        return mMapRotationEnabled;
+    }
+
+    /**
+     * Sets whether to enable or disable the map rotation features
+     * default: disabled
+     */
+    public void setMapRotationEnabled(boolean enable) {
+        mMapRotationEnabled = enable;
+    }
+
+    /**
+     * Gets the mapView onMapOrientationChangeListener
+     * @return the onMapOrientationChangeListener
+     */
+    public OnMapOrientationChangeListener getOnMapOrientationChangeListener() {
+        return mOnMapOrientationChangeListener;
+    }
+
+    /**
+     * Gets the mapView onMapOrientationChangeListener
+     * @Param l the onMapOrientationChangeListener
+     */
+    public void setOnMapOrientationChangeListener(OnMapOrientationChangeListener l) {
+        this.mOnMapOrientationChangeListener = l;
     }
 
     /**
@@ -1482,6 +1539,10 @@ public class MapView extends ViewGroup
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+        // If map rotation is enabled, propagate onTouchEvent to the rotate gesture detector
+        if (mMapRotationEnabled) {
+            mRotateGestureDetector.onTouchEvent(event);
+        }
         // Get rotated event for some touch listeners.
         MotionEvent rotatedEvent = rotateTouchEvent(event);
 
@@ -1581,6 +1642,7 @@ public class MapView extends ViewGroup
 
     public final void setScalePoint(final PointF point) {
         mMultiTouchScalePoint.set(point);
+        updateInversedTransformMatrix();
     }
 
     @Override
@@ -1840,6 +1902,10 @@ public class MapView extends ViewGroup
      */
     public boolean isAnimating() {
         return mIsAnimating.get();
+    }
+
+    protected void setIsAnimating(final boolean value) {
+        mIsAnimating.set(value);
     }
 
     public TileLoadedListener getTileLoadedListener() {
