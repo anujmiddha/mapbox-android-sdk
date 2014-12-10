@@ -116,7 +116,7 @@ public class MapTileLayerArray extends MapTileLayerBase {
 
     @Override
     public Drawable getMapTile(final MapTile pTile, final boolean allowRemote) {
-//        Log.d(TAG, "getMapTile() with pTile (CacheKey) = '" + pTile.getCacheKey() + "'; allowRemote = '" + allowRemote + "'");
+ //       Log.d(TAG, "getMapTile() with pTile (CacheKey) = '" + pTile.getCacheKey() + "'; allowRemote = '" + allowRemote + "'");
         if (tileUnavailable(pTile)) {
 //            Log.d(TAG, "MapTileLayerArray.getMapTile() tileUnavailable: " + pTile);
             return null;
@@ -162,9 +162,13 @@ public class MapTileLayerArray extends MapTileLayerBase {
                 }
             }
             return tileDrawable;
-        } else {
+        }
+/*
+        else
+        {
 //            Log.w(TAG, "Tile not found in memory, and not allowed to load from remote source.");
         }
+*/
         return null;
     }
 
